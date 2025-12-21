@@ -1,0 +1,15 @@
+{
+  "name": "finance-app",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "typecheck": "turbo typecheck",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "storybook": "turbo storybook"
+  },
+  "devDependencies": {
+    "turbo": "^2"
+  },
+  "packageManager": "pnpm@9.15.1"
+}
