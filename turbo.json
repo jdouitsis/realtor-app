@@ -30,6 +30,10 @@
     "lint-staged": {
       "outputs": [],
       "cache": false
+    },
+    "start": {
+      "outputs": [],
+      "cache": false
     }
   }
 }
