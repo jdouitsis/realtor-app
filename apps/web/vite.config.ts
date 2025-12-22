@@ -2,7 +2,7 @@
 import path from "path";
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
+import { tanstackRouter } from '@tanstack/router-plugin/vite';
 
 // https://vite.dev/config/
 import { fileURLToPath } from 'node:url';
@@ -13,7 +13,7 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [
-    TanStackRouterVite(),
+    tanstackRouter(),
     react({
       babel: {
         plugins: ['babel-plugin-react-compiler'],
