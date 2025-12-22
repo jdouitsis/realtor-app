@@ -9,7 +9,8 @@
       "Bash(grep:*)",
       "Bash(cat:*)",
       "Bash(pnpm --filter web typecheck:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
