@@ -26,6 +26,10 @@
     "storybook": {
       "cache": false,
       "persistent": true
+    },
+    "lint-staged": {
+      "outputs": [],
+      "cache": false
     }
   }
 }
