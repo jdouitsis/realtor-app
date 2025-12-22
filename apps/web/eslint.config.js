@@ -40,11 +40,17 @@ export default defineConfig([
       'react-x/no-forward-ref': 'off',
       'react-x/no-context-provider': 'off',
       'react-x/no-use-context': 'off',
+      '@typescript-eslint/only-throw-error': 'off',
+      '@typescript-eslint/require-await': 'off',
       // Allow void promises in event handlers
       '@typescript-eslint/no-misused-promises': [
         'error',
         { checksVoidReturn: { attributes: false } },
       ],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
+      ]
     },
   },
 ])

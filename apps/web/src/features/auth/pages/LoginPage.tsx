@@ -1,11 +1,15 @@
 import { LoginForm, type LoginFormData } from '../components/LoginForm'
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate, useSearch } from '@tanstack/react-router'
+import { useAuth } from '../hooks/useAuth'
+
 export function LoginPage() {
   const navigate = useNavigate()
+  const search = useSearch({ from: '/login' })
+  const { login } = useAuth()
 
-  const handleSubmit = (data: LoginFormData) => {
-    console.log(data)
-    void navigate({ to: '/dashboard' })
+  const handleSubmit = async (data: LoginFormData) => {
+    await login(data.email, data.password)
+    void navigate({ to: search.redirect ?? '/dashboard' })
   }
 
   return (
