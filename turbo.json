@@ -16,6 +16,13 @@
     "lint": {
       "dependsOn": ["^lint"]
     },
+    "format": {
+      "outputs": [],
+      "cache": false
+    },
+    "format:check": {
+      "outputs": []
+    },
     "storybook": {
       "cache": false,
       "persistent": true

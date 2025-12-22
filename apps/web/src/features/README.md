@@ -63,14 +63,14 @@ features/
 
 Each feature should contain the following subdirectories as needed:
 
-| Directory | Purpose | Naming Convention |
-|-----------|---------|-------------------|
-| `pages/` | Page components rendered by routes | `{Feature}Page.tsx` |
-| `components/` | Feature-specific UI components | `{ComponentName}.tsx` |
-| `hooks/` | Custom React hooks | `use{HookName}.ts` |
-| `types/` | TypeScript types and interfaces | `{name}.types.ts` or `index.ts` |
-| `utils/` | Utility functions | `{name}.ts` |
-| `api/` | API calls and tRPC procedures | `{name}.api.ts` |
+| Directory     | Purpose                            | Naming Convention               |
+| ------------- | ---------------------------------- | ------------------------------- |
+| `pages/`      | Page components rendered by routes | `{Feature}Page.tsx`             |
+| `components/` | Feature-specific UI components     | `{ComponentName}.tsx`           |
+| `hooks/`      | Custom React hooks                 | `use{HookName}.ts`              |
+| `types/`      | TypeScript types and interfaces    | `{name}.types.ts` or `index.ts` |
+| `utils/`      | Utility functions                  | `{name}.ts`                     |
+| `api/`        | API calls and tRPC procedures      | `{name}.api.ts`                 |
 
 ## Component & Hook Organization
 
@@ -245,6 +245,7 @@ export type { User, AuthState } from './types'
 ```
 
 Only export what other parts of the application need:
+
 - **Always export**: Page components (for routes)
 - **Export if shared**: Feature-level components and hooks used by other features
 - **Never export**: Page-specific components, hooks, and utilities

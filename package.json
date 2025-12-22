@@ -6,9 +6,13 @@
     "typecheck": "turbo typecheck",
     "build": "turbo build",
     "lint": "turbo lint",
-    "storybook": "turbo storybook"
+    "format": "turbo format",
+    "format:check": "turbo format:check",
+    "storybook": "turbo storybook",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
     "turbo": "^2"
   },
   "packageManager": "pnpm@9.15.1"

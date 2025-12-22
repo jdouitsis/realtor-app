@@ -8,9 +8,7 @@ export function HomePage() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-bold">Finance App</CardTitle>
-          <CardDescription>
-            Track your finances with ease
-          </CardDescription>
+          <CardDescription>Track your finances with ease</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex flex-col gap-2">

@@ -16,12 +16,7 @@ export function Sidebar() {
       </div>
       <nav className="space-y-2">
         {navItems.map((item) => (
-          <Button
-            key={item.href}
-            variant="ghost"
-            className="w-full justify-start"
-            asChild
-          >
+          <Button key={item.href} variant="ghost" className="w-full justify-start" asChild>
             <Link to={item.href}>{item.label}</Link>
           </Button>
         ))}

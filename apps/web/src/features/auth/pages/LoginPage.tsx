@@ -1,4 +1,3 @@
-
 import { LoginForm, type LoginFormData } from '../components/LoginForm'
 import { useNavigate } from '@tanstack/react-router'
 export function LoginPage() {

@@ -6,7 +6,8 @@
       "Bash(pnpm add:*)",
       "Bash(pnpm typecheck:*)",
       "Bash(pnpm remove:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(cat:*)"
     ]
   }
 }
