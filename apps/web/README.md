@@ -42,11 +42,10 @@ pnpm storybook     # Start Storybook on :6006
 
 ## Documentation
 
-| Topic | Location |
-|-------|----------|
-| Feature module conventions | [`src/features/README.md`](src/features/README.md) |
-| Repo-level SOPs | [`docs/SOP/README.md`](../../docs/SOP/README.md) |
-| Root project overview | [`CLAUDE.md`](../../CLAUDE.md) |
+| Topic                      | Location                                             |
+| -------------------------- | ---------------------------------------------------- |
+| Feature module conventions | [`src/features/README.md`](src/features/README.md)   |
+| Routing and auth flow      | [`src/routes/README.md`](src/routes/README.md)       |
 
 ## Adding New Features
 

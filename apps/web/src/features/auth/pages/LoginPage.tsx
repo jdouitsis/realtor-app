@@ -4,7 +4,7 @@ import { useAuth } from '../hooks/useAuth'
 
 export function LoginPage() {
   const navigate = useNavigate()
-  const search = useSearch({ from: '/login' })
+  const search = useSearch({ from: '/_public/login' })
   const { login } = useAuth()
 
   const handleSubmit = async (data: LoginFormData) => {
