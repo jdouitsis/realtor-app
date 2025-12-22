@@ -2,10 +2,10 @@
 # https://nixpacks.com/docs/configuration/file
 
 [variables]
-NODE_VERSION = "22.12"
+NIXPACKS_NODE_VERSION = "22"
 
 [phases.setup]
-nixPkgs = ["pnpm"]
+nixPkgs = ["nodejs_22", "pnpm"]
 
 [phases.install]
 cmds = ["pnpm install --frozen-lockfile"]
