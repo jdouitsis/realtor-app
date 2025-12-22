@@ -1,6 +1,6 @@
-import { RegisterForm, type RegisterFormData } from '../components/RegisterForm'
+import { RegisterForm, type RegisterFormData } from './components/RegisterForm'
 import { useNavigate } from '@tanstack/react-router'
-import { useAuth } from '../hooks/useAuth'
+import { useAuth } from '../../hooks/useAuth'
 
 export function RegisterPage() {
   const navigate = useNavigate()

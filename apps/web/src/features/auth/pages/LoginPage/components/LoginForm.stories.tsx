@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { LoginForm } from './LoginForm'
 
 const meta: Meta<typeof LoginForm> = {
-  title: 'Features/Auth/LoginForm',
+  title: 'Features/Auth/LoginPage/LoginForm',
   component: LoginForm,
   tags: ['autodocs'],
   decorators: [
