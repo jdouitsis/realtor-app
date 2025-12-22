@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import { PublicHeader } from '@/features/public'
 
 export const Route = createFileRoute('/_public')({
   beforeLoad: ({ context }) => {
@@ -10,5 +11,10 @@ export const Route = createFileRoute('/_public')({
 })
 
 function PublicLayout() {
-  return <Outlet />
+  return (
+    <div className="min-h-screen bg-background">
+      <PublicHeader />
+      <Outlet />
+    </div>
+  )
 }
