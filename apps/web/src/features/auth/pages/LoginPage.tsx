@@ -5,7 +5,7 @@ export function LoginPage() {
 
   const handleSubmit = (data: LoginFormData) => {
     console.log(data)
-    navigate({ to: '/dashboard' })
+    void navigate({ to: '/dashboard' })
   }
 
   return (
