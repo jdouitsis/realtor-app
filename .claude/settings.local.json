@@ -5,7 +5,8 @@
       "Bash(nvm use:*)",
       "Bash(pnpm add:*)",
       "Bash(pnpm typecheck:*)",
-      "Bash(pnpm remove:*)"
+      "Bash(pnpm remove:*)",
+      "Bash(grep:*)"
     ]
   }
 }

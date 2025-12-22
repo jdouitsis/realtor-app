@@ -5,13 +5,6 @@ const meta: Meta<typeof RegisterForm> = {
   title: 'Features/Auth/RegisterForm',
   component: RegisterForm,
   tags: ['autodocs'],
-  decorators: [
-    (Story) => (
-      <div className="max-w-md p-4">
-        <Story />
-      </div>
-    ),
-  ],
 }
 
 export default meta
