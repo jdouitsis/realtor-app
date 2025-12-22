@@ -10,7 +10,7 @@ const loginOutput = z.object({
   user: z.object({
     id: z.string(),
     email: z.string(),
-    name: z.string().optional(),
+    name: z.string(),
   }),
   token: z.string(),
 })
@@ -19,9 +19,8 @@ export const login = publicProcedure
   .input(loginInput)
   .output(loginOutput)
   .mutation(async ({ input }) => {
-    // TODO: Implement real auth
     return {
-      user: { id: '1', email: input.email },
+      user: { id: '1', email: input.email, name: input.email.split('@')[0] },
       token: 'dummy-token',
     }
   })

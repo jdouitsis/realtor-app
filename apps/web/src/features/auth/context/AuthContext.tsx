@@ -1,5 +1,6 @@
 import { createContext, useCallback, useEffect, useState } from 'react'
 import type { AuthContextValue, User } from '../types/auth.types'
+import { trpcClient } from '@/lib/trpc'
 
 const STORAGE_KEY = 'auth_user'
 
@@ -21,23 +22,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user])
 
-  const login = useCallback(async (email: string, _password: string) => {
+  const login = useCallback(async (email: string, password: string) => {
     // Dummy auth - create user from email
-    const newUser: User = {
-      id: crypto.randomUUID(),
-      email,
-      name: email.split('@')[0],
-    }
-    setUser(newUser)
+    const res = await trpcClient.auth.login.mutate({ email, password })
+    setUser(res.user)
   }, [])
 
-  const register = useCallback(async (email: string, _password: string, name?: string) => {
-    const newUser: User = {
-      id: crypto.randomUUID(),
-      email,
-      name: name ?? email.split('@')[0],
-    }
-    setUser(newUser)
+  const register = useCallback(async (email: string, password: string, name: string) => {
+    const res = await trpcClient.auth.register.mutate({ email, password, name })
+    setUser(res.user)
   }, [])
 
   const logout = useCallback(() => {

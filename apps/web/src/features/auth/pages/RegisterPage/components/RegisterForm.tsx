@@ -17,7 +17,7 @@ import { Label } from '@/components/ui/label'
 const registerSchema = z
   .object({
     name: z.string().min(1, 'Name is required'),
-    email: z.email('Please enter a valid email address'),
+    email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
     password: z
       .string()
       .min(1, 'Password is required')
@@ -41,7 +41,7 @@ export function RegisterForm({ onSubmit, isLoading = false }: RegisterFormProps)
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterFormData>({
+  } = useForm({
     resolver: zodResolver(registerSchema),
   })
 
