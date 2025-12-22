@@ -54,3 +54,27 @@ Key documentation locations:
 
 - `apps/*/README.md` - Feature module conventions
 - `docs/SOP/` - Standard operating procedures for repo-level tasks. Read the `docs/SOP/README.md` to understand which SOP you need
+
+## Rules
+
+### Markdown Tables
+
+Format tables with consistent column widths so they are readable in raw markdown, not just when rendered.
+
+**Good:**
+```markdown
+| Command        | Description              |
+| -------------- | ------------------------ |
+| pnpm dev       | Start dev server         |
+| pnpm build     | Build for production     |
+| pnpm typecheck | Run TypeScript checks    |
+```
+
+**Bad:**
+```markdown
+| Command | Description |
+| --- | --- |
+| pnpm dev | Start dev server |
+| pnpm build | Build for production |
+| pnpm typecheck | Run TypeScript checks |
+```
