@@ -10,7 +10,6 @@ dotenv.config({ path: path.join(rootDir, '.env') })
 
 // eslint-disable-next-line no-restricted-syntax
 export const env = cleanEnv(process.env, {
-  PORT: port({ default: 3001 }),
-  NODE_ENV: str({ choices: ['development', 'production', 'test'], default: 'development' }),
-  WEB_URL: str({ default: 'http://localhost:5173' }),
+  PORT: port({ devDefault: 3001 }),
+  WEB_URL: str({ devDefault: 'http://localhost:5173' }),
 })
