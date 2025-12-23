@@ -83,8 +83,10 @@ Format tables with consistent column widths so they are readable in raw markdown
 
 > **Maintenance:** When any README is added, removed, or its purpose changes, update this section.
 
-| README                                                        | When to Use                                                        |
-| ------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [`docs/SOP/README.md`](docs/SOP/README.md)                    | Repo-level tasks: adding commands, setting up tools, git hooks     |
-| [`apps/web/README.md`](apps/web/README.md)                    | Understanding the web app structure, commands, and tech stack      |
+| README                                                               | When to Use                                                        |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| [`README.md`](README.md)                                             | Project overview, getting started, Railway deployment              |
+| [`docs/SOP/README.md`](docs/SOP/README.md)                           | Repo-level tasks: adding commands, setting up tools, git hooks     |
+| [`apps/web/README.md`](apps/web/README.md)                           | Understanding the web app structure, commands, and tech stack      |
+| [`apps/server/README.md`](apps/server/README.md)                     | Server architecture, tRPC setup, domain structure                  |
 | [`apps/web/src/features/README.md`](apps/web/src/features/README.md) | Creating features, pages, components; naming conventions; exports  |
