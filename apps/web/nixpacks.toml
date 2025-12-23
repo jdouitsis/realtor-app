@@ -11,7 +11,7 @@ nixPkgs = ["nodejs_22", "pnpm"]
 cmds = ["pnpm install --frozen-lockfile"]
 
 [phases.build]
-cmds = ["pnpm turbo build --filter=web"]
+cmds = ["pnpm turbo build --filter=@finance/web"]
 
 [start]
-cmd = "pnpm --filter web start"
+cmd = "pnpm --filter @finance/web start"
