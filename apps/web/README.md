@@ -40,6 +40,14 @@ pnpm format        # Format with Prettier
 pnpm storybook     # Start Storybook on :6006
 ```
 
+## Environment Variables
+
+Vite exposes environment variables prefixed with `VITE_` to the client. Configure in the repo root `/.env` file:
+
+| Variable       | Description            | Default                 |
+| -------------- | ---------------------- | ----------------------- |
+| `VITE_API_URL` | Backend server API URL | `http://localhost:3001` |
+
 ## Documentation
 
 | Topic                      | Location                                             |

@@ -1,0 +1,17 @@
+# Nixpacks configuration for Railway deployment
+# https://nixpacks.com/docs/configuration/file
+
+[variables]
+NIXPACKS_NODE_VERSION = "22"
+
+[phases.setup]
+nixPkgs = ["nodejs_22", "pnpm"]
+
+[phases.install]
+cmds = ["pnpm install --frozen-lockfile"]
+
+[phases.build]
+cmds = ["pnpm turbo build --filter=@finance/server"]
+
+[start]
+cmd = "pnpm --filter @finance/server start"

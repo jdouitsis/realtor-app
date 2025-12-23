@@ -12,7 +12,16 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(pnpm lint:*)",
-      "Bash(pnpm format:check:*)"
+      "Bash(pnpm format:check:*)",
+      "Bash(pnpm --filter @finance/server typecheck:*)",
+      "Bash(pnpm --filter @finance/server lint:*)",
+      "Bash(pnpm --filter @finance/web typecheck:*)",
+      "Bash(pnpm --filter @finance/web lint:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance status)",
+      "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance diff)",
+      "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance log --oneline -5)",
+      "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance add apps/web/src/components/ui/index.ts apps/web/src/components/common/Header.tsx apps/web/src/components/ui/form.tsx apps/web/src/features/README.md apps/web/src/features/auth/pages/LoginPage/components/LoginForm.tsx apps/web/src/features/auth/pages/RegisterPage/components/RegisterForm.tsx apps/web/src/features/dashboard/components/DashboardContent.tsx apps/web/src/features/dashboard/components/Sidebar.tsx apps/web/src/features/public/components/PublicHeader.tsx apps/web/src/features/public/pages/LandingPage.tsx)"
     ]
   }
 }

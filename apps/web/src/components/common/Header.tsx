@@ -1,5 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui'
 import { useAuth } from '@/features/auth'
 
 export function Header() {

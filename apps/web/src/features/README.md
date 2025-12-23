@@ -281,9 +281,7 @@ Components that are only used by one page live in that page's `components/` subd
 
 ```tsx
 // src/features/auth/pages/LoginPage/components/LoginForm.tsx
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { Button, Input, Label } from '@/components/ui'
 
 export function LoginForm() {
   return (
@@ -345,7 +343,7 @@ Use the `@/` alias for absolute imports:
 
 ```tsx
 // Shared UI components
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui'
 
 // Shared common components
 import { Header } from '@/components/common/Header'

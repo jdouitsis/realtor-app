@@ -3,11 +3,11 @@ import express from 'express'
 import { createExpressMiddleware } from '@trpc/server/adapters/express'
 import { appRouter } from './routers'
 import { createContext } from './trpc'
+import { env } from './env'
 
 const app = express()
-const PORT = process.env.PORT || 3001
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }))
+app.use(cors({ origin: env.WEB_URL, credentials: true }))
 app.use(express.json())
 
 app.use(
@@ -20,6 +20,10 @@ app.use(
 
 app.get('/health', (_, res) => res.json({ status: 'ok' }))
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`)
+app.listen(env.PORT, () => {
+  if (env.isDev) {
+    console.log(`Server running on http://localhost:${env.PORT}`)
+  } else {
+    console.log(`Server running on port ${env.PORT}`)
+  }
 })

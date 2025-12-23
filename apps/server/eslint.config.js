@@ -23,6 +23,13 @@ export default defineConfig([
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
       ],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'MemberExpression[object.name="process"][property.name="env"]',
+          message: 'Direct process.env access is not allowed. Import { env } from "./env" instead.',
+        },
+      ],
     },
   },
 ])
