@@ -32,6 +32,9 @@ importers:
       express:
         specifier: ^5.1.0
         version: 5.2.1
+      tsx:
+        specifier: ^4.19.4
+        version: 4.21.0
       zod:
         specifier: ^3.25.28
         version: 3.25.76
@@ -66,9 +69,6 @@ importers:
       prettier:
         specifier: ^3.7.4
         version: 3.7.4
-      tsx:
-        specifier: ^4.19.4
-        version: 4.21.0
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
