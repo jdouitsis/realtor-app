@@ -1,6 +1,5 @@
-import { TRPCClientError } from '@trpc/client'
-
 import type { AppErrorCode } from '@finance/shared/errors'
+import { TRPCClientError } from '@trpc/client'
 
 /** Shape of tRPC error data from our server's errorFormatter */
 interface TRPCErrorData {

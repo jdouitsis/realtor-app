@@ -9,7 +9,7 @@
     "format": "turbo format",
     "format:check": "turbo format:check",
     "storybook": "turbo storybook",
-    "lint-staged": "turbo lint-staged",
+    "lint-staged": "turbo lint-staged --concurrency=1",
     "prepare": "husky"
   },
   "devDependencies": {

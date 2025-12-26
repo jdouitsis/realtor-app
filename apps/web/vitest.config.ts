@@ -1,8 +1,10 @@
-import path from "path";
-import { defineConfig, mergeConfig } from 'vitest/config';
 import { fileURLToPath } from 'node:url';
+
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
+import path from "path";
+import { defineConfig, mergeConfig } from 'vitest/config';
+
 import viteConfig from './vite.config';
 
 const __dirname = typeof globalThis.__dirname !== 'undefined'

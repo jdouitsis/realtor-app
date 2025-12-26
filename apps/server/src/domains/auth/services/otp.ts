@@ -1,9 +1,9 @@
-import { and, eq, isNull } from 'drizzle-orm'
+import crypto from 'node:crypto'
 
 import type { Database } from '@server/db'
 import { otpCodes, users } from '@server/db/schema'
 import { emailService } from '@server/infra/email'
-import crypto from 'node:crypto'
+import { and, eq, isNull } from 'drizzle-orm'
 
 const OTP_EXPIRY_MINUTES = 15
 const MAX_ATTEMPTS = 5

@@ -1,8 +1,7 @@
-import { eq } from 'drizzle-orm'
-
 import { users } from '@server/db/schema'
 import { authError } from '@server/lib/errors'
 import { publicProcedure } from '@server/trpc'
+import { eq } from 'drizzle-orm'
 import { z } from 'zod'
 
 import { createOtpCode, sendOtpEmail } from '../services/otp'

@@ -1,6 +1,5 @@
 import { initTRPC } from '@trpc/server'
 import type { CreateExpressContextOptions } from '@trpc/server/adapters/express'
-
 import { ZodError } from 'zod'
 
 import { db } from '../db'

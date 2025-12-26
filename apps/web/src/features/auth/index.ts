@@ -7,4 +7,4 @@ export { AuthProvider } from './context/AuthContext'
 export { useAuth } from './hooks/useAuth'
 
 // Types
-export type { User, AuthState, AuthContextValue } from './types/auth.types'
+export type { AuthContextValue, AuthState, User } from './types/auth.types'

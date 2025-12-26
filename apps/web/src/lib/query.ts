@@ -1,5 +1,4 @@
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query'
-
 import { TRPCClientError } from '@trpc/client'
 
 import { parseError } from './errors'

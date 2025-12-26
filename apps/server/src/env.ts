@@ -1,7 +1,8 @@
-import dotenv from 'dotenv'
-import { cleanEnv, port, str, url } from 'envalid'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+import dotenv from 'dotenv'
+import { cleanEnv, port, str, url } from 'envalid'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const rootDir = path.resolve(__dirname, '../../..')

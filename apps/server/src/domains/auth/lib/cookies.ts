@@ -1,6 +1,5 @@
-import type { Request, Response } from 'express'
-
 import { env } from '@server/env'
+import type { Request, Response } from 'express'
 
 export const SESSION_COOKIE_NAME = 'session'
 

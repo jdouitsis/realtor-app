@@ -1,9 +1,11 @@
+import '../src/index.css'
+
 import type { Preview } from '@storybook/react-vite'
 import { createMemoryHistory, createRouter, RouterContextProvider } from '@tanstack/react-router'
-import { routeTree } from '../src/routeTree.gen'
+
 import { AuthProvider } from '../src/features/auth'
 import type { RouterContext } from '../src/lib/router-context'
-import '../src/index.css'
+import { routeTree } from '../src/routeTree.gen'
 
 // Mock auth context for Storybook
 const mockAuthContext: RouterContext['auth'] = {

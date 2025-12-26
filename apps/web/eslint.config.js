@@ -7,6 +7,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import reactX from 'eslint-plugin-react-x'
 import reactDom from 'eslint-plugin-react-dom'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
@@ -14,6 +15,9 @@ export default defineConfig([
   globalIgnores(['dist', '**/*.d.ts']),
   {
     files: ['**/*.{ts,tsx}'],
+    plugins: {
+      'simple-import-sort': simpleImportSort,
+    },
     extends: [
       js.configs.recommended,
       tseslint.configs.recommendedTypeChecked,
@@ -35,6 +39,8 @@ export default defineConfig([
       },
     },
     rules: {
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
       'react-refresh/only-export-components': 'off',
       // Disable React 19 migration warnings for shadcn/ui components
       'react-x/no-forward-ref': 'off',

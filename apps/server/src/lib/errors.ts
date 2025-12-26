@@ -1,6 +1,5 @@
-import { TRPCError } from '@trpc/server'
-
 import type { AppErrorCode } from '@finance/shared/errors'
+import { TRPCError } from '@trpc/server'
 
 // Re-export from shared package for convenience
 export { AppErrorCode } from '@finance/shared/errors'

@@ -1,9 +1,7 @@
-import express from 'express'
-
 import { createExpressMiddleware } from '@trpc/server/adapters/express'
-
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import express from 'express'
 
 import { env } from './env'
 import { appRouter } from './routers'
