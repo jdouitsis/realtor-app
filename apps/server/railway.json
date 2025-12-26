@@ -6,7 +6,7 @@
   },
   "deploy": {
     "numReplicas": 1,
-    "startCommand": "pnpm --filter @finance/server start",
+    "startCommand": "pnpm --filter @finance/server db:migrate && pnpm --filter @finance/server start",
     "healthcheckPath": "/health",
     "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",

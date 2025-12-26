@@ -16,4 +16,5 @@ cmds = ["pnpm --filter @finance/server typecheck"]
 [start]
 # Migrations run at startup (not build) because Railway internal networking
 # (postgres.railway.internal) is only available at runtime
+# NOTE: This command is overridden in railway.json
 cmd = "pnpm --filter @finance/server db:migrate && pnpm --filter @finance/server start"
