@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+
 import { LoginForm } from './LoginForm'
 
-const meta: Meta<typeof LoginForm> = {
+const meta: Meta = {
   title: 'Features/Auth/LoginPage/LoginForm',
   component: LoginForm,
   tags: ['autodocs'],
@@ -15,7 +16,7 @@ const meta: Meta<typeof LoginForm> = {
 }
 
 export default meta
-type Story = StoryObj<typeof LoginForm>
+type Story = StoryObj
 
 export const Default: Story = {}
 

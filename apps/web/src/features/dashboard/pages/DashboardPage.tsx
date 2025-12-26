@@ -1,6 +1,7 @@
-import { Sidebar } from '../components/Sidebar'
-import { DashboardContent } from '../components/DashboardContent'
 import { Header } from '@/components/common/Header'
+
+import { DashboardContent } from '../components/DashboardContent'
+import { Sidebar } from '../components/Sidebar'
 
 export function DashboardPage() {
   return (

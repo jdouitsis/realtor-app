@@ -1,6 +1,8 @@
 import { createContext, useCallback, useEffect, useState } from 'react'
-import type { AuthContextValue, User } from '../types/auth.types'
+
 import { trpcClient } from '@/lib/trpc'
+
+import type { AuthContextValue, User } from '../types/auth.types'
 
 const STORAGE_KEY = 'auth_user'
 

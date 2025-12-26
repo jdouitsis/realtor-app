@@ -1,15 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Label } from './label'
-import { Input } from './input'
 
-const meta: Meta<typeof Label> = {
+import { Input } from './input'
+import { Label } from './label'
+
+const meta: Meta = {
   title: 'UI/Label',
   component: Label,
   tags: ['autodocs'],
 }
 
 export default meta
-type Story = StoryObj<typeof Label>
+type Story = StoryObj
 
 export const Default: Story = {
   args: {

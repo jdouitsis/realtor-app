@@ -192,6 +192,7 @@ Create `src/routes/{feature-name}.tsx`:
 
 ```tsx
 import { createFileRoute } from '@tanstack/react-router'
+
 import { SettingsPage } from '@/features/settings'
 
 export const Route = createFileRoute('/settings')({
@@ -258,9 +259,10 @@ Page components are the top-level components rendered by routes. They live in `i
 
 ```tsx
 // src/features/dashboard/pages/DashboardPage/index.tsx
-import { Sidebar } from './components/Sidebar'
-import { DashboardContent } from './components/DashboardContent'
 import { Header } from '@/components/common/Header'
+
+import { DashboardContent } from './components/DashboardContent'
+import { Sidebar } from './components/Sidebar'
 
 export function DashboardPage() {
   return (
@@ -322,15 +324,16 @@ Stories are co-located with their components in the `components/` directory:
 ```tsx
 // src/features/auth/pages/LoginPage/components/LoginForm.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite'
+
 import { LoginForm } from './LoginForm'
 
-const meta: Meta<typeof LoginForm> = {
+const meta: Meta = {
   title: 'Features/Auth/LoginPage/LoginForm',
   component: LoginForm,
 }
 
 export default meta
-type Story = StoryObj<typeof LoginForm>
+type Story = StoryObj
 
 export const Default: Story = {}
 ```
@@ -343,22 +346,19 @@ Use the `@/` alias for absolute imports:
 
 ```tsx
 // Shared UI components
-import { Button } from '@/components/ui'
 
 // Shared common components
 import { Header } from '@/components/common/Header'
-
+import { Button } from '@/components/ui'
 // Feature imports (from other features if needed)
 import { useAuth } from '@/features/auth'
 
-// Page-specific components (from page to its components/)
-import { LoginForm } from './components/LoginForm'
-
-// Page-specific hooks (from page to its hooks/)
-import { useLoginForm } from './hooks/useLoginForm'
-
 // Shared feature components (from page to feature level)
 import { AuthHeader } from '../../components/AuthHeader'
+// Page-specific components (from page to its components/)
+import { LoginForm } from './components/LoginForm'
+// Page-specific hooks (from page to its hooks/)
+import { useLoginForm } from './hooks/useLoginForm'
 ```
 
 ## Checklist for New Features

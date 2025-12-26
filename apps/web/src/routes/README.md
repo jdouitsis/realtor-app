@@ -77,6 +77,7 @@ _authenticated/dashboard.tsx → /dashboard (not /_authenticated/dashboard)
 
 ```typescript
 import { createFileRoute } from '@tanstack/react-router'
+
 import { NewPage } from '@/features/public'
 
 export const Route = createFileRoute('/_public/newpage')({
@@ -92,6 +93,7 @@ export const Route = createFileRoute('/_public/newpage')({
 
 ```typescript
 import { createFileRoute } from '@tanstack/react-router'
+
 import { NewPage } from '@/features/dashboard'
 
 export const Route = createFileRoute('/_authenticated/newpage')({

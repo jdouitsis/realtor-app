@@ -1,6 +1,7 @@
-import { LoginForm, type LoginFormData } from './components/LoginForm'
 import { useNavigate, useSearch } from '@tanstack/react-router'
+
 import { useAuth } from '../../hooks/useAuth'
+import { LoginForm, type LoginFormData } from './components/LoginForm'
 
 export function LoginPage() {
   const navigate = useNavigate()

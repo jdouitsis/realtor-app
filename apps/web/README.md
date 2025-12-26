@@ -40,6 +40,28 @@ pnpm format        # Format with Prettier
 pnpm storybook     # Start Storybook on :6006
 ```
 
+## Prettier
+
+Run `pnpm format` to format code with Prettier.
+
+### Import Ordering
+
+Imports are automatically sorted using [@ianvs/prettier-plugin-sort-imports](https://github.com/IanVS/prettier-plugin-sort-imports).
+
+| Order | Group            | Pattern                | Examples                                    |
+| ----- | ---------------- | ---------------------- | ------------------------------------------- |
+| 1     | React core       | `react`, `react-dom`   | `import React from 'react'`                 |
+| 2     | Framework        | `@tanstack/*`          | `@tanstack/react-router`, `react-query`     |
+| 3     | tRPC             | `@trpc/*`              | `@trpc/client`, `@trpc/react-query`         |
+| 4     | Third-party      | All other externals    | `zod`, `react-hook-form`, `lucide-react`    |
+|       | *(blank line)*   |                        |                                             |
+| 5     | Internal aliases | `@/*`                  | `@/lib/utils`, `@/components/ui`            |
+|       | *(blank line)*   |                        |                                             |
+| 6     | Relative imports | `./`, `../`            | `./App`, `../types`                         |
+| 7     | CSS              | `*.css`                | `./index.css` (kept last for cascade order) |
+
+Type imports are combined inline with value imports (e.g., `import { type User, useAuth }`). Specifiers within each import statement are sorted alphabetically.
+
 ## Environment Variables
 
 Vite exposes environment variables prefixed with `VITE_` to the client. Configure in the repo root `/.env` file:

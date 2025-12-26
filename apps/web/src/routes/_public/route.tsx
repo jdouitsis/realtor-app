@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+
 import { PublicHeader } from '@/features/public'
 
 export const Route = createFileRoute('/_public')({
