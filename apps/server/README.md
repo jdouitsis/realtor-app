@@ -47,6 +47,25 @@ pnpm --filter @finance/server dev
 pnpm --filter @finance/server build
 ```
 
+## Prettier
+
+Run `pnpm format` to format code with Prettier.
+
+### Import Ordering
+
+Imports are automatically sorted using [@ianvs/prettier-plugin-sort-imports](https://github.com/IanVS/prettier-plugin-sort-imports).
+
+| Order | Group            | Pattern              | Examples                              |
+| ----- | ---------------- | -------------------- | ------------------------------------- |
+| 1     | Node.js built-in | `<BUILTIN_MODULES>`  | `fs`, `path`, `crypto`                |
+| 2     | Express          | `express`            | `import express from 'express'`       |
+| 3     | tRPC             | `@trpc/*`            | `@trpc/server`, `@trpc/server/adapters/express` |
+| 4     | Third-party      | All other externals  | `zod`, `cors`, `envalid`              |
+|       | *(blank line)*   |                      |                                       |
+| 5     | Relative imports | `./`, `../`          | `./routers`, `../trpc`                |
+
+Type imports are combined inline with value imports. Specifiers within each import statement are sorted alphabetically.
+
 ## Environment Variables
 
 The server loads environment variables from the **repo root** `.env` file. Copy `/.env.example` to `/.env` and configure:

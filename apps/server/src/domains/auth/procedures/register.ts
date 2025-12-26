@@ -1,4 +1,5 @@
 import { z } from 'zod'
+
 import { publicProcedure } from '../../../trpc'
 
 const registerInput = z.object({
