@@ -31,7 +31,7 @@ const registerSchema = z
     path: ['confirmPassword'],
   })
 
-export type RegisterFormData = z.infer
+export type RegisterFormData = z.infer<typeof registerSchema>
 
 interface RegisterFormProps {
   onSubmit?: (data: RegisterFormData) => void

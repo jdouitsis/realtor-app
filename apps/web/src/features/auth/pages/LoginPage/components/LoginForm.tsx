@@ -24,7 +24,7 @@ const loginSchema = z.object({
     .min(8, 'Password must be at least 8 characters'),
 })
 
-export type LoginFormData = z.infer
+export type LoginFormData = z.infer<typeof loginSchema>
 
 interface LoginFormProps {
   onSubmit?: (data: LoginFormData) => void
