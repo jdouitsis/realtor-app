@@ -90,6 +90,47 @@ Format tables with consistent column widths so they are readable in raw markdown
 | pnpm typecheck | Run TypeScript checks |
 ```
 
+## Git
+
+### Commit Titles
+
+Use [Conventional Commits](https://www.conventionalcommits.org/) with specific scopes that identify both the app and the area being changed:
+
+```
+<type>(<app>:<area>): <description>
+```
+
+| Part          | Description                                    | Examples                          |
+| ------------- | ---------------------------------------------- | --------------------------------- |
+| `<type>`      | The type of change                             | `feat`, `fix`, `docs`, `refactor` |
+| `<app>`       | Which app in the monorepo                      | `web`, `server`                   |
+| `<area>`      | Specific area within the app                   | `auth`, `prettier`, `trpc`, `ui`  |
+| `<description>` | Short description of the change (imperative) | `add login form validation`       |
+
+**Examples:**
+
+```
+feat(web:auth): add login form validation
+fix(server:trpc): handle null user in me procedure
+docs(web:prettier): document import ordering rules
+refactor(web:ui): extract Button variants to separate file
+chore(server:deps): update express to v5
+```
+
+For changes spanning multiple areas or the whole app, omit the area:
+
+```
+feat(web): add dark mode support
+fix(server): update all procedures to use new context
+```
+
+For repo-wide changes, omit both:
+
+```
+chore: update pnpm to v9
+docs: add contributing guide
+```
+
 ## README Index
 
 > **Maintenance:** When any README is added, removed, or its purpose changes, update this section.
