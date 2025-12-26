@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/express-serve-static-core": "^5.1.0",

@@ -4,17 +4,15 @@
   "tabWidth": 2,
   "trailingComma": "es5",
   "printWidth": 100,
-  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
-    "<BUILTIN_MODULES>",
-    "",
     "^express$",
     "^@trpc/(.*)$",
     "^drizzle-orm(.*)$",
     "<THIRD_PARTY_MODULES>",
-    "",
+    "^@/(.*)$",
     "^[./]"
   ],
-  "importOrderTypeScriptVersion": "5.0.0",
-  "importOrderParserPlugins": ["typescript"]
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }
