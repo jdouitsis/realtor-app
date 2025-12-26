@@ -1,8 +1,4 @@
 import { Link } from '@tanstack/react-router'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
 import {
   Button,
   Card,
@@ -14,6 +10,9 @@ import {
   Input,
   Label,
 } from '@/components/ui'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
@@ -23,7 +22,7 @@ const loginSchema = z.object({
     .min(8, 'Password must be at least 8 characters'),
 })
 
-export type LoginFormData = z.infer
+export type LoginFormData = z.infer<typeof loginSchema>
 
 interface LoginFormProps {
   onSubmit?: (data: LoginFormData) => void

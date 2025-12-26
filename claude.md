@@ -73,20 +73,22 @@ This ensures documentation stays in sync with the codebase.
 Format tables with consistent column widths so they are readable in raw markdown, not just when rendered.
 
 **Good:**
+
 ```markdown
-| Command        | Description              |
-| -------------- | ------------------------ |
-| pnpm dev       | Start dev server         |
-| pnpm build     | Build for production     |
-| pnpm typecheck | Run TypeScript checks    |
+| Command        | Description           |
+| -------------- | --------------------- |
+| pnpm dev       | Start dev server      |
+| pnpm build     | Build for production  |
+| pnpm typecheck | Run TypeScript checks |
 ```
 
 **Bad:**
+
 ```markdown
-| Command | Description |
-| --- | --- |
-| pnpm dev | Start dev server |
-| pnpm build | Build for production |
+| Command        | Description           |
+| -------------- | --------------------- |
+| pnpm dev       | Start dev server      |
+| pnpm build     | Build for production  |
 | pnpm typecheck | Run TypeScript checks |
 ```
 
@@ -100,21 +102,21 @@ Use [Conventional Commits](https://www.conventionalcommits.org/) with specific s
 <type>(<app>:<area>): <description>
 ```
 
-| Part          | Description                                    | Examples                          |
-| ------------- | ---------------------------------------------- | --------------------------------- |
-| `<type>`      | The type of change                             | `feat`, `fix`, `docs`, `refactor` |
-| `<app>`       | Which app in the monorepo                      | `web`, `server`                   |
-| `<area>`      | Specific area within the app                   | `auth`, `prettier`, `trpc`, `ui`  |
-| `<description>` | Short description of the change (imperative) | `add login form validation`       |
+| Part            | Description                                  | Examples                          |
+| --------------- | -------------------------------------------- | --------------------------------- |
+| `<type>`        | The type of change                           | `feat`, `fix`, `docs`, `refactor` |
+| `<app>`         | Which app in the monorepo                    | `web`, `server`                   |
+| `<area>`        | Specific area within the app                 | `auth`, `prettier`, `trpc`, `ui`  |
+| `<description>` | Short description of the change (imperative) | `Add login form validation`       |
 
 **Examples:**
 
 ```
-feat(web:auth): add login form validation
-fix(server:trpc): handle null user in me procedure
-docs(web:prettier): document import ordering rules
-refactor(web:ui): extract Button variants to separate file
-chore(server:deps): update express to v5
+feat(web:auth): Add login form validation
+fix(server:trpc): Handle null user in me procedure
+docs(web:prettier): Document import ordering rules
+refactor(web:ui): Extract Button variants to separate file
+chore(server:deps): Update express to v5
 ```
 
 For changes spanning multiple areas or the whole app, omit the area:
@@ -135,10 +137,10 @@ docs: add contributing guide
 
 > **Maintenance:** When any README is added, removed, or its purpose changes, update this section.
 
-| README                                                               | When to Use                                                        |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [`README.md`](README.md)                                             | Project overview, getting started, Railway deployment              |
-| [`docs/SOP/README.md`](docs/SOP/README.md)                           | Repo-level tasks: adding commands, setting up tools, git hooks     |
-| [`apps/web/README.md`](apps/web/README.md)                           | Understanding the web app structure, commands, and tech stack      |
-| [`apps/server/README.md`](apps/server/README.md)                     | Server architecture, tRPC setup, domain structure                  |
-| [`apps/web/src/features/README.md`](apps/web/src/features/README.md) | Creating features, pages, components; naming conventions; exports  |
+| README                                                               | When to Use                                                       |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [`README.md`](README.md)                                             | Project overview, getting started, Railway deployment             |
+| [`docs/SOP/README.md`](docs/SOP/README.md)                           | Repo-level tasks: adding commands, setting up tools, git hooks    |
+| [`apps/web/README.md`](apps/web/README.md)                           | Understanding the web app structure, commands, and tech stack     |
+| [`apps/server/README.md`](apps/server/README.md)                     | Server architecture, tRPC setup, domain structure                 |
+| [`apps/web/src/features/README.md`](apps/web/src/features/README.md) | Creating features, pages, components; naming conventions; exports |

@@ -1,8 +1,4 @@
 import { Link } from '@tanstack/react-router'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
 import {
   Button,
   Card,
@@ -14,6 +10,9 @@ import {
   Input,
   Label,
 } from '@/components/ui'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 
 const registerSchema = z
   .object({
@@ -30,7 +29,7 @@ const registerSchema = z
     path: ['confirmPassword'],
   })
 
-export type RegisterFormData = z.infer
+export type RegisterFormData = z.infer<typeof registerSchema>
 
 interface RegisterFormProps {
   onSubmit?: (data: RegisterFormData) => void
