@@ -346,7 +346,6 @@ Use the `@/` alias for absolute imports:
 
 ```tsx
 // Shared UI components
-
 // Shared common components
 import { Header } from '@/components/common/Header'
 import { Button } from '@/components/ui'
