@@ -12,7 +12,7 @@ export function createContext({ req, res }: CreateExpressContextOptions) {
   }
 }
 
-export type Context = Awaited
+export type Context = Awaited<ReturnType<typeof createContext>>
 
 // tRPC initialization
 const t = initTRPC.context<Context>().create()
