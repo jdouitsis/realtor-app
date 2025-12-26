@@ -122,25 +122,17 @@ src/db/
 - **Snake_case columns** - Match PostgreSQL conventions (`password_hash`, not `passwordHash`)
 - **Export types** - Export `$inferSelect` and `$inferInsert` types for procedure use
 
-## Prettier
+## Configuration
 
-Run `pnpm format` to format code with Prettier.
+### Path Aliases
 
-### Import Ordering
+The server uses TypeScript path aliases for cleaner imports:
 
-Imports are automatically sorted using [@ianvs/prettier-plugin-sort-imports](https://github.com/IanVS/prettier-plugin-sort-imports).
+| Alias  | Maps To    | Example                          |
+| ------ | ---------- | -------------------------------- |
+| `@/*`  | `./src/*`  | `import { db } from '@/db'`      |
 
-| Order | Group            | Pattern              | Examples                                        |
-| ----- | ---------------- | -------------------- | ----------------------------------------------- |
-| 1     | Node.js built-in | `<BUILTIN_MODULES>`  | `fs`, `path`, `crypto`                          |
-| 2     | Express          | `express`            | `import express from 'express'`                 |
-| 3     | tRPC             | `@trpc/*`            | `@trpc/server`, `@trpc/server/adapters/express` |
-| 4     | Drizzle          | `drizzle-orm*`       | `drizzle-orm`, `drizzle-orm/pg-core`            |
-| 5     | Third-party      | All other externals  | `zod`, `cors`, `envalid`                        |
-|       | *(blank line)*   |                      |                                                 |
-| 6     | Relative imports | `./`, `../`          | `./routers`, `../trpc`                          |
-
-Type imports are combined inline with value imports. Specifiers within each import statement are sorted alphabetically.
+Configured in `tsconfig.json` via `baseUrl` and `paths`.
 
 ## Environment Variables
 

@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { users } from '../../../db/schema'
 import { publicProcedure } from '../../../trpc'
 
 const registerInput = z.object({
@@ -20,9 +21,22 @@ const registerOutput = z.object({
 export const register = publicProcedure
   .input(registerInput)
   .output(registerOutput)
-  .mutation(async ({ input }) => {
+  .mutation(async ({ input, ctx: { db } }) => {
+    const [user] = await db
+      .insert(users)
+      .values({
+        email: input.email,
+        name: input.name ?? input.email.split('@')[0],
+        passwordHash: '',
+      })
+      .returning({
+        id: users.id,
+        email: users.email,
+        name: users.name,
+      })
+
     return {
-      user: { id: '1', email: input.email, name: input.name ?? input.email.split('@')[0] },
+      user,
       token: 'dummy-token',
     }
   })
