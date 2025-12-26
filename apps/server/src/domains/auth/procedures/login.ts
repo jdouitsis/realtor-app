@@ -5,18 +5,15 @@ import { authError } from '@server/lib/errors'
 import { publicProcedure } from '@server/trpc'
 import { z } from 'zod'
 
+import { createOtpCode, sendOtpEmail } from '../services/otp'
+
 const loginInput = z.object({
   email: z.string().email(),
-  password: z.string().min(1),
 })
 
 const loginOutput = z.object({
-  user: z.object({
-    id: z.string(),
-    email: z.string(),
-    name: z.string(),
-  }),
-  token: z.string(),
+  message: z.string(),
+  userId: z.string(),
 })
 
 export const login = publicProcedure
@@ -26,11 +23,14 @@ export const login = publicProcedure
     const [user] = await db.select().from(users).where(eq(users.email, input.email)).limit(1)
 
     if (!user) {
-      throw authError('INVALID_CREDENTIALS', 'Invalid email or password.')
+      throw authError('USER_NOT_FOUND', 'No account found with this email.')
     }
 
+    const code = await createOtpCode(db, user.id)
+    await sendOtpEmail(input.email, code)
+
     return {
-      user,
-      token: 'dummy-token',
+      message: 'Check your email for a verification code.',
+      userId: user.id,
     }
   })

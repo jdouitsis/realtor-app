@@ -10,6 +10,10 @@ const APP_CODE_TO_TRPC: Record<AppErrorCode, TRPCError['code']> = {
   INVALID_CREDENTIALS: 'UNAUTHORIZED',
   EMAIL_ALREADY_EXISTS: 'CONFLICT',
   SESSION_EXPIRED: 'UNAUTHORIZED',
+  USER_NOT_FOUND: 'NOT_FOUND',
+  OTP_EXPIRED: 'BAD_REQUEST',
+  OTP_INVALID: 'BAD_REQUEST',
+  OTP_MAX_ATTEMPTS: 'TOO_MANY_REQUESTS',
   NOT_FOUND: 'NOT_FOUND',
   ALREADY_EXISTS: 'CONFLICT',
 }
@@ -49,7 +53,14 @@ export class AppError extends TRPCError {
  * throw authError('INVALID_CREDENTIALS', 'Invalid email or password')
  */
 export function authError(
-  code: 'INVALID_CREDENTIALS' | 'EMAIL_ALREADY_EXISTS' | 'SESSION_EXPIRED',
+  code:
+    | 'INVALID_CREDENTIALS'
+    | 'EMAIL_ALREADY_EXISTS'
+    | 'SESSION_EXPIRED'
+    | 'USER_NOT_FOUND'
+    | 'OTP_EXPIRED'
+    | 'OTP_INVALID'
+    | 'OTP_MAX_ATTEMPTS',
   message: string
 ) {
   return new AppError({ code, message })

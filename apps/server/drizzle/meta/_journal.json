@@ -8,6 +8,13 @@
       "when": 1766767066894,
       "tag": "0000_exotic_texas_twister",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1766774796849,
+      "tag": "0001_thick_marten_broadcloak",
+      "breakpoints": true
     }
   ]
 }

@@ -23,11 +23,15 @@ const APP_ERROR_MESSAGES: Record<AppErrorCode, string> = {
   SESSION_EXPIRED: 'Your session has expired. Please log in again.',
   NOT_FOUND: 'The requested resource was not found.',
   ALREADY_EXISTS: 'This resource already exists.',
+  USER_NOT_FOUND: 'No account found with this email. Please register first.',
+  OTP_EXPIRED: 'This code has expired. Please request a new one.',
+  OTP_INVALID: 'Invalid code. Please try again.',
+  OTP_MAX_ATTEMPTS: 'Too many attempts. Please request a new code.',
 }
 
 /**
  * User-friendly messages for tRPC built-in error codes.
- * These are loosely typed since they come from the tRPC library.
+ * Uses Partial since we only define messages for commonly used codes.
  */
 const TRPC_MESSAGES: Record<string, string> = {
   UNAUTHORIZED: 'Please log in to continue.',

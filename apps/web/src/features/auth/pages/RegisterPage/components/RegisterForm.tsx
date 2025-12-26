@@ -36,14 +36,15 @@ export type RegisterFormData = z.infer<typeof registerSchema>
 interface RegisterFormProps {
   onSubmit?: (data: RegisterFormData) => void
   isLoading?: boolean
+  error?: string
 }
 
-export function RegisterForm({ onSubmit, isLoading = false }: RegisterFormProps) {
+export function RegisterForm({ onSubmit, isLoading = false, error }: RegisterFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
   })
 
@@ -80,35 +81,10 @@ export function RegisterForm({ onSubmit, isLoading = false }: RegisterFormProps)
               {...register('email')}
             />
             {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Create a password"
-              aria-invalid={!!errors.password}
-              {...register('password')}
-            />
-            {errors.password && (
-              <p className="text-sm text-destructive">{errors.password.message}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <Input
-              id="confirmPassword"
-              type="password"
-              placeholder="Confirm your password"
-              aria-invalid={!!errors.confirmPassword}
-              {...register('confirmPassword')}
-            />
-            {errors.confirmPassword && (
-              <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>
-            )}
+            {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? 'Creating account...' : 'Register'}
+            {isLoading ? 'Creating account...' : 'Continue'}
           </Button>
         </form>
       </CardContent>

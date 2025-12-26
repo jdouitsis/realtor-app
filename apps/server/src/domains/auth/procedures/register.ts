@@ -1,48 +1,48 @@
+import { eq } from 'drizzle-orm'
+
 import { users } from '@server/db/schema'
 import { authError } from '@server/lib/errors'
 import { publicProcedure } from '@server/trpc'
 import { z } from 'zod'
 
+import { createOtpCode, sendOtpEmail } from '../services/otp'
+
 const registerInput = z.object({
   email: z.string().email(),
-  password: z.string().min(8),
-  name: z.string(),
+  name: z.string().min(1),
 })
 
 const registerOutput = z.object({
-  user: z.object({
-    id: z.string(),
-    email: z.string(),
-    name: z.string(),
-  }),
-  token: z.string(),
+  message: z.string(),
+  userId: z.string(),
 })
 
 export const register = publicProcedure
   .input(registerInput)
   .output(registerOutput)
   .mutation(async ({ input, ctx: { db } }) => {
+    // Check if user already exists
+    const [existing] = await db.select().from(users).where(eq(users.email, input.email)).limit(1)
+
+    if (existing) {
+      throw authError('EMAIL_ALREADY_EXISTS', 'An account with this email already exists.')
+    }
+
+    // Create user
     const [user] = await db
       .insert(users)
       .values({
         email: input.email,
-        name: input.name ?? input.email.split('@')[0],
-        passwordHash: '',
+        name: input.name,
       })
-      .returning({
-        id: users.id,
-        email: users.email,
-        name: users.name,
-      })
-      .catch(() => {
-        throw authError(
-          'EMAIL_ALREADY_EXISTS',
-          `An account with email ${input.email} already exists.`
-        )
-      })
+      .returning()
+
+    // Send OTP
+    const code = await createOtpCode(db, user.id)
+    await sendOtpEmail(input.email, code)
 
     return {
-      user,
-      token: 'dummy-token',
+      message: 'Account created! Check your email for a verification code.',
+      userId: user.id,
     }
   })

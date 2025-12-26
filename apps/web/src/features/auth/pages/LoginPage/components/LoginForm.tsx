@@ -29,14 +29,15 @@ export type LoginFormData = z.infer<typeof loginSchema>
 interface LoginFormProps {
   onSubmit?: (data: LoginFormData) => void
   isLoading?: boolean
+  error?: string
 }
 
-export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
+export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   })
 
@@ -48,7 +49,7 @@ export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
     <Card className="w-full max-w-md">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>Enter your credentials to access your account</CardDescription>
+        <CardDescription>Enter your email to receive a verification code</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
@@ -62,22 +63,10 @@ export function LoginForm({ onSubmit, isLoading = false }: LoginFormProps) {
               {...register('email')}
             />
             {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              aria-invalid={!!errors.password}
-              {...register('password')}
-            />
-            {errors.password && (
-              <p className="text-sm text-destructive">{errors.password.message}</p>
-            )}
+            {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? 'Logging in...' : 'Login'}
+            {isLoading ? 'Sending code...' : 'Continue'}
           </Button>
         </form>
       </CardContent>
