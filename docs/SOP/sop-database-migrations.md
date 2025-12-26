@@ -63,15 +63,14 @@ pnpm --filter @finance/server db:push
 
 ## Production Workflow (Railway)
 
-Migrations run automatically during Railway deployments via `nixpacks.toml`:
+Migrations run automatically at startup (not during build) via `nixpacks.toml`:
 
 ```toml
-[phases.build]
-cmds = [
-  "pnpm --filter @finance/server typecheck",
-  "pnpm --filter @finance/server db:migrate"
-]
+[start]
+cmd = "pnpm --filter @finance/server db:migrate && pnpm --filter @finance/server start"
 ```
+
+**Why at startup instead of build?** Railway's internal networking (`postgres.railway.internal`) is only available at runtime, not during the build phase.
 
 ### Deployment Checklist
 
