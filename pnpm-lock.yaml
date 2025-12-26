@@ -17,6 +17,9 @@ importers:
 
   apps/server:
     dependencies:
+      '@finance/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       '@trpc/server':
         specifier: ^11.0.0
         version: 11.8.1(typescript@5.9.3)
@@ -90,6 +93,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@finance/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       '@hookform/resolvers':
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.69.0(react@19.2.3))
@@ -253,6 +259,12 @@ importers:
       vitest:
         specifier: ^4.0.16
         version: 4.0.16(@types/node@24.10.4)(@vitest/browser-playwright@4.0.16)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.2)
+
+  packages/shared:
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
 packages:
 

@@ -129,13 +129,13 @@ src/db/
 
 ### Path Aliases
 
-The server uses TypeScript path aliases for cleaner imports:
+The server uses `@server/*` as its TypeScript path alias:
 
-| Alias | Maps To   | Example                     |
-| ----- | --------- | --------------------------- |
-| `@/*` | `./src/*` | `import { db } from '@/db'` |
+| Alias       | Maps To   | Example                           |
+| ----------- | --------- | --------------------------------- |
+| `@server/*` | `./src/*` | `import { db } from '@server/db'` |
 
-Configured in `tsconfig.json` via `baseUrl` and `paths`.
+This is different from web's `@/*` alias intentionally. When web typechecks and follows imports into server source files, using a unique prefix prevents path resolution conflicts. See [ADR: Server Path Alias](../../docs/ADR/2025-12-26-server-path-alias.md) for details.
 
 ## Environment Variables
 

@@ -16,7 +16,10 @@ A finance application built as a pnpm monorepo with Turborepo orchestration.
 ```
 /
 ├── apps/web/          # React frontend application
+├── apps/server/       # Express + tRPC backend
+├── packages/shared/   # Shared types and constants (e.g., error codes)
 ├── docs/SOP/          # Standard operating procedures
+├── docs/ADR/          # Architecture decision records
 ├── .husky/            # Git hooks (calls turbo commands)
 ├── turbo.json         # Turborepo task configuration
 └── package.json       # Root scripts (turbo delegators only)
@@ -141,6 +144,8 @@ docs: add contributing guide
 | -------------------------------------------------------------------- | ----------------------------------------------------------------- |
 | [`README.md`](README.md)                                             | Project overview, getting started, Railway deployment             |
 | [`docs/SOP/README.md`](docs/SOP/README.md)                           | Repo-level tasks: adding commands, setting up tools, git hooks    |
+| [`docs/ADR/README.md`](docs/ADR/README.md)                           | Architecture decisions and their rationale                        |
 | [`apps/web/README.md`](apps/web/README.md)                           | Understanding the web app structure, commands, and tech stack     |
 | [`apps/server/README.md`](apps/server/README.md)                     | Server architecture, tRPC setup, domain structure                 |
 | [`apps/web/src/features/README.md`](apps/web/src/features/README.md) | Creating features, pages, components; naming conventions; exports |
+| [`packages/shared/README.md`](packages/shared/README.md)             | Shared types between server and client; adding new error codes    |

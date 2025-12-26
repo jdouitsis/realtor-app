@@ -1,6 +1,9 @@
-import { z } from 'zod'
+import { eq } from 'drizzle-orm'
 
-import { publicProcedure } from '../../../trpc'
+import { users } from '@server/db/schema'
+import { authError } from '@server/lib/errors'
+import { publicProcedure } from '@server/trpc'
+import { z } from 'zod'
 
 const loginInput = z.object({
   email: z.string().email(),
@@ -19,9 +22,15 @@ const loginOutput = z.object({
 export const login = publicProcedure
   .input(loginInput)
   .output(loginOutput)
-  .mutation(async ({ input }) => {
+  .mutation(async ({ input, ctx: { db } }) => {
+    const [user] = await db.select().from(users).where(eq(users.email, input.email)).limit(1)
+
+    if (!user) {
+      throw authError('INVALID_CREDENTIALS', 'Invalid email or password.')
+    }
+
     return {
-      user: { id: '1', email: input.email, name: input.email.split('@')[0] },
+      user,
       token: 'dummy-token',
     }
   })

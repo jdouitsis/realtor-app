@@ -1,5 +1,7 @@
 import { useNavigate } from '@tanstack/react-router'
 
+import { parseError } from '@/lib/errors'
+
 import { useAuth } from '../../hooks/useAuth'
 import { RegisterForm, type RegisterFormData } from './components/RegisterForm'
 
@@ -9,7 +11,13 @@ export function RegisterPage() {
 
   const handleSubmit = async (data: RegisterFormData) => {
     await register(data.email, data.password, data.name)
-    void navigate({ to: '/dashboard' })
+      .then(() => {
+        void navigate({ to: '/dashboard' })
+      })
+      .catch((error) => {
+        const parsed = parseError(error)
+        console.error(parsed)
+      })
   }
 
   return (

@@ -1,7 +1,7 @@
+import { users } from '@server/db/schema'
+import { authError } from '@server/lib/errors'
+import { publicProcedure } from '@server/trpc'
 import { z } from 'zod'
-
-import { users } from '../../../db/schema'
-import { publicProcedure } from '../../../trpc'
 
 const registerInput = z.object({
   email: z.string().email(),
@@ -33,6 +33,12 @@ export const register = publicProcedure
         id: users.id,
         email: users.email,
         name: users.name,
+      })
+      .catch(() => {
+        throw authError(
+          'EMAIL_ALREADY_EXISTS',
+          `An account with email ${input.email} already exists.`
+        )
       })
 
     return {

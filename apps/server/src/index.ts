@@ -18,6 +18,26 @@ app.use(
   createExpressMiddleware({
     router: appRouter,
     createContext,
+    onError({ error, ctx, path, input, type }) {
+      console.error(
+        JSON.stringify(
+          {
+            timestamp: new Date().toISOString(),
+            level: 'error',
+            requestId: ctx?.requestId,
+            path,
+            type,
+            code: error.code,
+            message: error.message,
+            // Only include sensitive data in development
+            input: env.isDev ? input : undefined,
+            stack: env.isDev ? error.stack : undefined,
+          },
+          null,
+          env.isDev ? 2 : 0
+        )
+      )
+    },
   })
 )
 
