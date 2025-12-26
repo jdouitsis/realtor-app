@@ -4,13 +4,15 @@ The backend API server for the Finance application. Built with Express and tRPC,
 
 ## Tech Stack
 
-| Technology | Purpose                                      |
-| ---------- | -------------------------------------------- |
-| Express 5  | HTTP server and middleware                   |
-| tRPC 11    | Type-safe API layer with end-to-end typing   |
-| Zod        | Runtime schema validation for inputs/outputs |
-| envalid    | Environment variable validation              |
-| TypeScript | Static type checking                         |
+| Technology  | Purpose                                      |
+| ----------- | -------------------------------------------- |
+| Express 5   | HTTP server and middleware                   |
+| tRPC 11     | Type-safe API layer with end-to-end typing   |
+| Drizzle ORM | Type-safe database queries                   |
+| PostgreSQL  | Relational database                          |
+| Zod         | Runtime schema validation for inputs/outputs |
+| envalid     | Environment variable validation              |
+| TypeScript  | Static type checking                         |
 
 ## Architecture
 
@@ -18,6 +20,9 @@ The backend API server for the Finance application. Built with Express and tRPC,
 src/
 ├── index.ts          # Express server entry point
 ├── env.ts            # Environment configuration (envalid)
+├── db/               # Database client and schema
+│   ├── index.ts      # Drizzle client initialization
+│   └── schema/       # Table definitions (per-domain)
 ├── trpc/             # tRPC initialization and context
 ├── routers/          # App router (combines domain routers)
 └── domains/          # Feature-based domain modules
@@ -47,6 +52,76 @@ pnpm --filter @finance/server dev
 pnpm --filter @finance/server build
 ```
 
+## Database
+
+The server uses [Drizzle ORM](https://orm.drizzle.team/) with PostgreSQL.
+
+### Local Setup
+
+1. Start PostgreSQL using Docker Compose (from repo root):
+   ```bash
+   docker-compose up -d
+   ```
+
+2. Push the schema to the database:
+   ```bash
+   pnpm --filter @finance/server db:push
+   ```
+
+### Commands
+
+| Command       | Description                                       |
+| ------------- | ------------------------------------------------- |
+| `db:generate` | Generate migrations from schema changes           |
+| `db:migrate`  | Run pending migrations                            |
+| `db:push`     | Push schema directly (dev only, skips migrations) |
+| `db:studio`   | Open Drizzle Studio (visual database browser)     |
+
+### Schema Organization
+
+Schemas are organized per-domain in `src/db/schema/`:
+
+```
+src/db/
+├── index.ts          # Database client initialization
+└── schema/
+    ├── index.ts      # Barrel export of all schemas
+    └── auth.ts       # Auth domain tables (users, etc.)
+```
+
+### Adding a New Table
+
+1. Create or update a schema file in `src/db/schema/`:
+   ```typescript
+   // src/db/schema/transactions.ts
+   import { pgTable, text, uuid, decimal, timestamp } from 'drizzle-orm/pg-core'
+
+   export const transactions = pgTable('transactions', {
+     id: uuid('id').primaryKey().defaultRandom(),
+     // ... columns
+   })
+   ```
+
+2. Export from the barrel file:
+   ```typescript
+   // src/db/schema/index.ts
+   export * from './auth'
+   export * from './transactions'
+   ```
+
+3. Generate and run migrations:
+   ```bash
+   pnpm --filter @finance/server db:generate
+   pnpm --filter @finance/server db:migrate
+   ```
+
+### Conventions
+
+- **UUIDs for primary keys** - Use `uuid('id').primaryKey().defaultRandom()`
+- **Timestamps with timezone** - Use `timestamp('created_at', { withTimezone: true })`
+- **Snake_case columns** - Match PostgreSQL conventions (`password_hash`, not `passwordHash`)
+- **Export types** - Export `$inferSelect` and `$inferInsert` types for procedure use
+
 ## Prettier
 
 Run `pnpm format` to format code with Prettier.
@@ -55,14 +130,15 @@ Run `pnpm format` to format code with Prettier.
 
 Imports are automatically sorted using [@ianvs/prettier-plugin-sort-imports](https://github.com/IanVS/prettier-plugin-sort-imports).
 
-| Order | Group            | Pattern              | Examples                              |
-| ----- | ---------------- | -------------------- | ------------------------------------- |
-| 1     | Node.js built-in | `<BUILTIN_MODULES>`  | `fs`, `path`, `crypto`                |
-| 2     | Express          | `express`            | `import express from 'express'`       |
+| Order | Group            | Pattern              | Examples                                        |
+| ----- | ---------------- | -------------------- | ----------------------------------------------- |
+| 1     | Node.js built-in | `<BUILTIN_MODULES>`  | `fs`, `path`, `crypto`                          |
+| 2     | Express          | `express`            | `import express from 'express'`                 |
 | 3     | tRPC             | `@trpc/*`            | `@trpc/server`, `@trpc/server/adapters/express` |
-| 4     | Third-party      | All other externals  | `zod`, `cors`, `envalid`              |
-|       | *(blank line)*   |                      |                                       |
-| 5     | Relative imports | `./`, `../`          | `./routers`, `../trpc`                |
+| 4     | Drizzle          | `drizzle-orm*`       | `drizzle-orm`, `drizzle-orm/pg-core`            |
+| 5     | Third-party      | All other externals  | `zod`, `cors`, `envalid`                        |
+|       | *(blank line)*   |                      |                                                 |
+| 6     | Relative imports | `./`, `../`          | `./routers`, `../trpc`                          |
 
 Type imports are combined inline with value imports. Specifiers within each import statement are sorted alphabetically.
 
@@ -70,11 +146,12 @@ Type imports are combined inline with value imports. Specifiers within each impo
 
 The server loads environment variables from the **repo root** `.env` file. Copy `/.env.example` to `/.env` and configure:
 
-| Variable   | Description                               | Default                 |
-| ---------- | ----------------------------------------- | ----------------------- |
-| `PORT`     | Server port                               | `3001`                  |
-| `NODE_ENV` | Environment (development/production/test) | `development`           |
-| `WEB_URL`  | Frontend URL for CORS                     | `http://localhost:5173` |
+| Variable       | Description                               | Default                                             |
+| -------------- | ----------------------------------------- | --------------------------------------------------- |
+| `PORT`         | Server port                               | `3001`                                              |
+| `NODE_ENV`     | Environment (development/production/test) | `development`                                       |
+| `WEB_URL`      | Frontend URL for CORS                     | `http://localhost:5173`                             |
+| `DATABASE_URL` | PostgreSQL connection string              | `postgresql://postgres:postgres@localhost:5432/postgres` |
 
 ## API Endpoints
 

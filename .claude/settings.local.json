@@ -24,7 +24,9 @@
       "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance add apps/web/src/components/ui/index.ts apps/web/src/components/common/Header.tsx apps/web/src/components/ui/form.tsx apps/web/src/features/README.md apps/web/src/features/auth/pages/LoginPage/components/LoginForm.tsx apps/web/src/features/auth/pages/RegisterPage/components/RegisterForm.tsx apps/web/src/features/dashboard/components/DashboardContent.tsx apps/web/src/features/dashboard/components/Sidebar.tsx apps/web/src/features/public/components/PublicHeader.tsx apps/web/src/features/public/pages/LandingPage.tsx)",
       "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance add apps/web/src/components/ui/index.ts apps/web/src/components/common/Header.tsx apps/web/src/components/ui/form.tsx apps/web/src/features/README.md apps/web/src/features/auth/pages/LoginPage/components/LoginForm.tsx apps/web/src/features/auth/pages/RegisterPage/components/RegisterForm.tsx apps/web/src/features/dashboard/components/DashboardContent.tsx apps/web/src/features/dashboard/components/Sidebar.tsx apps/web/src/features/public/components/PublicHeader.tsx apps/web/src/features/public/pages/LandingPage.tsx)",
       "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance log:*)",
-      "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance diff main...HEAD --stat)"
+      "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance diff main...HEAD --stat)",
+      "Bash(pnpm --filter @finance/server db:push:*)",
+      "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance diff --stat)"
     ]
   }
 }
