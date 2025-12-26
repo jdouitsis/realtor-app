@@ -15,8 +15,7 @@ export function RegisterPage() {
         void navigate({ to: '/dashboard' })
       })
       .catch((error) => {
-        const parsed = parseError(error)
-        console.error(parsed)
+        console.error(parseError(error).debugMessage)
       })
   }
 
