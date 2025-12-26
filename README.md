@@ -18,6 +18,7 @@ A finance application built as a pnpm monorepo with Turborepo orchestration.
 │   ├── web/             # React frontend application
 │   └── server/          # Express + tRPC backend
 ├── docs/SOP/            # Standard operating procedures
+├── docker-compose.yml   # Local PostgreSQL for development
 ├── turbo.json           # Turborepo task configuration
 └── package.json         # Root scripts
 ```
@@ -31,9 +32,40 @@ pnpm install
 # Copy environment variables
 cp .env.example .env
 
+# Start local PostgreSQL database
+docker-compose up -d
+
 # Start development servers
 pnpm dev
 ```
+
+## Local Development
+
+### PostgreSQL
+
+A `docker-compose.yml` is provided for local PostgreSQL development:
+
+```bash
+# Start PostgreSQL
+docker-compose up -d
+
+# Stop PostgreSQL
+docker-compose down
+
+# Stop and remove data
+docker-compose down -v
+```
+
+Connection details:
+
+| Property | Value                                       |
+| -------- | ------------------------------------------- |
+| Host     | `localhost`                                 |
+| Port     | `5432`                                      |
+| Database | `postgres`                                  |
+| User     | `postgres`                                  |
+| Password | `postgres`                                  |
+| URL      | `postgresql://postgres:postgres@localhost:5432/postgres` |
 
 ## Commands
 

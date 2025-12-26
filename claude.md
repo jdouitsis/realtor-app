@@ -57,6 +57,17 @@ Key documentation locations:
 
 ## Rules
 
+### Keep Documentation Updated
+
+When making code changes, update the closest README file with any relevant changes. Walk up the directory tree to find the nearest `.md` file and update it to reflect:
+
+- New files, directories, or patterns introduced
+- Changed commands or configuration
+- New dependencies or environment variables
+- Modified conventions or workflows
+
+This ensures documentation stays in sync with the codebase.
+
 ### Markdown Tables
 
 Format tables with consistent column widths so they are readable in raw markdown, not just when rendered.
