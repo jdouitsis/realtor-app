@@ -59,6 +59,7 @@ The server uses [Drizzle ORM](https://orm.drizzle.team/) with PostgreSQL.
 ### Local Setup
 
 1. Start PostgreSQL using Docker Compose (from repo root):
+
    ```bash
    docker-compose up -d
    ```
@@ -92,9 +93,10 @@ src/db/
 ### Adding a New Table
 
 1. Create or update a schema file in `src/db/schema/`:
+
    ```typescript
    // src/db/schema/transactions.ts
-   import { pgTable, text, uuid, decimal, timestamp } from 'drizzle-orm/pg-core'
+   import { decimal, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 
    export const transactions = pgTable('transactions', {
      id: uuid('id').primaryKey().defaultRandom(),
@@ -103,6 +105,7 @@ src/db/
    ```
 
 2. Export from the barrel file:
+
    ```typescript
    // src/db/schema/index.ts
    export * from './auth'
@@ -128,9 +131,9 @@ src/db/
 
 The server uses TypeScript path aliases for cleaner imports:
 
-| Alias  | Maps To    | Example                          |
-| ------ | ---------- | -------------------------------- |
-| `@/*`  | `./src/*`  | `import { db } from '@/db'`      |
+| Alias | Maps To   | Example                     |
+| ----- | --------- | --------------------------- |
+| `@/*` | `./src/*` | `import { db } from '@/db'` |
 
 Configured in `tsconfig.json` via `baseUrl` and `paths`.
 
@@ -138,18 +141,18 @@ Configured in `tsconfig.json` via `baseUrl` and `paths`.
 
 The server loads environment variables from the **repo root** `.env` file. Copy `/.env.example` to `/.env` and configure:
 
-| Variable       | Description                               | Default                                             |
-| -------------- | ----------------------------------------- | --------------------------------------------------- |
-| `PORT`         | Server port                               | `3001`                                              |
-| `NODE_ENV`     | Environment (development/production/test) | `development`                                       |
-| `WEB_URL`      | Frontend URL for CORS                     | `http://localhost:5173`                             |
+| Variable       | Description                               | Default                                                  |
+| -------------- | ----------------------------------------- | -------------------------------------------------------- |
+| `PORT`         | Server port                               | `3001`                                                   |
+| `NODE_ENV`     | Environment (development/production/test) | `development`                                            |
+| `WEB_URL`      | Frontend URL for CORS                     | `http://localhost:5173`                                  |
 | `DATABASE_URL` | PostgreSQL connection string              | `postgresql://postgres:postgres@localhost:5432/postgres` |
 
 ## API Endpoints
 
-| Endpoint  | Description                    |
-| --------- | ------------------------------ |
-| `/trpc/*` | tRPC API routes                |
+| Endpoint  | Description                               |
+| --------- | ----------------------------------------- |
+| `/trpc/*` | tRPC API routes                           |
 | `/health` | Health check (returns `{ status: 'ok' }`) |
 
 ## Type Sharing
@@ -173,6 +176,6 @@ The server is configured for deployment on Railway:
 
 ## README Index
 
-| README                                   | When to Use                                                    |
-| ---------------------------------------- | -------------------------------------------------------------- |
+| README                                           | When to Use                                                 |
+| ------------------------------------------------ | ----------------------------------------------------------- |
 | [`src/domains/README.md`](src/domains/README.md) | Adding new domains, creating procedures, domain conventions |
