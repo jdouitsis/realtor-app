@@ -211,4 +211,5 @@ The server is configured for deployment on Railway:
 
 | README                                           | When to Use                                                 |
 | ------------------------------------------------ | ----------------------------------------------------------- |
+| [`src/trpc/README.md`](src/trpc/README.md)       | tRPC setup, procedures, middleware, context                 |
 | [`src/domains/README.md`](src/domains/README.md) | Adding new domains, creating procedures, domain conventions |

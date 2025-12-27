@@ -1,4 +1,4 @@
-import { publicProcedure } from '@server/trpc'
+import { protectedProcedure } from '@server/trpc'
 import { z } from 'zod'
 
 import { clearSessionCookie, getSessionToken } from '../lib/cookies'
@@ -8,7 +8,7 @@ const logoutOutput = z.object({
   success: z.boolean(),
 })
 
-export const logout = publicProcedure
+export const logout = protectedProcedure
   .output(logoutOutput)
   .mutation(async ({ ctx: { req, res, db } }) => {
     const token = getSessionToken(req)
