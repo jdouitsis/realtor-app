@@ -1,6 +1,6 @@
 import { users } from '@server/db/schema'
 import { authError } from '@server/lib/errors'
-import { publicProcedure } from '@server/trpc'
+import { createRateLimitMiddleware, publicProcedure } from '@server/trpc'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
 
@@ -16,6 +16,7 @@ const loginOutput = z.object({
 })
 
 export const login = publicProcedure
+  .use(createRateLimitMiddleware('auth'))
   .input(loginInput)
   .output(loginOutput)
   .mutation(async ({ input, ctx: { db } }) => {

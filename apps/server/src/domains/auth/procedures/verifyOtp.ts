@@ -1,6 +1,6 @@
 import { users } from '@server/db/schema'
 import { AppError, AppErrorCode } from '@server/lib/errors'
-import { publicProcedure } from '@server/trpc'
+import { createRateLimitMiddleware, publicProcedure } from '@server/trpc'
 import { eq } from 'drizzle-orm'
 import { match } from 'ts-pattern'
 import { z } from 'zod'
@@ -23,6 +23,7 @@ const verifyOtpOutput = z.object({
 })
 
 export const verifyOtp = publicProcedure
+  .use(createRateLimitMiddleware('otpVerify'))
   .input(verifyOtpInput)
   .output(verifyOtpOutput)
   .mutation(async ({ input, ctx: { db, res } }) => {

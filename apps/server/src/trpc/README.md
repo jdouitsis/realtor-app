@@ -94,6 +94,31 @@ Applied to `protectedProcedure`. Performs:
 3. Throws `UNAUTHORIZED` if missing or invalid
 4. Adds `user` to context on success
 
+### Rate Limit Middleware
+
+Protects endpoints from brute force attacks. Apply via `createRateLimitMiddleware()`:
+
+```typescript
+import { createRateLimitMiddleware, publicProcedure } from '@server/trpc'
+
+export const login = publicProcedure
+  .use(createRateLimitMiddleware('auth'))
+  .input(loginInput)
+  .mutation(...)
+```
+
+Available rate limit types:
+
+| Type         | Limit           | Use Case         |
+| ------------ | --------------- | ---------------- |
+| `auth`       | 5 req / 1 min   | Login, register  |
+| `otpVerify`  | 5 req / 15 min  | OTP verification |
+| `otpRequest` | 3 req / 5 min   | OTP resend       |
+
+To add new rate limit types, update `rateLimitConfigs` in `src/lib/rate-limit.ts`.
+
+See [ADR: Rate Limiting](../../../docs/ADR/2025-12-26-rate-limiting.md) for design decisions.
+
 ## Error Formatting
 
 All errors include:
@@ -110,16 +135,20 @@ All errors include:
 1. Define the middleware in `middlewares.ts`:
 
 ```typescript
-export const rateLimitMiddleware = t.middleware(async ({ ctx, next }) => {
-  // Rate limiting logic
-  return next({ ctx })
+export const myMiddleware = t.middleware(async ({ ctx, next }) => {
+  // Middleware logic here
+  return next({ ctx: { ...ctx, myData: 'value' } })
 })
 ```
 
-2. Create a new procedure or compose with existing ones in `index.ts`:
+2. Either export it for per-procedure use, or compose into a new procedure type in `index.ts`:
 
 ```typescript
-export const rateLimitedProcedure = publicProcedure.use(rateLimitMiddleware)
+// Option A: Per-procedure (like rate limiting)
+export { myMiddleware } from './middlewares'
+
+// Option B: New procedure type (like protectedProcedure)
+export const myProcedure = publicProcedure.use(myMiddleware)
 ```
 
 ## Imports
@@ -127,6 +156,11 @@ export const rateLimitedProcedure = publicProcedure.use(rateLimitMiddleware)
 Always import from `@server/trpc`:
 
 ```typescript
-import { publicProcedure, protectedProcedure, router } from '@server/trpc'
+import {
+  publicProcedure,
+  protectedProcedure,
+  createRateLimitMiddleware,
+  router
+} from '@server/trpc'
 import type { Context, ProtectedContext } from '@server/trpc'
 ```

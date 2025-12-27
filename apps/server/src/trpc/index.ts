@@ -1,9 +1,9 @@
 import type { User } from '../db/schema'
 import { type Context, createContext, router, t } from './init'
-import { authMiddleware, loggingMiddleware } from './middlewares'
+import { authMiddleware, createRateLimitMiddleware, loggingMiddleware } from './middlewares'
 
-// Re-export from init
-export { createContext, router }
+// Re-export from init and middlewares
+export { createContext, createRateLimitMiddleware, router }
 export type { Context }
 
 // Procedures

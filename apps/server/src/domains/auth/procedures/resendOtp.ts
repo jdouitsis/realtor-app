@@ -1,5 +1,5 @@
 import { authError } from '@server/lib/errors'
-import { publicProcedure } from '@server/trpc'
+import { createRateLimitMiddleware, publicProcedure } from '@server/trpc'
 import { z } from 'zod'
 
 import { createOtpCode, getUserEmail, invalidateUserOtps, sendOtpEmail } from '../services/otp'
@@ -13,6 +13,7 @@ const resendOtpOutput = z.object({
 })
 
 export const resendOtp = publicProcedure
+  .use(createRateLimitMiddleware('otpRequest'))
   .input(resendOtpInput)
   .output(resendOtpOutput)
   .mutation(async ({ input, ctx: { db } }) => {
