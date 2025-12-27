@@ -7,7 +7,7 @@ import { cleanEnv, port, str, url } from 'envalid'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const rootDir = path.resolve(__dirname, '../../..')
 
-dotenv.config({ path: path.join(rootDir, '.env') })
+dotenv.config({ path: path.join(rootDir, '.env'), quiet: true })
 
 // eslint-disable-next-line no-restricted-syntax
 export const env = cleanEnv(process.env, {

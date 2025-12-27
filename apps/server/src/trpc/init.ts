@@ -2,7 +2,7 @@ import { initTRPC } from '@trpc/server'
 import type { CreateExpressContextOptions } from '@trpc/server/adapters/express'
 import { ZodError } from 'zod'
 
-import { db } from '../db'
+import { type Database, db } from '../db'
 import { env } from '../env'
 import { AppError } from '../lib/errors'
 import { createRequestLogger } from '../lib/logger'
@@ -12,19 +12,34 @@ function generateRequestId(): string {
   return crypto.randomUUID().replaceAll('-', '_')
 }
 
-// Context
-export function createContext({ req, res }: CreateExpressContextOptions) {
-  const requestId = generateRequestId()
-  const log = createRequestLogger({ requestId })
+/**
+ * Factory function for creating tRPC context with injectable database.
+ * Enables testing with transaction-wrapped db instances.
+ *
+ * @example
+ * // Production (uses default db)
+ * const createContext = createContextFactory()
+ *
+ * // Testing (uses transaction-wrapped db)
+ * const createContext = createContextFactory(testTx)
+ */
+export function createContextFactory(dbOverride?: Database) {
+  return function createContext({ req, res }: CreateExpressContextOptions) {
+    const requestId = generateRequestId()
+    const log = createRequestLogger({ requestId })
 
-  return {
-    req,
-    res,
-    db,
-    requestId,
-    log,
+    return {
+      req,
+      res,
+      db: dbOverride ?? db,
+      requestId,
+      log,
+    }
   }
 }
+
+// Default context factory for production use
+export const createContext = createContextFactory()
 
 export type Context = Awaited<ReturnType<typeof createContext>>
 

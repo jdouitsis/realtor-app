@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist', 'drizzle.config.ts']),
+  globalIgnores(['dist', 'drizzle.config.ts', 'vitest.config.ts']),
   {
     files: ['**/*.ts'],
     plugins: {

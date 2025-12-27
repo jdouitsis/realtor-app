@@ -18,13 +18,17 @@ The backend API server for the Finance application. Built with Express and tRPC,
 
 ```
 src/
-├── index.ts          # Express server entry point
+├── index.ts          # Server startup (calls app.listen)
+├── app.ts            # Express app factory (for testability)
 ├── env.ts            # Environment configuration (envalid)
 ├── db/               # Database client and schema
 │   ├── index.ts      # Drizzle client initialization
 │   └── schema/       # Table definitions (per-domain)
 ├── trpc/             # tRPC initialization and context
 ├── routers/          # App router (combines domain routers)
+├── test/             # Test utilities
+│   ├── setup.ts      # Global test hooks (beforeEach/afterEach)
+│   └── db.ts         # Transaction management for tests
 └── domains/          # Feature-based domain modules
     └── {domain}/
         ├── procedures/   # Individual tRPC procedures
@@ -40,10 +44,91 @@ All commands are run from the monorepo root via Turborepo:
 ```bash
 pnpm dev           # Start dev server with hot reload (tsx watch)
 pnpm build         # Compile TypeScript to dist/
+pnpm test          # Run tests
+pnpm test:watch    # Run tests in watch mode
 pnpm typecheck     # Run TypeScript type checking
 pnpm lint          # Run oxlint, then ESLint
 pnpm format        # Format with Prettier
 ```
+
+## Testing
+
+The server uses [Vitest](https://vitest.dev/) with a typed tRPC client for integration tests.
+
+### Test Isolation
+
+Each test runs within a PostgreSQL transaction that:
+
+1. **Before each test**: Starts a transaction, truncates all tables
+2. **During test**: Seeds data and runs assertions
+3. **After each test**: Rolls back the transaction (all changes undone)
+
+This provides complete isolation between tests without needing to manage cleanup.
+
+### Running Tests
+
+```bash
+pnpm --filter @finance/server test        # Run once
+pnpm --filter @finance/server test:watch  # Watch mode
+```
+
+### Writing Tests
+
+Use `createTestClient()` for typed tRPC procedure calls:
+
+```typescript
+import { TRPCError } from '@trpc/server'
+import { describe, expect, it } from 'vitest'
+
+import { createTestClient } from './trpc-client'
+
+describe('Auth', () => {
+  it('registers a new user', async () => {
+    const client = createTestClient()
+
+    const result = await client.trpc.auth.register({
+      email: 'test@example.com',
+      name: 'Test User',
+    })
+
+    expect(result.userId).toBeDefined()
+  })
+
+  it('rejects duplicate email', async () => {
+    const client = createTestClient()
+    await client.trpc.auth.register({ email: 'test@example.com', name: 'Test' })
+
+    await expect(
+      client.trpc.auth.register({ email: 'test@example.com', name: 'Test' })
+    ).rejects.toThrow(TRPCError)
+  })
+})
+```
+
+The `TestClient` uses `createCaller` to call procedures directly (no HTTP overhead) while still running all middlewares. It manages mock cookies to maintain session state between calls.
+
+For Express routes (like `/health`), use `createTestApp()` with supertest:
+
+```typescript
+import request from 'supertest'
+import { createTestApp } from './db'
+
+it('returns status ok', async () => {
+  const app = createTestApp()
+  const response = await request(app).get('/health')
+  expect(response.status).toBe(200)
+})
+```
+
+### Key Files
+
+| File                      | Purpose                                     |
+| ------------------------- | ------------------------------------------- |
+| `vitest.config.ts`        | Vitest configuration                        |
+| `src/test/setup.ts`       | Global beforeEach/afterEach hooks           |
+| `src/test/db.ts`          | Transaction management, `createTestApp()`   |
+| `src/test/trpc-client.ts` | Typed tRPC client with session management   |
+| `src/app.ts`              | Express app factory (supports db injection) |
 
 ## Linting
 
@@ -230,5 +315,6 @@ The server is configured for deployment on Railway:
 
 | README                                           | When to Use                                                 |
 | ------------------------------------------------ | ----------------------------------------------------------- |
+| [`src/test/README.md`](src/test/README.md)       | Writing tests, TestClient usage, test utilities             |
 | [`src/trpc/README.md`](src/trpc/README.md)       | tRPC setup, procedures, middleware, context                 |
 | [`src/domains/README.md`](src/domains/README.md) | Adding new domains, creating procedures, domain conventions |
