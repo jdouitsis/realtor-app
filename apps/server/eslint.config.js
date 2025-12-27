@@ -1,5 +1,6 @@
 import js from '@eslint/js'
 import globals from 'globals'
+import oxlint from 'eslint-plugin-oxlint'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
@@ -39,4 +40,6 @@ export default defineConfig([
       ],
     },
   },
+  // Disable ESLint rules that oxlint covers (must be last)
+  oxlint.configs['flat/recommended'],
 ])

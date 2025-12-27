@@ -41,9 +41,28 @@ All commands are run from the monorepo root via Turborepo:
 pnpm dev           # Start dev server with hot reload (tsx watch)
 pnpm build         # Compile TypeScript to dist/
 pnpm typecheck     # Run TypeScript type checking
-pnpm lint          # Run ESLint
+pnpm lint          # Run oxlint, then ESLint
 pnpm format        # Format with Prettier
 ```
+
+## Linting
+
+The server uses a two-tier linting setup for optimal performance:
+
+1. **oxlint** - Rust-based linter (50-100x faster), runs first for quick feedback
+2. **ESLint** - Runs second for type-checked rules and plugins oxlint doesn't cover
+
+### Why Both?
+
+| Linter  | Strengths                                         |
+| ------- | ------------------------------------------------- |
+| oxlint  | Speed, core JS/TS rules                           |
+| ESLint  | Type-checked rules, import sorting, custom rules  |
+
+### Configuration
+
+- `eslint.config.js` - ESLint flat config with `eslint-plugin-oxlint` to disable overlapping rules
+- oxlint uses sensible defaults (no config file needed)
 
 To run commands for just this package:
 

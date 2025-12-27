@@ -3,6 +3,7 @@ import storybook from "eslint-plugin-storybook";
 
 import js from '@eslint/js'
 import globals from 'globals'
+import oxlint from 'eslint-plugin-oxlint'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import reactX from 'eslint-plugin-react-x'
@@ -13,6 +14,8 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
   globalIgnores(['dist', '**/*.d.ts']),
+  // Storybook linting for story files
+  ...storybook.configs['flat/recommended'],
   {
     files: ['**/*.{ts,tsx}'],
     plugins: {
@@ -67,4 +70,6 @@ export default defineConfig([
       ],
     },
   },
+  // Disable ESLint rules that oxlint covers (must be last)
+  oxlint.configs['flat/recommended'],
 ])

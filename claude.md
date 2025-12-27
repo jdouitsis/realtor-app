@@ -9,7 +9,7 @@ A finance application built as a pnpm monorepo with Turborepo orchestration.
 - **Forms**: react-hook-form + zod v4
 - **API**: tRPC
 - **Testing**: Vitest, Storybook 10
-- **Tooling**: TypeScript, ESLint (flat config), Prettier, Husky, lint-staged
+- **Tooling**: TypeScript, oxlint + ESLint (flat config), Prettier, Husky, lint-staged
 
 ## Monorepo Structure
 
@@ -36,7 +36,7 @@ A finance application built as a pnpm monorepo with Turborepo orchestration.
 pnpm dev           # Start dev server
 pnpm build         # Build for production
 pnpm typecheck     # Run TypeScript checks
-pnpm lint          # Run ESLint
+pnpm lint          # Run oxlint + ESLint
 pnpm format        # Format with Prettier
 pnpm storybook     # Start Storybook
 ```

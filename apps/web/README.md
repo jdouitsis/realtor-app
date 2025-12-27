@@ -35,10 +35,29 @@ src/
 pnpm dev           # Start dev server (Vite)
 pnpm build         # Production build
 pnpm typecheck     # Run TypeScript checks
-pnpm lint          # Run ESLint
+pnpm lint          # Run oxlint, then ESLint
 pnpm format        # Format with Prettier
 pnpm storybook     # Start Storybook on :6006
 ```
+
+## Linting
+
+The app uses a two-tier linting setup for optimal performance:
+
+1. **oxlint** - Rust-based linter (50-100x faster), runs first for quick feedback
+2. **ESLint** - Runs second for type-checked rules and plugins oxlint doesn't cover
+
+### Why Both?
+
+| Linter  | Strengths                                            |
+| ------- | ---------------------------------------------------- |
+| oxlint  | Speed, core JS/TS rules, basic React hooks           |
+| ESLint  | Type-checked rules, import sorting, React refresh/X  |
+
+### Configuration
+
+- `eslint.config.js` - ESLint flat config with `eslint-plugin-oxlint` to disable overlapping rules
+- oxlint uses sensible defaults (no config file needed)
 
 ## Environment Variables
 
