@@ -95,6 +95,40 @@ Format tables with consistent column widths so they are readable in raw markdown
 | pnpm typecheck | Run TypeScript checks |
 ```
 
+### Function Documentation
+
+Add JSDoc comments to all exported functions. Include a brief description and an `@example` when the usage isn't obvious.
+
+**Format:**
+
+```typescript
+/**
+ * Brief description of what the function does.
+ *
+ * @example
+ * functionName('arg1', 'arg2')
+ */
+export function functionName(arg1: string, arg2: string): ReturnType {
+```
+
+**Good:**
+
+```typescript
+/**
+ * Factory function for "not found" errors.
+ *
+ * @example
+ * throw notFound('User', userId)
+ */
+export function notFound(resource: string, id?: string) {
+```
+
+**Skip docstrings for:**
+
+- React components (props interface is sufficient)
+- Simple one-liner utilities where the name is self-documenting
+- Internal/private functions
+
 ## Git
 
 ### Commit Titles
