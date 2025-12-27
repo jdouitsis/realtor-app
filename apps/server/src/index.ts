@@ -4,6 +4,7 @@ import cors from 'cors'
 import express from 'express'
 
 import { env } from './env'
+import { logger } from './lib/logger'
 import { appRouter } from './routers'
 import { createContext } from './trpc'
 
@@ -18,24 +19,17 @@ app.use(
   createExpressMiddleware({
     router: appRouter,
     createContext,
-    onError({ error, ctx, path, input, type }) {
-      console.error(
-        JSON.stringify(
-          {
-            timestamp: new Date().toISOString(),
-            level: 'error',
-            requestId: ctx?.requestId,
-            path,
-            type,
-            code: error.code,
-            message: error.message,
-            // Only include sensitive data in development
-            input: env.isDev ? input : undefined,
-            stack: env.isDev ? error.stack : undefined,
-          },
-          null,
-          env.isDev ? 2 : 0
-        )
+    onError({ error, ctx, path, type }) {
+      // Use context logger if available, fall back to root logger
+      const log = ctx?.log ?? logger
+      log.error(
+        {
+          path,
+          type,
+          code: error.code,
+          stack: env.isDev ? error.stack : undefined,
+        },
+        error.message
       )
     },
   })
@@ -44,9 +38,5 @@ app.use(
 app.get('/health', (_, res) => res.json({ status: 'ok' }))
 
 app.listen(env.PORT, () => {
-  if (env.isDev) {
-    console.log(`Server running on http://localhost:${env.PORT}`)
-  } else {
-    console.log(`Server running on port ${env.PORT}`)
-  }
+  logger.info({ port: env.PORT, env: env.isDev ? 'development' : 'production' }, 'Server started')
 })

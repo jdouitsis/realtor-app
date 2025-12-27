@@ -16,4 +16,9 @@ export const env = cleanEnv(process.env, {
   DATABASE_URL: url({ devDefault: 'postgresql://postgres:postgres@localhost:5432/postgres' }),
   RESEND_API_KEY: str({ devDefault: '' }),
   FROM_EMAIL: str({ devDefault: 'noreply@localhost' }),
+  LOG_LEVEL: str({
+    devDefault: 'debug',
+    default: 'info',
+    choices: ['trace', 'debug', 'info', 'warn', 'error', 'fatal'],
+  }),
 })

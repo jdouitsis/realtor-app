@@ -147,6 +147,39 @@ The server loads environment variables from the **repo root** `.env` file. Copy 
 | `NODE_ENV`     | Environment (development/production/test) | `development`                                            |
 | `WEB_URL`      | Frontend URL for CORS                     | `http://localhost:5173`                                  |
 | `DATABASE_URL` | PostgreSQL connection string              | `postgresql://postgres:postgres@localhost:5432/postgres` |
+| `LOG_LEVEL`    | Minimum log level                         | `debug` (dev) / `info` (prod)                            |
+
+## Logging
+
+The server uses [Pino](https://getpino.io/) for structured logging. Every request gets a logger with context (requestId, path, input) automatically attached.
+
+### Using the Logger
+
+In procedures, access the logger via `ctx.log`:
+
+```typescript
+export const login = publicProcedure
+  .input(loginInput)
+  .mutation(async ({ input, ctx: { db, log } }) => {
+    log.info({ userId: user.id }, 'User logged in')
+  })
+```
+
+For non-request logging (startup, background jobs):
+
+```typescript
+import { logger } from '@server/lib/logger'
+logger.info({ port }, 'Server started')
+```
+
+### Key Files
+
+| File              | Purpose                              |
+| ----------------- | ------------------------------------ |
+| `src/lib/logger.ts` | Pino configuration, redaction paths |
+| `src/trpc/index.ts` | Logging middleware                  |
+
+See [SOP: Logging](../../docs/SOP/sop-logging.md) for full documentation.
 
 ## API Endpoints
 

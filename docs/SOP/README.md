@@ -7,8 +7,9 @@ This directory contains SOPs for common repository-level tasks.
 | SOP                                                            | When to Use                                                      |
 | -------------------------------------------------------------- | ---------------------------------------------------------------- |
 | [sop-database-migrations.md](./sop-database-migrations.md)     | Schema changes, adding tables, Railway deployment migrations     |
-| [sop-turbo-pack.md](./sop-turbo-pack.md)                       | Adding a new repo-level command (lint, test, build, etc.)        |
+| [sop-logging.md](./sop-logging.md)                             | Server logging, using ctx.log, redaction, troubleshooting        |
 | [sop-trpc-error-handling.md](./sop-trpc-error-handling.md)     | Handling tRPC errors, debugging API issues, adding error codes   |
+| [sop-turbo-pack.md](./sop-turbo-pack.md)                       | Adding a new repo-level command (lint, test, build, etc.)        |
 
 ## When to Consult SOPs
 
@@ -21,3 +22,6 @@ This directory contains SOPs for common repository-level tasks.
 - **Handling tRPC errors** → `sop-trpc-error-handling.md`
 - **Adding custom error codes** → `sop-trpc-error-handling.md`
 - **Debugging API issues** → `sop-trpc-error-handling.md`
+- **Adding logging to procedures** → `sop-logging.md`
+- **Configuring log levels** → `sop-logging.md`
+- **Redacting sensitive data in logs** → `sop-logging.md`

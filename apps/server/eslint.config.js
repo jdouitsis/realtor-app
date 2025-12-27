@@ -29,6 +29,7 @@ export default defineConfig([
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
       ],
+      'no-console': 'error',
       'no-restricted-syntax': [
         'error',
         {
