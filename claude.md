@@ -177,6 +177,7 @@ docs: add contributing guide
 | README                                                               | When to Use                                                       |
 | -------------------------------------------------------------------- | ----------------------------------------------------------------- |
 | [`README.md`](README.md)                                             | Project overview, getting started, Railway deployment             |
+| [`docs/prod-requirements.md`](docs/prod-requirements.md)             | Future production improvements to address before release          |
 | [`docs/SOP/README.md`](docs/SOP/README.md)                           | Repo-level tasks: adding commands, setting up tools, git hooks    |
 | [`docs/ADR/README.md`](docs/ADR/README.md)                           | Architecture decisions and their rationale                        |
 | [`apps/web/README.md`](apps/web/README.md)                           | Understanding the web app structure, commands, and tech stack     |
