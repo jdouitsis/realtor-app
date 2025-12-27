@@ -56,7 +56,15 @@ export default defineConfig([
       '@typescript-eslint/no-unused-vars': [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
-      ]
+      ],
+      // Prevent direct localStorage usage - use createStorage from @/lib/storage instead
+      'no-restricted-globals': [
+        'error',
+        {
+          name: 'localStorage',
+          message: 'Use createStorage from @/lib/storage for type-safe localStorage access.',
+        },
+      ],
     },
   },
 ])

@@ -1,53 +1,30 @@
 import { createContext, useCallback, useEffect, useState } from 'react'
 
+import { useStorage } from '@/lib/storage'
 import { trpcClient } from '@/lib/trpc'
 
-import type { AuthContextValue, User } from '../types/auth.types'
-
-const STORAGE_KEY = 'auth_user'
+import type { AuthContextValue } from '../types/auth.types'
 
 export const AuthContext = createContext<AuthContextValue | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(() => {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    return stored ? (JSON.parse(stored) as User) : null
-  })
+  // User is stored for faster and cleaner state management
+  const [user, setUser, clearUser] = useStorage('auth_user')
   const [isLoading, setIsLoading] = useState(true)
 
   const isAuthenticated = user !== null
 
   // Validate session on mount
   useEffect(() => {
-    async function validateSession() {
-      try {
-        const me = await trpcClient.auth.me.query()
-        if (me) {
-          setUser(me)
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(me))
-        } else {
-          setUser(null)
-          localStorage.removeItem(STORAGE_KEY)
-        }
-      } catch {
-        setUser(null)
-        localStorage.removeItem(STORAGE_KEY)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    void validateSession()
-  }, [])
-
-  // Sync user to localStorage
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(user))
-    } else {
-      localStorage.removeItem(STORAGE_KEY)
-    }
-  }, [user])
+    trpcClient.auth.me
+      .query()
+      .then((me) => {
+        if (me) setUser(me)
+        else clearUser()
+      })
+      .catch(() => clearUser())
+      .finally(() => setIsLoading(false))
+  }, [setUser, clearUser])
 
   const login = useCallback(async (email: string) => {
     const res = await trpcClient.auth.login.mutate({ email })
@@ -59,10 +36,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { userId: res.userId }
   }, [])
 
-  const verifyOtp = useCallback(async (userId: string, code: string) => {
-    const res = await trpcClient.auth.verifyOtp.mutate({ userId, code })
-    setUser(res.user)
-  }, [])
+  const verifyOtp = useCallback(
+    async (userId: string, code: string) => {
+      const res = await trpcClient.auth.verifyOtp.mutate({ userId, code })
+      setUser(res.user)
+    },
+    [setUser]
+  )
 
   const resendOtp = useCallback(async (userId: string) => {
     await trpcClient.auth.resendOtp.mutate({ userId })
@@ -70,8 +50,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(async () => {
     await trpcClient.auth.logout.mutate()
-    setUser(null)
-  }, [])
+    clearUser()
+  }, [clearUser])
 
   return (
     <AuthContext.Provider
