@@ -1,19 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import {
-  Button,
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-  Input,
   Label,
 } from '@/components/ui'
+
+import { OTPInput } from './OTPInput'
 
 const otpSchema = z.object({
   code: z
@@ -47,11 +47,12 @@ export function OtpVerificationForm({
   const canResend = resendCooldown === 0
 
   const {
-    register,
-    handleSubmit,
+    control,
+    reset,
     formState: { errors },
   } = useForm<OtpFormData>({
     resolver: zodResolver(otpSchema),
+    defaultValues: { code: '' },
   })
 
   // Countdown timer for resend
@@ -62,11 +63,14 @@ export function OtpVerificationForm({
     }
   }, [resendCooldown])
 
-  const handleFormSubmit = (data: OtpFormData) => {
-    onSubmit(data.code)
+  const handleComplete = (code: string) => {
+    if (!isLoading) {
+      onSubmit(code)
+    }
   }
 
   const handleResend = () => {
+    reset()
     onResend()
     setResendCooldown(RESEND_COOLDOWN_SECONDS)
   }
@@ -80,27 +84,31 @@ export function OtpVerificationForm({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="code">Verification code</Label>
-            <Input
-              id="code"
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              maxLength={6}
-              placeholder="000000"
-              className="text-center text-2xl tracking-widest"
-              aria-invalid={!!errors.code || !!error}
-              {...register('code')}
-            />
-            {errors.code && <p className="text-sm text-destructive">{errors.code.message}</p>}
-            {error && <p className="text-sm text-destructive">{error}</p>}
-          </div>
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? 'Verifying...' : 'Verify'}
-          </Button>
-        </form>
+        <div className="space-y-3">
+          <Label htmlFor="code" id="code-label" className="sr-only">
+            Verification code
+          </Label>
+          <Controller
+            name="code"
+            control={control}
+            render={({ field }) => (
+              <OTPInput
+                id="code"
+                value={field.value}
+                onChange={field.onChange}
+                onComplete={handleComplete}
+                disabled={isLoading}
+                hasError={!!errors.code || !!error}
+                className="justify-center"
+              />
+            )}
+          />
+          {isLoading && <p className="text-center text-sm text-muted-foreground">Verifying...</p>}
+          {errors.code && (
+            <p className="text-center text-sm text-destructive">{errors.code.message}</p>
+          )}
+          {error && <p className="text-center text-sm text-destructive">{error}</p>}
+        </div>
       </CardContent>
       <CardFooter className="justify-center">
         <p className="text-sm text-muted-foreground">

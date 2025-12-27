@@ -1,7 +1,8 @@
 import { users } from '@server/db/schema'
-import { authError } from '@server/lib/errors'
+import { AppError, AppErrorCode } from '@server/lib/errors'
 import { publicProcedure } from '@server/trpc'
 import { eq } from 'drizzle-orm'
+import { match } from 'ts-pattern'
 import { z } from 'zod'
 
 import { setSessionCookie } from '../lib/cookies'
@@ -28,21 +29,19 @@ export const verifyOtp = publicProcedure
     const result = await verifyOtpCode(db, input.userId, input.code)
 
     if (!result.success) {
-      const errorMap = {
-        expired: { code: 'OTP_EXPIRED', message: 'This code has expired.' },
-        invalid: { code: 'OTP_INVALID', message: 'Invalid code.' },
-        max_attempts: { code: 'OTP_MAX_ATTEMPTS', message: 'Too many attempts.' },
-      } as const
-
-      const { code, message } = errorMap[result.error]
-      throw authError(code, message)
+      const [code, message] = match<typeof result.error, [AppErrorCode, string]>(result.error)
+        .with('expired', () => ['OTP_EXPIRED', 'This code has expired.'])
+        .with('invalid', () => ['OTP_INVALID', 'Invalid code.'])
+        .with('max_attempts', () => ['OTP_MAX_ATTEMPTS', 'Too many attempts.'])
+        .exhaustive()
+      throw new AppError({ code, message })
     }
 
     // Get user
     const [user] = await db.select().from(users).where(eq(users.id, result.userId)).limit(1)
 
     if (!user) {
-      throw authError('OTP_INVALID', 'User not found.')
+      throw new AppError({ code: 'USER_NOT_FOUND', message: 'User not found.' })
     }
 
     // Create session and set cookie
