@@ -13,6 +13,7 @@ dotenv.config({ path: path.join(rootDir, '.env'), quiet: true })
 export const env = cleanEnv(process.env, {
   PORT: port({ devDefault: 3001 }),
   WEB_URL: str({ devDefault: 'http://localhost:5173' }),
+  COOKIE_DOMAIN: str({ devDefault: '', default: '' }),
   DATABASE_URL: url({ devDefault: 'postgresql://postgres:postgres@localhost:5432/postgres' }),
   RESEND_API_KEY: str({ devDefault: '' }),
   FROM_EMAIL: str({ devDefault: 'noreply@localhost' }),

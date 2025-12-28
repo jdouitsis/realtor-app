@@ -12,6 +12,7 @@ export function setSessionCookie(res: Response, token: string): void {
     sameSite: env.isDev ? 'lax' : 'none',
     path: '/',
     maxAge: SESSION_DURATION_MS,
+    ...(env.COOKIE_DOMAIN && { domain: env.COOKIE_DOMAIN }),
   })
 }
 
@@ -21,6 +22,7 @@ export function clearSessionCookie(res: Response): void {
     secure: !env.isDev,
     sameSite: env.isDev ? 'lax' : 'none',
     path: '/',
+    ...(env.COOKIE_DOMAIN && { domain: env.COOKIE_DOMAIN }),
   })
 }
 
