@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm'
 import { UAParser } from 'ua-parser-js'
 import { z } from 'zod'
 
-import { getSessionToken } from '../../auth/lib/cookies'
+import { getSessionToken } from '../../auth/lib/token'
 
 const sessionOutput = z.object({
   id: z.string(),
@@ -40,7 +40,9 @@ function parseUserAgent(userAgent: string | null): {
   const result = parser.getResult()
 
   const browser = result.browser.name
-    ? `${result.browser.name}${result.browser.version ? ` ${result.browser.version.split('.')[0]}` : ''}`
+    ? `${result.browser.name}${
+        result.browser.version ? ` ${result.browser.version.split('.')[0]}` : ''
+      }`
     : null
 
   const os = result.os.name

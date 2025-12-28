@@ -1,13 +1,12 @@
 /* eslint-disable no-restricted-globals */
 import { useCallback, useEffect, useState } from 'react'
 
-
 /**
  * Registry mapping storage keys to their value types.
  * Add new keys here to enable type-safe storage access.
  */
 interface StorageRegistry {
-  auth_user: { id: string; email: string; name: string }
+  auth_token: string
 }
 
 type StorageKey = keyof StorageRegistry
@@ -51,4 +50,29 @@ export function useStorage<K extends StorageKey>(
   }, [key])
 
   return [value, set, clear]
+}
+
+/**
+ * Non-hook localStorage getter for use outside React components.
+ *
+ * @example
+ * const token = getStorage('auth_token')
+ */
+export function getStorage<K extends StorageKey>(key: K): StorageRegistry[K] | null {
+  try {
+    const stored = localStorage.getItem(key)
+    return stored ? (JSON.parse(stored) as StorageRegistry[K]) : null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Non-hook localStorage clearer for use outside React components.
+ *
+ * @example
+ * const token = clearStorage('auth_token')
+ */
+export function clearStorage<K extends StorageKey>(key: K): void {
+  localStorage.removeItem(key)
 }

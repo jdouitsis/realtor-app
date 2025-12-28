@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useState } from 'react'
+import { createContext, useCallback } from 'react'
 
 import { useStorage } from '@/lib/storage'
 import { trpcClient } from '@/lib/trpc'
@@ -8,23 +8,9 @@ import type { AuthContextValue } from '../types/auth.types'
 export const AuthContext = createContext<AuthContextValue | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  // User is stored for faster and cleaner state management
-  const [user, setUser, clearUser] = useStorage('auth_user')
-  const [isLoading, setIsLoading] = useState(true)
+  const [token, setToken, clearToken] = useStorage('auth_token')
 
-  const isAuthenticated = user !== null
-
-  // Validate session on mount
-  useEffect(() => {
-    trpcClient.auth.me
-      .query()
-      .then((me) => {
-        if (me) setUser(me)
-        else clearUser()
-      })
-      .catch(() => clearUser())
-      .finally(() => setIsLoading(false))
-  }, [setUser, clearUser])
+  const isAuthenticated = token !== null
 
   const login = useCallback(async (email: string) => {
     const res = await trpcClient.auth.login.mutate({ email })
@@ -39,9 +25,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const verifyOtp = useCallback(
     async (userId: string, code: string) => {
       const res = await trpcClient.auth.verifyOtp.mutate({ userId, code })
-      setUser(res.user)
+      setToken(res.token)
     },
-    [setUser]
+    [setToken]
   )
 
   const resendOtp = useCallback(async (userId: string) => {
@@ -50,12 +36,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(async () => {
     await trpcClient.auth.logout.mutate()
-    clearUser()
-  }, [clearUser])
+    clearToken()
+  }, [clearToken])
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, isLoading, login, register, verifyOtp, resendOtp, logout }}
+      value={{ isAuthenticated, login, register, verifyOtp, resendOtp, logout }}
     >
       {children}
     </AuthContext.Provider>

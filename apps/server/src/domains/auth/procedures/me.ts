@@ -1,7 +1,7 @@
 import { publicProcedure } from '@server/trpc'
 import { z } from 'zod'
 
-import { getSessionToken } from '../lib/cookies'
+import { getSessionToken } from '../lib/token'
 import { sessionService } from '../services/session'
 
 export const userOutput = z.object({

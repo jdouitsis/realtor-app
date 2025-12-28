@@ -6,7 +6,6 @@ export interface User {
 
 export interface AuthState {
   isAuthenticated: boolean
-  isLoading: boolean
 }
 
 export interface AuthContextValue extends AuthState {

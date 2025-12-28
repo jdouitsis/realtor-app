@@ -5,7 +5,7 @@ import { and, eq, isNull, ne } from 'drizzle-orm'
 import { match } from 'ts-pattern'
 import { z } from 'zod'
 
-import { getSessionToken } from '../../auth/lib/cookies'
+import { getSessionToken } from '../../auth/lib/token'
 import { verifyOtpCode } from '../../auth/services/otp'
 
 const confirmEmailChangeInput = z.object({
@@ -60,13 +60,25 @@ export const confirmEmailChange = protectedProcedure
 
     if (!result.success) {
       const error = match(result.error)
-        .with('expired', () => ({ code: 'OTP_EXPIRED', message: 'Verification code has expired' } as const))
-        .with('max_attempts', () => ({ code: 'OTP_MAX_ATTEMPTS', message: 'Too many attempts. Please request a new code.' } as const))
-        .with('invalid', () => ({ code: 'OTP_INVALID', message: 'Invalid verification code' } as const))
+        .with(
+          'expired',
+          () => ({ code: 'OTP_EXPIRED', message: 'Verification code has expired' }) as const
+        )
+        .with(
+          'max_attempts',
+          () =>
+            ({
+              code: 'OTP_MAX_ATTEMPTS',
+              message: 'Too many attempts. Please request a new code.',
+            }) as const
+        )
+        .with(
+          'invalid',
+          () => ({ code: 'OTP_INVALID', message: 'Invalid verification code' }) as const
+        )
         .exhaustive()
 
       throw new AppError(error)
-
     }
 
     const newEmail = user.pendingEmail

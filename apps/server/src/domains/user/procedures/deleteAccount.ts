@@ -4,8 +4,6 @@ import { sensitiveProtectedProcedure } from '@server/trpc'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
 
-import { clearSessionCookie } from '../../auth/lib/cookies'
-
 const deleteAccountInput = z.object({
   confirmEmail: z.string().email('Invalid email address'),
 })
@@ -23,7 +21,7 @@ const deleteAccountOutput = z.object({
 export const deleteAccount = sensitiveProtectedProcedure
   .input(deleteAccountInput)
   .output(deleteAccountOutput)
-  .mutation(async ({ input, ctx: { db, res, user } }) => {
+  .mutation(async ({ input, ctx: { db, user } }) => {
     // Verify email matches
     if (input.confirmEmail.toLowerCase() !== user.email.toLowerCase()) {
       throw new AppError({
@@ -34,9 +32,6 @@ export const deleteAccount = sensitiveProtectedProcedure
 
     // Delete the user (sessions and OTPs will cascade delete)
     await db.delete(users).where(eq(users.id, user.id))
-
-    // Clear the session cookie
-    clearSessionCookie(res)
 
     return { success: true }
   })

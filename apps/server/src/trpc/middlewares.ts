@@ -1,4 +1,4 @@
-import { getSessionToken } from '@server/domains/auth/lib/cookies'
+import { getSessionToken } from '@server/domains/auth/lib/token'
 import { sessionService } from '@server/domains/auth/services/session'
 import { AppError } from '@server/lib/errors'
 import { getRateLimitConfig, type RateLimitType } from '@server/lib/rate-limit'

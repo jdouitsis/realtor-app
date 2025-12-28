@@ -69,6 +69,8 @@ When making code changes, update the closest README file with any relevant chang
 - New dependencies or environment variables
 - Modified conventions or workflows
 
+**IMPORTANT:** After modifying code, search for READMEs and ADRs that reference the changed files or patterns. Update them in the same session, not as an afterthought.
+
 This ensures documentation stays in sync with the codebase.
 
 ### Markdown Tables

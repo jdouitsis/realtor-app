@@ -3,7 +3,7 @@ import { protectedProcedure } from '@server/trpc'
 import { and, eq, isNull, ne } from 'drizzle-orm'
 import { z } from 'zod'
 
-import { getSessionToken } from '../../auth/lib/cookies'
+import { getSessionToken } from '../../auth/lib/token'
 
 const revokeAllOtherSessionsOutput = z.object({
   success: z.boolean(),

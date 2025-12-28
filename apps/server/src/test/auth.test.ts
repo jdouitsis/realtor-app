@@ -36,8 +36,9 @@ describe('Auth flow: register -> verify -> me -> logout -> login -> verify -> lo
       name: testUser.name,
     })
 
-    // Session cookie should be set
-    expect(client.getSessionCookie()).toBeDefined()
+    // Token should be returned
+    expect(verifyResult.token).toBeDefined()
+    client.setToken(verifyResult.token)
 
     // 3. Verify user is authenticated via /me
     const meResult = await client.trpc.auth.me()
@@ -52,6 +53,7 @@ describe('Auth flow: register -> verify -> me -> logout -> login -> verify -> lo
     const logoutResult = await client.trpc.auth.logout()
 
     expect(logoutResult.success).toBe(true)
+    client.clearToken()
 
     // 5. Verify user is no longer authenticated via /me
     const meAfterLogout = await client.trpc.auth.me()
@@ -77,8 +79,9 @@ describe('Auth flow: register -> verify -> me -> logout -> login -> verify -> lo
       name: testUser.name,
     })
 
-    // New session cookie should be set
-    expect(client.getSessionCookie()).toBeDefined()
+    // New token should be returned
+    expect(verifyLoginResult.token).toBeDefined()
+    client.setToken(verifyLoginResult.token)
 
     // 8. Verify user is authenticated again
     const meReauth = await client.trpc.auth.me()
@@ -93,6 +96,7 @@ describe('Auth flow: register -> verify -> me -> logout -> login -> verify -> lo
     const finalLogout = await client.trpc.auth.logout()
 
     expect(finalLogout.success).toBe(true)
+    client.clearToken()
 
     // 10. Confirm logged out
     const meFinal = await client.trpc.auth.me()

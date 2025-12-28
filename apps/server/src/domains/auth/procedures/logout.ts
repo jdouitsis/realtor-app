@@ -1,7 +1,7 @@
 import { protectedProcedure } from '@server/trpc'
 import { z } from 'zod'
 
-import { clearSessionCookie, getSessionToken } from '../lib/cookies'
+import { getSessionToken } from '../lib/token'
 import { sessionService } from '../services/session'
 
 const logoutOutput = z.object({
@@ -10,13 +10,11 @@ const logoutOutput = z.object({
 
 export const logout = protectedProcedure
   .output(logoutOutput)
-  .mutation(async ({ ctx: { req, res, db } }) => {
+  .mutation(async ({ ctx: { req, db } }) => {
     const token = getSessionToken(req)
     if (token) {
       await sessionService.invalidate(db, token)
     }
-
-    clearSessionCookie(res)
 
     return { success: true }
   })

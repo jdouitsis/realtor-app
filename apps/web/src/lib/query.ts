@@ -1,6 +1,8 @@
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query'
 import { TRPCClientError } from '@trpc/client'
 
+import { clearStorage } from '@/lib/storage'
+
 import { router } from '../router'
 import { parseError } from './errors'
 
@@ -42,7 +44,12 @@ export const queryClient = new QueryClient({
         if (error instanceof TRPCClientError) {
           const data = error.data as TRPCErrorData | undefined
           const code = data?.code
-          if (code === 'UNAUTHORIZED' || code === 'FORBIDDEN') {
+          if (code === 'UNAUTHORIZED') {
+            clearStorage('auth_token')
+            void router.navigate({ to: '/login' })
+            return false
+          }
+          if (code === 'FORBIDDEN') {
             return false
           }
         }
@@ -56,6 +63,12 @@ export const queryClient = new QueryClient({
       if (handleStepUpRedirect(error)) {
         console.log('Step-up OTP redirect')
         return
+      }
+      const parsed = parseError(error)
+      if (parsed.code === 'UNAUTHORIZED') {
+        clearStorage('auth_token')
+        void router.navigate({ to: '/login' })
+        return false
       }
       const info = getErrorInfo(error)
       console.error('[Query Error]', query.queryKey, info)

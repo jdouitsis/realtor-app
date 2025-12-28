@@ -10,32 +10,29 @@ const createCaller = t.createCallerFactory(appRouter)
 /**
  * A typed tRPC caller for integration testing.
  * Calls procedures directly without HTTP, but still runs all middlewares.
- * Manages mock cookies to simulate session state between calls.
+ * Manages Authorization header to simulate session state between calls.
  */
 export class TestClient {
-  private cookies: Record<string, string> = {}
+  private token: string | null = null
 
   private createContext() {
-    const cookies = this.cookies
+    const token = this.token
 
-    // Mock request that reads from our cookie store
+    // Mock request with Authorization header
     const req = {
-      cookies,
+      cookies: {},
       headers: {
         'user-agent': 'TestClient/1.0',
+        ...(token && { authorization: `Bearer ${token}` }),
       },
       ip: '127.0.0.1',
       socket: { remoteAddress: '127.0.0.1' },
     } as unknown as Request
 
-    // Mock response that writes to our cookie store
+    // Mock response (no longer needed for cookies, but kept for interface)
     const res = {
-      cookie: (name: string, value: string) => {
-        cookies[name] = value
-      },
-      clearCookie: (name: string) => {
-        delete cookies[name]
-      },
+      cookie: () => {},
+      clearCookie: () => {},
     } as unknown as Response
 
     return {
@@ -49,24 +46,31 @@ export class TestClient {
 
   /**
    * Returns a typed tRPC caller.
-   * Creates a fresh context for each access, using accumulated cookies.
+   * Creates a fresh context for each access, using accumulated token.
    */
   get trpc() {
     return createCaller(this.createContext())
   }
 
   /**
-   * Clears all cookies (simulates a fresh browser session).
+   * Sets the auth token (simulates storing token after login).
    */
-  clearCookies() {
-    this.cookies = {}
+  setToken(token: string) {
+    this.token = token
   }
 
   /**
-   * Returns the current session cookie if present.
+   * Clears the auth token (simulates logout).
    */
-  getSessionCookie(): string | undefined {
-    return this.cookies['session']
+  clearToken() {
+    this.token = null
+  }
+
+  /**
+   * Returns the current auth token if present.
+   */
+  getToken(): string | null {
+    return this.token
   }
 }
 
@@ -78,7 +82,8 @@ export class TestClient {
  * const client = createTestClient()
  * const { userId } = await client.trpc.auth.register({ email: 'test@example.com', name: 'Test' })
  * const otp = await getLatestOtpCode(userId)
- * const { user } = await client.trpc.auth.verifyOtp({ userId, code: otp })
+ * const { user, token } = await client.trpc.auth.verifyOtp({ userId, code: otp })
+ * client.setToken(token)
  */
 export function createTestClient() {
   return new TestClient()

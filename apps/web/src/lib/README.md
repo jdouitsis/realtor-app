@@ -4,14 +4,14 @@ Core utilities and configurations for the web application.
 
 ## Files
 
-| File                 | Purpose                                           |
-| -------------------- | ------------------------------------------------- |
-| `query.ts`           | TanStack Query client with global error handling  |
-| `trpc.ts`            | tRPC client setup with React Query integration    |
-| `errors.ts`          | Error parsing and user-friendly message mapping   |
-| `storage.ts`         | Type-safe localStorage hook with cross-tab sync   |
-| `router-context.ts`  | TanStack Router context type definitions          |
-| `utils.ts`           | General utilities (`cn` for Tailwind class merge) |
+| File                | Purpose                                           |
+| ------------------- | ------------------------------------------------- |
+| `query.ts`          | TanStack Query client with global error handling  |
+| `trpc.ts`           | tRPC client setup with React Query integration    |
+| `errors.ts`         | Error parsing and user-friendly message mapping   |
+| `storage.ts`        | Type-safe localStorage hook with cross-tab sync   |
+| `router-context.ts` | TanStack Router context type definitions          |
+| `utils.ts`          | General utilities (`cn` for Tailwind class merge) |
 
 ## Error Handling
 
@@ -30,6 +30,7 @@ The `QueryClient` in `query.ts` provides global error handling via `QueryCache` 
 
 ```typescript
 // query.ts handles these globally:
+// - UNAUTHORIZED → clears auth token, redirects to /login
 // - REQUEST_NEW_OTP → redirects to /otp for step-up verification
 // - All errors → logged with request ID for debugging
 ```
@@ -80,7 +81,9 @@ When adding a new `AppErrorCode` in `@finance/shared/errors`:
 The tRPC client (`trpc.ts`) is configured with:
 
 - **`loggerLink`** - Logs requests/responses in development
-- **`httpBatchLink`** - Batches requests, includes credentials for cookies
+- **`httpBatchLink`** - Batches requests, sends `Authorization: Bearer <token>` header
+
+Authentication tokens are stored in localStorage and attached to every request automatically via `getStorage('auth_token')`.
 
 Usage in components:
 
@@ -96,12 +99,21 @@ const mutation = trpc.auth.login.useMutation()
 
 ## Type-Safe Storage
 
-The `useStorage` hook provides type-safe localStorage access:
+The `useStorage` hook provides type-safe localStorage access with cross-tab sync:
 
 ```typescript
 import { useStorage } from '@/lib/storage'
 
-const [user, setUser, clearUser] = useStorage('auth_user')
+const [token, setToken, clearToken] = useStorage('auth_token')
+```
+
+For non-React contexts (e.g., tRPC client, QueryClient), use the standalone functions:
+
+```typescript
+import { getStorage, clearStorage } from '@/lib/storage'
+
+const token = getStorage('auth_token') // Returns typed value or null
+clearStorage('auth_token') // Removes from localStorage
 ```
 
 ### Adding New Storage Keys
@@ -110,7 +122,7 @@ Add the key and type to `StorageRegistry`:
 
 ```typescript
 interface StorageRegistry {
-  auth_user: { id: string; email: string; name: string }
-  theme: 'light' | 'dark'  // Add new keys here
+  auth_token: string
+  theme: 'light' | 'dark' // Add new keys here
 }
 ```

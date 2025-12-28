@@ -1,6 +1,8 @@
 import type { AppRouter } from '@finance/server/trpc'
 import { createTRPCReact, httpBatchLink, loggerLink } from '@trpc/react-query'
 
+import { getStorage } from './storage'
+
 export const trpc = createTRPCReact<AppRouter>()
 
 export const trpcClient = trpc.createClient({
@@ -11,8 +13,9 @@ export const trpcClient = trpc.createClient({
     }),
     httpBatchLink({
       url: `${import.meta.env.VITE_API_URL}/trpc`,
-      fetch(url, options) {
-        return fetch(url, { ...options, credentials: 'include' })
+      headers() {
+        const token = getStorage('auth_token')
+        return token ? { Authorization: `Bearer ${token}` } : {}
       },
     }),
   ],

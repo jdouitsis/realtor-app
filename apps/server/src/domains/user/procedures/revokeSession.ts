@@ -4,7 +4,7 @@ import { protectedProcedure } from '@server/trpc'
 import { and, eq, isNull } from 'drizzle-orm'
 import { z } from 'zod'
 
-import { getSessionToken } from '../../auth/lib/cookies'
+import { getSessionToken } from '../../auth/lib/token'
 
 const revokeSessionInput = z.object({
   sessionId: z.string().uuid(),

@@ -5,7 +5,6 @@ import { eq } from 'drizzle-orm'
 import { match } from 'ts-pattern'
 import { z } from 'zod'
 
-import { setSessionCookie } from '../lib/cookies'
 import { verifyOtpCode } from '../services/otp'
 import { sessionService } from '../services/session'
 
@@ -20,13 +19,14 @@ const verifyOtpOutput = z.object({
     email: z.string(),
     name: z.string(),
   }),
+  token: z.string(),
 })
 
 export const verifyOtp = publicProcedure
   .use(createRateLimitMiddleware('otpVerify'))
   .input(verifyOtpInput)
   .output(verifyOtpOutput)
-  .mutation(async ({ input, ctx: { db, req, res } }) => {
+  .mutation(async ({ input, ctx: { db, req } }) => {
     const result = await verifyOtpCode(db, input.userId, input.code)
 
     if (!result.success) {
@@ -45,12 +45,11 @@ export const verifyOtp = publicProcedure
       throw new AppError({ code: 'USER_NOT_FOUND', message: 'User not found.' })
     }
 
-    // Create session and set cookie
+    // Create session
     const sessionToken = await sessionService.create(db, user.id, {
       userAgent: req.headers['user-agent'],
       ipAddress: req.ip ?? req.headers['x-forwarded-for']?.toString().split(',')[0],
     })
-    setSessionCookie(res, sessionToken)
 
     return {
       user: {
@@ -58,5 +57,6 @@ export const verifyOtp = publicProcedure
         email: user.email,
         name: user.name,
       },
+      token: sessionToken,
     }
   })
