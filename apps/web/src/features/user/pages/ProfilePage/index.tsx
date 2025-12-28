@@ -1,3 +1,4 @@
+import { parseError } from '@/lib/errors'
 import { trpc } from '@/lib/trpc'
 
 import { DeleteAccountSection } from './components/DeleteAccountSection'
@@ -25,10 +26,14 @@ export function ProfilePage() {
   }
 
   if (profileQuery.error || !profile) {
+    const parsed = parseError(profileQuery.error)
+    console.error(parsed)
     return (
       <>
         <h1 className="text-3xl font-bold mb-6 mr-auto">Profile</h1>
         <p className="text-destructive">Failed to load profile</p>
+        <p className="text-destructive">{parsed.userMessage}</p>
+        <p className="text-destructive">Request ID: {parsed.requestId}</p>
       </>
     )
   }
