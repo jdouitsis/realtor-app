@@ -9,7 +9,7 @@ export function setSessionCookie(res: Response, token: string): void {
   res.cookie(SESSION_COOKIE_NAME, token, {
     httpOnly: true,
     secure: !env.isDev,
-    sameSite: env.isDev ? 'lax' : 'none',
+    sameSite: env.isDev || env.COOKIE_DOMAIN ? 'lax' : 'none',
     path: '/',
     maxAge: SESSION_DURATION_MS,
     ...(env.COOKIE_DOMAIN && { domain: env.COOKIE_DOMAIN }),
@@ -20,7 +20,7 @@ export function clearSessionCookie(res: Response): void {
   res.clearCookie(SESSION_COOKIE_NAME, {
     httpOnly: true,
     secure: !env.isDev,
-    sameSite: env.isDev ? 'lax' : 'none',
+    sameSite: env.isDev || env.COOKIE_DOMAIN ? 'lax' : 'none',
     path: '/',
     ...(env.COOKIE_DOMAIN && { domain: env.COOKIE_DOMAIN }),
   })
