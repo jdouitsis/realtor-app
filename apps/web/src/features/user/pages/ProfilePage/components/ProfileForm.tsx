@@ -21,7 +21,7 @@ export function ProfileForm({ initialName, onSuccess }: ProfileFormProps) {
     register,
     handleSubmit,
     formState: { errors, isDirty },
-    setValue,
+    resetField,
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: { name: initialName },
@@ -32,7 +32,7 @@ export function ProfileForm({ initialName, onSuccess }: ProfileFormProps) {
   const updateName = trpc.user.updateName.useMutation({
     onSuccess: (data) => {
       utils.auth.me.setData(undefined, (prev) => (prev ? { ...prev, name: data.name } : prev))
-      setValue('name', data.name)
+      resetField('name', { defaultValue: data.name })
       onSuccess?.()
     },
   })
