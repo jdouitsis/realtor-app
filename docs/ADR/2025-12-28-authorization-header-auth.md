@@ -112,5 +112,6 @@ Login redirects to API domain to set cookie as first-party, then redirects back.
 - `apps/server/src/domains/auth/procedures/verifyOtp.ts` returns token in response
 - `apps/web/src/lib/storage.ts` added `auth_token` to registry, `getStorage()` and `clearStorage()` functions
 - `apps/web/src/lib/trpc.ts` sends Authorization header
-- `apps/web/src/lib/query.ts` clears token on UNAUTHORIZED errors and redirects to login
-- `apps/web/src/features/auth/context/AuthContext.tsx` simplified to token-only storage
+- `apps/web/src/lib/query.ts` clears token on UNAUTHORIZED errors and invalidates router
+
+**Note:** AuthContext was later removed in favor of router-based auth. See [Router-Based Auth](./2025-12-28-router-based-auth.md).

@@ -68,10 +68,20 @@ export function getStorage<K extends StorageKey>(key: K): StorageRegistry[K] | n
 }
 
 /**
+ * Non-hook localStorage setter for use outside React components.
+ *
+ * @example
+ * setStorage('auth_token', 'abc123')
+ */
+export function setStorage<K extends StorageKey>(key: K, value: StorageRegistry[K]): void {
+  localStorage.setItem(key, JSON.stringify(value))
+}
+
+/**
  * Non-hook localStorage clearer for use outside React components.
  *
  * @example
- * const token = clearStorage('auth_token')
+ * clearStorage('auth_token')
  */
 export function clearStorage<K extends StorageKey>(key: K): void {
   localStorage.removeItem(key)

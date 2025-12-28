@@ -1,17 +1,16 @@
-import { useNavigate } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 
 import { Button } from '@/components/ui'
-import { useAuth } from '@/features/auth'
 import { trpc } from '@/lib/trpc'
 
+const routeApi = getRouteApi('/_authenticated')
+
 export function Header() {
+  const { auth } = routeApi.useRouteContext()
   const { data: user } = trpc.auth.me.useQuery()
-  const { logout } = useAuth()
-  const navigate = useNavigate()
 
   const handleLogout = async () => {
-    await logout()
-    void navigate({ to: '/' })
+    await auth.logout()
   }
 
   return (

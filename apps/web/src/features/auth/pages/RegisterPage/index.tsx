@@ -1,11 +1,12 @@
-import { useNavigate } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import { parseError } from '@/lib/errors'
 
 import { OtpVerificationForm } from '../../components/OtpVerificationForm'
-import { useAuth } from '../../hooks/useAuth'
 import { RegisterForm, type RegisterFormData } from './components/RegisterForm'
+
+const routeApi = getRouteApi('/_public/register')
 
 type Step = 'register' | 'otp'
 
@@ -15,8 +16,8 @@ interface OtpState {
 }
 
 export function RegisterPage() {
-  const navigate = useNavigate()
-  const { register, verifyOtp, resendOtp } = useAuth()
+  const { auth } = routeApi.useRouteContext()
+  const navigate = routeApi.useNavigate()
 
   const [step, setStep] = useState<Step>('register')
   const [otpState, setOtpState] = useState<OtpState | null>(null)
@@ -27,7 +28,7 @@ export function RegisterPage() {
     setIsLoading(true)
     setError(undefined)
     try {
-      const { userId } = await register(data.email, data.name)
+      const { userId } = await auth.register(data.email, data.name)
       setOtpState({ userId, email: data.email })
       setStep('otp')
     } catch (err) {
@@ -42,7 +43,7 @@ export function RegisterPage() {
     setIsLoading(true)
     setError(undefined)
     try {
-      await verifyOtp(otpState.userId, code)
+      await auth.verifyOtp(otpState.userId, code)
       void navigate({ to: '/dashboard' })
     } catch (err) {
       setError(parseError(err).userMessage)
@@ -55,7 +56,7 @@ export function RegisterPage() {
     if (!otpState) return
     setError(undefined)
     try {
-      await resendOtp(otpState.userId)
+      await auth.resendOtp(otpState.userId)
     } catch (err) {
       setError(parseError(err).userMessage)
     }

@@ -6,6 +6,7 @@ This directory contains Architecture Decision Records (ADRs) documenting signifi
 
 | Date       | Decision                                                                      | Summary                                                                     |
 | ---------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| 2025-12-28 | [Router-Based Auth](./2025-12-28-router-based-auth.md)                        | Auth via router context + factory pattern, replaces React Context           |
 | 2025-12-28 | [Authorization Header Auth](./2025-12-28-authorization-header-auth.md)        | Use Authorization header + localStorage instead of cookies (Safari fix)     |
 | 2025-12-27 | [Step-Up Authentication](./2025-12-27-step-up-authentication.md)              | Require recent OTP verification for sensitive operations (email, delete)    |
 | 2025-12-26 | [Server Path Alias](./2025-12-26-server-path-alias.md)                        | Use `@server/*` instead of `@/*` in server to avoid cross-package conflicts |

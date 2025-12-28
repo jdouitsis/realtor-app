@@ -31,9 +31,7 @@ This directory contains feature modules for the application. Each feature is a s
 features/
 ├── auth/                    # Authentication feature
 │   ├── components/          # Shared components (used by multiple pages)
-│   │   └── AuthHeader.tsx
-│   ├── hooks/               # Shared hooks (used by multiple pages)
-│   │   └── useAuth.ts
+│   │   └── OtpVerificationForm.tsx
 │   ├── pages/               # Page directories
 │   │   ├── LoginPage/       # Each page has its own directory
 │   │   │   ├── index.tsx    # The page component
@@ -102,15 +100,15 @@ When a component or hook is used by **multiple pages** within the same feature, 
 ```
 auth/
 ├── components/              # Shared across auth pages
-│   └── AuthHeader.tsx       # Used by both LoginPage and RegisterPage
-├── hooks/
-│   └── useAuth.ts           # Used by multiple auth pages
+│   └── OtpVerificationForm.tsx  # Used by both LoginPage and RegisterPage
 └── pages/
     ├── LoginPage/
     └── RegisterPage/
 ```
 
 These **should be exported** from `index.ts` if needed by other features.
+
+> **Note on Auth**: Authentication is managed via `lib/auth.ts` and accessed from route context using `getRouteApi('/route-path').useRouteContext()`. Components call `auth.login()`, `auth.logout()`, etc. See `lib/auth.ts` for the full API.
 
 ### Decision Flow
 
@@ -233,13 +231,10 @@ export { LoginPage } from './pages/LoginPage'
 export { RegisterPage } from './pages/RegisterPage'
 
 // Shared components - only if used by other features
-export { AuthHeader } from './components/AuthHeader'
-
-// Shared hooks - only if used by other features
-export { useAuth } from './hooks/useAuth'
+export { OtpVerificationForm } from './components/OtpVerificationForm'
 
 // Types - export public types
-export type { User, AuthState } from './types'
+export type { User, AuthState } from './types/auth.types'
 
 // DO NOT export page-specific components like LoginForm
 // They are internal to the page directory
@@ -346,18 +341,22 @@ Use the `@/` alias for absolute imports:
 
 ```tsx
 // Shared UI components
+import { Button } from '@/components/ui'
 // Shared common components
 import { Header } from '@/components/common/Header'
-import { Button } from '@/components/ui'
-// Feature imports (from other features if needed)
-import { useAuth } from '@/features/auth'
+// Route API for accessing route context
+import { getRouteApi } from '@tanstack/react-router'
 
 // Shared feature components (from page to feature level)
-import { AuthHeader } from '../../components/AuthHeader'
+import { OtpVerificationForm } from '../../components/OtpVerificationForm'
 // Page-specific components (from page to its components/)
 import { LoginForm } from './components/LoginForm'
 // Page-specific hooks (from page to its hooks/)
 import { useLoginForm } from './hooks/useLoginForm'
+
+// Access auth from route context
+const routeApi = getRouteApi('/_authenticated/profile')
+const { auth } = routeApi.useRouteContext()
 ```
 
 ## Checklist for New Features

@@ -6,12 +6,96 @@ Core utilities and configurations for the web application.
 
 | File                | Purpose                                           |
 | ------------------- | ------------------------------------------------- |
+| `auth.ts`           | Auth factory with router invalidation             |
 | `query.ts`          | TanStack Query client with global error handling  |
 | `trpc.ts`           | tRPC client setup with React Query integration    |
 | `errors.ts`         | Error parsing and user-friendly message mapping   |
 | `storage.ts`        | Type-safe localStorage hook with cross-tab sync   |
 | `router-context.ts` | TanStack Router context type definitions          |
 | `utils.ts`          | General utilities (`cn` for Tailwind class merge) |
+
+## Authentication
+
+Authentication is managed via `auth.ts` and integrated with TanStack Router's context system.
+
+### Architecture
+
+```
+App.tsx
+  │
+  ├── createAuth(router) → Auth object with router.invalidate() baked in
+  │
+  └── <RouterProvider context={{ auth }}>
+        │
+        └── Route components access via getRouteApi().useRouteContext()
+```
+
+### Auth Factory (`auth.ts`)
+
+The `createAuth` factory takes the router and returns an auth object:
+
+```typescript
+export function createAuth(router: RouterLike): Auth {
+  return {
+    get isAuthenticated() {
+      return getStorage('auth_token') !== null
+    },
+    async verifyOtp(userId, code) {
+      const res = await trpcClient.auth.verifyOtp.mutate({ userId, code })
+      setStorage('auth_token', res.token)
+      void router.invalidate() // Triggers route guards to re-evaluate
+    },
+    async logout() {
+      await trpcClient.auth.logout.mutate()
+      clearStorage('auth_token')
+      void router.invalidate() // Triggers redirect to login
+    },
+    // ...other methods
+  }
+}
+```
+
+### Accessing Auth in Components
+
+Components access auth from route context using `getRouteApi`:
+
+```typescript
+import { getRouteApi } from '@tanstack/react-router'
+
+const routeApi = getRouteApi('/_authenticated')
+
+function Header() {
+  const { auth } = routeApi.useRouteContext()
+
+  const handleLogout = async () => {
+    await auth.logout() // Clears token, invalidates router, redirects to login
+  }
+}
+```
+
+### How Router Invalidation Works
+
+When `router.invalidate()` is called:
+
+1. All matched routes re-run their `beforeLoad` guards
+2. `beforeLoad` checks `context.auth.isAuthenticated` (getter reads from localStorage)
+3. If not authenticated, `_authenticated` routes redirect to `/login`
+4. If authenticated, `_public` routes redirect to `/dashboard`
+
+This eliminates the need for explicit navigation after login/logout.
+
+### Cross-Tab Sync
+
+When the auth token changes in another browser tab, the router invalidates automatically:
+
+```typescript
+// router.ts
+window.addEventListener('storage', (event) => {
+  if (event.key === 'auth_token') {
+    void router.invalidate()
+  }
+})
+```
 
 ## Error Handling
 
@@ -30,7 +114,7 @@ The `QueryClient` in `query.ts` provides global error handling via `QueryCache` 
 
 ```typescript
 // query.ts handles these globally:
-// - UNAUTHORIZED → clears auth token, redirects to /login
+// - UNAUTHORIZED → clears auth token, invalidates router (triggers redirect via route guards)
 // - REQUEST_NEW_OTP → redirects to /otp for step-up verification
 // - All errors → logged with request ID for debugging
 ```

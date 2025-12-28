@@ -1,5 +1,5 @@
-import type { AuthContextValue } from '@/features/auth'
+import type { Auth } from '@/lib/auth'
 
 export interface RouterContext {
-  auth: AuthContextValue
+  auth: Auth
 }

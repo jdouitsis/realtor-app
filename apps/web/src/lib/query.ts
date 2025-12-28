@@ -1,3 +1,15 @@
+/**
+ * TanStack Query client with global error handling.
+ *
+ * Key behaviors:
+ * - UNAUTHORIZED errors: Clears auth token and calls router.invalidate()
+ *   which triggers route guards to re-evaluate and redirect to /login
+ * - REQUEST_NEW_OTP errors: Redirects to /otp for step-up verification
+ * - All errors: Logged with request ID for debugging
+ *
+ * @see ../router.ts for cross-tab sync (storage event listener)
+ * @see ../../docs/ADR/2025-12-28-router-based-auth.md for architecture details
+ */
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query'
 import { TRPCClientError } from '@trpc/client'
 
@@ -40,13 +52,13 @@ export const queryClient = new QueryClient({
       staleTime: 1000 * 60, // 1 minute
       refetchOnWindowFocus: false,
       retry: (failureCount, error) => {
-        // Don't retry on auth errors - user needs to re-authenticate
+        // Don't retry on auth errors - invalidate router to trigger route guard redirect
         if (error instanceof TRPCClientError) {
           const data = error.data as TRPCErrorData | undefined
           const code = data?.code
           if (code === 'UNAUTHORIZED') {
             clearStorage('auth_token')
-            void router.navigate({ to: '/login' })
+            void router.invalidate() // Route guards check isAuthenticated and redirect to /login
             return false
           }
           if (code === 'FORBIDDEN') {
@@ -67,8 +79,8 @@ export const queryClient = new QueryClient({
       const parsed = parseError(error)
       if (parsed.code === 'UNAUTHORIZED') {
         clearStorage('auth_token')
-        void router.navigate({ to: '/login' })
-        return false
+        void router.invalidate() // Route guards check isAuthenticated and redirect to /login
+        return
       }
       const info = getErrorInfo(error)
       console.error('[Query Error]', query.queryKey, info)

@@ -19,12 +19,14 @@ export const Route = createFileRoute('/_authenticated')({
 
 function AuthenticatedLayout() {
   return (
-    <div className="flex h-full">
+    <div className="flex h-full w-full">
       <Sidebar />
-      <div className="flex flex-1 flex-col min-h-0">
+      <div className="flex flex-1 flex-col min-h-0 w-full">
         <Header />
-        <main className="flex-1 overflow-y-auto max-w-4xl w-full mx-auto px-6 py-6">
-          <Outlet />
+        <main className="flex-1 overflow-y-auto px-6 py-6 w-full">
+          <div className="max-w-4xl mx-auto">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

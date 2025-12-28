@@ -1,11 +1,12 @@
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { getRouteApi } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import { parseError } from '@/lib/errors'
 
 import { OtpVerificationForm } from '../../components/OtpVerificationForm'
-import { useAuth } from '../../hooks/useAuth'
 import { LoginForm, type LoginFormData } from './components/LoginForm'
+
+const routeApi = getRouteApi('/_public/login')
 
 type Step = 'email' | 'otp'
 
@@ -15,9 +16,9 @@ interface OtpState {
 }
 
 export function LoginPage() {
-  const navigate = useNavigate()
-  const search = useSearch({ from: '/_public/login' })
-  const { login, verifyOtp, resendOtp } = useAuth()
+  const { auth } = routeApi.useRouteContext()
+  const navigate = routeApi.useNavigate()
+  const { redirect } = routeApi.useSearch()
 
   const [step, setStep] = useState<Step>('email')
   const [otpState, setOtpState] = useState<OtpState | null>(null)
@@ -28,7 +29,7 @@ export function LoginPage() {
     setIsLoading(true)
     setError(undefined)
     try {
-      const { userId } = await login(data.email)
+      const { userId } = await auth.login(data.email)
       setOtpState({ userId, email: data.email })
       setStep('otp')
     } catch (err) {
@@ -43,8 +44,8 @@ export function LoginPage() {
     setIsLoading(true)
     setError(undefined)
     try {
-      await verifyOtp(otpState.userId, code)
-      void navigate({ to: search.redirect ?? '/dashboard' })
+      await auth.verifyOtp(otpState.userId, code)
+      void navigate({ to: redirect ?? '/dashboard' })
     } catch (err) {
       setError(parseError(err).userMessage)
     } finally {
@@ -56,7 +57,7 @@ export function LoginPage() {
     if (!otpState) return
     setError(undefined)
     try {
-      await resendOtp(otpState.userId)
+      await auth.resendOtp(otpState.userId)
     } catch (err) {
       setError(parseError(err).userMessage)
     }
