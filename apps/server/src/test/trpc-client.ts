@@ -39,7 +39,7 @@ export class TestClient {
       req,
       res,
       db: getCurrentTx(),
-      requestId: crypto.randomUUID().replaceAll('-', '_'),
+      requestId: `req_${crypto.randomUUID().replaceAll('-', '_')}`,
       log: createRequestLogger({ requestId: 'test' }),
     }
   }
