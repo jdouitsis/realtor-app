@@ -18,14 +18,14 @@ export const me = publicProcedure
       return null
     }
 
-    const user = await sessionService.validate(db, token)
-    if (!user) {
+    const result = await sessionService.validate(db, token)
+    if (!result) {
       return null
     }
 
     return {
-      id: user.id,
-      email: user.email,
-      name: user.name,
+      id: result.user.id,
+      email: result.user.email,
+      name: result.user.name,
     }
   })

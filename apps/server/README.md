@@ -168,9 +168,9 @@ The server uses [Drizzle ORM](https://orm.drizzle.team/) with PostgreSQL.
    docker-compose up -d
    ```
 
-2. Push the schema to the database:
+2. Apply migrations to the database:
    ```bash
-   pnpm --filter @finance/server db:push
+   pnpm --filter @finance/server db:migrate
    ```
 
 ### Commands

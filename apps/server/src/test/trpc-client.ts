@@ -21,6 +21,9 @@ export class TestClient {
     // Mock request that reads from our cookie store
     const req = {
       cookies,
+      headers: {
+        'user-agent': 'TestClient/1.0',
+      },
       ip: '127.0.0.1',
       socket: { remoteAddress: '127.0.0.1' },
     } as unknown as Request

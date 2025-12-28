@@ -1,14 +1,13 @@
 /* eslint-disable no-restricted-globals */
 import { useCallback, useEffect, useState } from 'react'
 
-import type { User } from '@/features/auth/types/auth.types'
 
 /**
  * Registry mapping storage keys to their value types.
  * Add new keys here to enable type-safe storage access.
  */
 interface StorageRegistry {
-  auth_user: User
+  auth_user: { id: string; email: string; name: string }
 }
 
 type StorageKey = keyof StorageRegistry

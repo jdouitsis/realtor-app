@@ -1,5 +1,6 @@
 import { getSessionToken } from '@server/domains/auth/lib/cookies'
 import { sessionService } from '@server/domains/auth/services/session'
+import { AppError } from '@server/lib/errors'
 import { getRateLimitConfig, type RateLimitType } from '@server/lib/rate-limit'
 import { TRPCError } from '@trpc/server'
 import { RateLimiterMemory } from 'rate-limiter-flexible'
@@ -76,7 +77,7 @@ export const loggingMiddleware = t.middleware(async ({ ctx, path, type, input, n
   }
 })
 
-/** Validates session and injects user into context */
+/** Validates session and injects user + session into context */
 export const authMiddleware = t.middleware(async ({ ctx, next }) => {
   const token = getSessionToken(ctx.req)
   if (!token) {
@@ -86,13 +87,43 @@ export const authMiddleware = t.middleware(async ({ ctx, next }) => {
     })
   }
 
-  const user = await sessionService.validate(ctx.db, token)
-  if (!user) {
+  const result = await sessionService.validate(ctx.db, token)
+  if (!result) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
       message: 'Invalid or expired session',
     })
   }
 
-  return next({ ctx: { ...ctx, user } })
+  return next({ ctx: { ...ctx, user: result.user, session: result.session } })
+})
+
+const FRESH_OTP_DURATION_MS = 15 * 60 * 1000 // 15 minutes
+
+/**
+ * Requires a fresh OTP verification (within last 15 minutes) for sensitive actions.
+ * Must be used after authMiddleware.
+ * Throws REQUEST_NEW_OTP error if OTP verification is stale or missing.
+ */
+export const freshOtpMiddleware = t.middleware(async ({ ctx, next }) => {
+  const session = (ctx as { session?: { lastOtpVerifiedAt: Date | null } }).session
+
+  if (!session) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: 'freshOtpMiddleware must be used after authMiddleware',
+    })
+  }
+
+  const lastVerified = session.lastOtpVerifiedAt
+  const now = Date.now()
+
+  if (!lastVerified || now - lastVerified.getTime() > FRESH_OTP_DURATION_MS) {
+    throw new AppError({
+      code: 'REQUEST_NEW_OTP',
+      message: 'Please verify your identity to continue.',
+    })
+  }
+
+  return next({ ctx })
 })

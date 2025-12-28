@@ -26,7 +26,7 @@ export const verifyOtp = publicProcedure
   .use(createRateLimitMiddleware('otpVerify'))
   .input(verifyOtpInput)
   .output(verifyOtpOutput)
-  .mutation(async ({ input, ctx: { db, res } }) => {
+  .mutation(async ({ input, ctx: { db, req, res } }) => {
     const result = await verifyOtpCode(db, input.userId, input.code)
 
     if (!result.success) {
@@ -46,7 +46,10 @@ export const verifyOtp = publicProcedure
     }
 
     // Create session and set cookie
-    const sessionToken = await sessionService.create(db, user.id)
+    const sessionToken = await sessionService.create(db, user.id, {
+      userAgent: req.headers['user-agent'],
+      ipAddress: req.ip ?? req.headers['x-forwarded-for']?.toString().split(',')[0],
+    })
     setSessionCookie(res, sessionToken)
 
     return {

@@ -4,9 +4,7 @@ import { Button } from '@/components/ui'
 
 const navItems = [
   { label: 'Overview', href: '/dashboard' },
-  { label: 'Transactions', href: '/dashboard/transactions' },
-  { label: 'Reports', href: '/dashboard/reports' },
-  { label: 'Settings', href: '/dashboard/settings' },
+  { label: 'Profile', href: '/profile' },
 ]
 
 export function Sidebar() {

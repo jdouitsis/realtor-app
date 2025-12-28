@@ -15,6 +15,13 @@
       "when": 1766774796849,
       "tag": "0001_thick_marten_broadcloak",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1766875623920,
+      "tag": "0002_silky_tiger_shark",
+      "breakpoints": true
     }
   ]
 }

@@ -95,6 +95,23 @@ Format tables with consistent column widths so they are readable in raw markdown
 | pnpm typecheck | Run TypeScript checks |
 ```
 
+### Database Migrations
+
+Never use `db:push` for schema changes. Always generate and apply migrations:
+
+```bash
+pnpm --filter @finance/server db:generate  # Generate migration file
+pnpm --filter @finance/server db:migrate   # Apply migrations
+```
+
+This ensures migration files are tracked in git and can be applied consistently across all environments (development, CI, production).
+
+### Soft Deletions
+
+Always use soft deletions (adding a `deleted_at` timestamp column) instead of hard deletions (`DELETE FROM`). This preserves data for auditing, recovery, and referential integrity.
+
+**Hard deletions require explicit dev approval.** If a task genuinely requires permanently removing data, ask the dev to confirm before implementing.
+
 ### Function Documentation
 
 Add JSDoc comments to all exported functions. Include a brief description and an `@example` when the usage isn't obvious.
@@ -181,6 +198,7 @@ docs: add contributing guide
 | [`docs/SOP/README.md`](docs/SOP/README.md)                           | Repo-level tasks: adding commands, setting up tools, git hooks    |
 | [`docs/ADR/README.md`](docs/ADR/README.md)                           | Architecture decisions and their rationale                        |
 | [`apps/web/README.md`](apps/web/README.md)                           | Understanding the web app structure, commands, and tech stack     |
-| [`apps/server/README.md`](apps/server/README.md)                     | Server architecture, tRPC setup, domain structure                 |
+| [`apps/web/src/lib/README.md`](apps/web/src/lib/README.md)           | Error handling, tRPC client, QueryClient, storage utilities       |
 | [`apps/web/src/features/README.md`](apps/web/src/features/README.md) | Creating features, pages, components; naming conventions; exports |
+| [`apps/server/README.md`](apps/server/README.md)                     | Server architecture, tRPC setup, domain structure                 |
 | [`packages/shared/README.md`](packages/shared/README.md)             | Shared types between server and client; adding new error codes    |

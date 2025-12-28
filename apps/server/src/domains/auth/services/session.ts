@@ -1,8 +1,9 @@
 import crypto from 'node:crypto'
 
 import type { Database } from '@server/db'
-import { sessions, type User, users } from '@server/db/schema'
-import { and, eq, gt } from 'drizzle-orm'
+import type { Session, User } from '@server/db/schema'
+import { sessions, users } from '@server/db/schema'
+import { and, eq, gt, isNull } from 'drizzle-orm'
 
 const SESSION_DURATION_DAYS = 30
 
@@ -10,15 +11,26 @@ function generateToken(): string {
   return crypto.randomBytes(32).toString('hex')
 }
 
+export interface CreateSessionOptions {
+  userAgent?: string
+  ipAddress?: string
+}
+
+export interface ValidatedSession {
+  user: User
+  session: Session
+}
+
 export interface SessionService {
-  create(db: Database, userId: string): Promise<string>
-  validate(db: Database, token: string): Promise<User | null>
+  create(db: Database, userId: string, options?: CreateSessionOptions): Promise<string>
+  validate(db: Database, token: string): Promise<ValidatedSession | null>
   invalidate(db: Database, token: string): Promise<void>
   invalidateAllForUser(db: Database, userId: string): Promise<void>
+  updateOtpVerified(db: Database, sessionId: string): Promise<void>
 }
 
 export const sessionService: SessionService = {
-  async create(db, userId) {
+  async create(db, userId, options) {
     const token = generateToken()
     const expiresAt = new Date(Date.now() + SESSION_DURATION_DAYS * 24 * 60 * 60 * 1000)
 
@@ -26,6 +38,8 @@ export const sessionService: SessionService = {
       userId,
       token,
       expiresAt,
+      userAgent: options?.userAgent,
+      ipAddress: options?.ipAddress,
     })
 
     return token
@@ -39,7 +53,13 @@ export const sessionService: SessionService = {
       })
       .from(sessions)
       .innerJoin(users, eq(sessions.userId, users.id))
-      .where(and(eq(sessions.token, token), gt(sessions.expiresAt, new Date())))
+      .where(
+        and(
+          eq(sessions.token, token),
+          gt(sessions.expiresAt, new Date()),
+          isNull(sessions.invalidatedAt)
+        )
+      )
       .limit(1)
 
     if (!result) {
@@ -52,14 +72,27 @@ export const sessionService: SessionService = {
       .set({ lastActiveAt: new Date() })
       .where(eq(sessions.id, result.session.id))
 
-    return result.user
+    return { user: result.user, session: result.session }
   },
 
   async invalidate(db, token) {
-    await db.delete(sessions).where(eq(sessions.token, token))
+    await db
+      .update(sessions)
+      .set({ invalidatedAt: new Date() })
+      .where(eq(sessions.token, token))
   },
 
   async invalidateAllForUser(db, userId) {
-    await db.delete(sessions).where(eq(sessions.userId, userId))
+    await db
+      .update(sessions)
+      .set({ invalidatedAt: new Date() })
+      .where(and(eq(sessions.userId, userId), isNull(sessions.invalidatedAt)))
+  },
+
+  async updateOtpVerified(db, sessionId) {
+    await db
+      .update(sessions)
+      .set({ lastOtpVerifiedAt: new Date() })
+      .where(eq(sessions.id, sessionId))
   },
 }

@@ -69,10 +69,11 @@ Vite exposes environment variables prefixed with `VITE_` to the client. Configur
 
 ## Documentation
 
-| Topic                      | Location                                             |
-| -------------------------- | ---------------------------------------------------- |
-| Feature module conventions | [`src/features/README.md`](src/features/README.md)   |
-| Routing and auth flow      | [`src/routes/README.md`](src/routes/README.md)       |
+| Topic                      | Location                                           |
+| -------------------------- | -------------------------------------------------- |
+| Feature module conventions | [`src/features/README.md`](src/features/README.md) |
+| Routing and auth flow      | [`src/routes/README.md`](src/routes/README.md)     |
+| Utilities and error handling | [`src/lib/README.md`](src/lib/README.md)         |
 
 ## Adding New Features
 

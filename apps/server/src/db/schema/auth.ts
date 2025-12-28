@@ -4,6 +4,8 @@ export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
   email: text('email').notNull().unique(),
   name: text('name').notNull(),
+  pendingEmail: text('pending_email'),
+  pendingEmailExpiresAt: timestamp('pending_email_expires_at', { withTimezone: true }),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 })
@@ -32,9 +34,13 @@ export const sessions = pgTable('sessions', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   token: text('token').notNull().unique(),
+  userAgent: text('user_agent'),
+  ipAddress: text('ip_address'),
   expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   lastActiveAt: timestamp('last_active_at', { withTimezone: true }).notNull().defaultNow(),
+  lastOtpVerifiedAt: timestamp('last_otp_verified_at', { withTimezone: true }),
+  invalidatedAt: timestamp('invalidated_at', { withTimezone: true }),
 })
 
 export type Session = typeof sessions.$inferSelect

@@ -2,9 +2,11 @@ import { useNavigate } from '@tanstack/react-router'
 
 import { Button } from '@/components/ui'
 import { useAuth } from '@/features/auth'
+import { trpc } from '@/lib/trpc'
 
 export function Header() {
-  const { user, logout } = useAuth()
+  const { data: user } = trpc.auth.me.useQuery()
+  const { logout } = useAuth()
   const navigate = useNavigate()
 
   const handleLogout = async () => {

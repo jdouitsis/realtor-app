@@ -26,6 +26,7 @@ const APP_ERROR_MESSAGES: Record<AppErrorCode, string> = {
   OTP_EXPIRED: 'This code has expired. Please request a new one.',
   OTP_INVALID: 'Invalid code. Please try again.',
   OTP_MAX_ATTEMPTS: 'Too many attempts. Please request a new code.',
+  REQUEST_NEW_OTP: 'Please verify your identity to continue.',
 }
 
 /**

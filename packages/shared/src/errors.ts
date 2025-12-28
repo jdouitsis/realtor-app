@@ -18,6 +18,7 @@ export const AppErrorCode = {
   OTP_EXPIRED: 'OTP_EXPIRED',
   OTP_INVALID: 'OTP_INVALID',
   OTP_MAX_ATTEMPTS: 'OTP_MAX_ATTEMPTS',
+  REQUEST_NEW_OTP: 'REQUEST_NEW_OTP',
 
   // Resource errors
   NOT_FOUND: 'NOT_FOUND',
