@@ -9,6 +9,7 @@ This directory contains SOPs for common repository-level tasks.
 | [sop-database-migrations.md](./sop-database-migrations.md)     | Schema changes, adding tables, Railway deployment migrations     |
 | [sop-local-storage.md](./sop-local-storage.md)                 | Adding localStorage keys, using useStorage hook, cross-tab sync  |
 | [sop-logging.md](./sop-logging.md)                             | Server logging, using ctx.log, redaction, troubleshooting        |
+| [sop-staging-promotion.md](./sop-staging-promotion.md)         | How staging is auto-updated from main, manual sync               |
 | [sop-trpc-error-handling.md](./sop-trpc-error-handling.md)     | Handling tRPC errors, debugging API issues, adding error codes   |
 | [sop-turbo-pack.md](./sop-turbo-pack.md)                       | Adding a new repo-level command (lint, test, build, etc.)        |
 
@@ -29,3 +30,5 @@ This directory contains SOPs for common repository-level tasks.
 - **Persisting data to localStorage** → `sop-local-storage.md`
 - **Adding new storage keys** → `sop-local-storage.md`
 - **Cross-tab state synchronization** → `sop-local-storage.md`
+- **Understanding staging sync** → `sop-staging-promotion.md`
+- **Manual staging promotion** → `sop-staging-promotion.md`
