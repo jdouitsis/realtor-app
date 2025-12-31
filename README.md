@@ -1,6 +1,6 @@
-# Finance App
+# ConcordPoint
 
-A finance application built as a pnpm monorepo with Turborepo orchestration.
+A ConcordPoint application built as a pnpm monorepo with Turborepo orchestration.
 
 ## Tech Stack
 

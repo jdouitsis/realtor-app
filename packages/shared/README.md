@@ -1,6 +1,6 @@
-# @finance/shared
+# @concordpoint/shared
 
-Shared types and constants used by both `@finance/server` and `@finance/web`.
+Shared types and constants used by both `@concordpoint/server` and `@concordpoint/web`.
 
 ## Purpose
 
@@ -10,7 +10,7 @@ This package provides a single source of truth for types that must stay in sync 
 
 | Export Path              | Contents                       |
 | ------------------------ | ------------------------------ |
-| `@finance/shared/errors` | `AppErrorCode` type and object |
+| `@concordpoint/shared/errors` | `AppErrorCode` type and object |
 
 ## Adding a New Error Code
 

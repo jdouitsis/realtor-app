@@ -63,7 +63,7 @@ Implement **step-up authentication** using time-bound OTP verification tracked o
 ### Error Code
 
 ```typescript
-// @finance/shared/errors
+// @concordpoint/shared/errors
 'REQUEST_NEW_OTP': 'Please verify your identity to continue.'
 ```
 

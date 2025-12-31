@@ -1,4 +1,4 @@
-import type { AppRouter } from '@finance/server/trpc'
+import type { AppRouter } from '@concordpoint/server/trpc'
 import { createTRPCReact, httpBatchLink, loggerLink } from '@trpc/react-query'
 
 import { getStorage } from './storage'

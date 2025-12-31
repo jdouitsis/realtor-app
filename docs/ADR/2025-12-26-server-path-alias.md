@@ -9,7 +9,7 @@ When the web app imports types from the server package:
 
 ```typescript
 // apps/web/src/lib/trpc.ts
-import type { AppRouter } from '@finance/server/trpc'
+import type { AppRouter } from '@concordpoint/server/trpc'
 ```
 
 TypeScript follows the import chain into server source files. Both packages used `@/*` as their path alias:

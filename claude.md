@@ -1,6 +1,6 @@
-# Finance App
+# ConcordPoint
 
-A finance application built as a pnpm monorepo with Turborepo orchestration.
+A ConcordPoint application built as a pnpm monorepo with Turborepo orchestration.
 
 ## Tech Stack
 
@@ -102,8 +102,8 @@ Format tables with consistent column widths so they are readable in raw markdown
 Never use `db:push` for schema changes. Always generate and apply migrations:
 
 ```bash
-pnpm --filter @finance/server db:generate  # Generate migration file
-pnpm --filter @finance/server db:migrate   # Apply migrations
+pnpm --filter @concordpoint/server db:generate  # Generate migration file
+pnpm --filter @concordpoint/server db:migrate   # Apply migrations
 ```
 
 This ensures migration files are tracked in git and can be applied consistently across all environments (development, CI, production).

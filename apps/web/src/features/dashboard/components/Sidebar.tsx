@@ -11,7 +11,7 @@ export function Sidebar() {
   return (
     <aside className="w-64 border-r bg-card h-screen p-4">
       <div className="mb-8">
-        <h2 className="text-xl font-bold">Finance App</h2>
+        <h2 className="text-xl font-bold">ConcordPoint</h2>
       </div>
       <nav className="space-y-2">
         {navItems.map((item) => (

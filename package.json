@@ -1,5 +1,5 @@
 {
-  "name": "finance-app",
+  "name": "concordpoint-app",
   "private": true,
   "scripts": {
     "dev": "turbo dev",

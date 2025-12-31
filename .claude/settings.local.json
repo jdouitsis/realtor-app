@@ -13,10 +13,10 @@
       "Bash(git commit:*)",
       "Bash(pnpm lint:*)",
       "Bash(pnpm format:check:*)",
-      "Bash(pnpm --filter @finance/server typecheck:*)",
-      "Bash(pnpm --filter @finance/server lint:*)",
-      "Bash(pnpm --filter @finance/web typecheck:*)",
-      "Bash(pnpm --filter @finance/web lint:*)",
+      "Bash(pnpm --filter @concordpoint/server typecheck:*)",
+      "Bash(pnpm --filter @concordpoint/server lint:*)",
+      "Bash(pnpm --filter @concordpoint/web typecheck:*)",
+      "Bash(pnpm --filter @concordpoint/web lint:*)",
       "Bash(npx tsc:*)",
       "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance status)",
       "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance diff)",
@@ -25,12 +25,13 @@
       "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance add apps/web/src/components/ui/index.ts apps/web/src/components/common/Header.tsx apps/web/src/components/ui/form.tsx apps/web/src/features/README.md apps/web/src/features/auth/pages/LoginPage/components/LoginForm.tsx apps/web/src/features/auth/pages/RegisterPage/components/RegisterForm.tsx apps/web/src/features/dashboard/components/DashboardContent.tsx apps/web/src/features/dashboard/components/Sidebar.tsx apps/web/src/features/public/components/PublicHeader.tsx apps/web/src/features/public/pages/LandingPage.tsx)",
       "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance log:*)",
       "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance diff main...HEAD --stat)",
-      "Bash(pnpm --filter @finance/server db:push:*)",
+      "Bash(pnpm --filter @concordpoint/server db:push:*)",
       "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance diff --stat)",
       "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance add:*)",
       "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance commit -m \"$\\(cat <<''EOF''\nfix: add server path aliases and cleanup outdated docs\n\n- Configure @/* path alias in server tsconfig.json\n- Add Configuration section to server README documenting aliases\n- Remove outdated Prettier import sorting docs from both READMEs\n- Fix register procedure to use db.insert\\(\\).returning\\(\\)\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(npx turbo:*)",
-      "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance push)"
+      "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance push)",
+      "mcp__figma-desktop__get_screenshot"
     ]
   }
 }
