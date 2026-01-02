@@ -30,8 +30,7 @@
       "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance add:*)",
       "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance commit -m \"$\\(cat <<''EOF''\nfix: add server path aliases and cleanup outdated docs\n\n- Configure @/* path alias in server tsconfig.json\n- Add Configuration section to server README documenting aliases\n- Remove outdated Prettier import sorting docs from both READMEs\n- Fix register procedure to use db.insert\\(\\).returning\\(\\)\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(npx turbo:*)",
-      "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance push)",
-      "mcp__figma-desktop__get_screenshot"
+      "Bash(git -C /Users/jamesdouitsis/Projects/2025-12-21-finance push)"
     ]
   }
 }
