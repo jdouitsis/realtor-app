@@ -2,10 +2,14 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 import { Header } from '@/components/common/Header'
 import { Sidebar } from '@/features/dashboard'
+import { clearStorage } from '@/lib/storage'
+import { trpcClient } from '@/lib/trpc'
 
 export const Route = createFileRoute('/_authenticated')({
-  beforeLoad: ({ context, location }) => {
-    if (!context.auth.isAuthenticated) {
+  beforeLoad: async ({ context, location }) => {
+    const user = await trpcClient.auth.me.query()
+    if (!context.auth.isAuthenticated || !user) {
+      clearStorage('auth_token')
       throw redirect({
         to: '/login',
         search: {
@@ -13,6 +17,7 @@ export const Route = createFileRoute('/_authenticated')({
         },
       })
     }
+    return { user }
   },
   component: AuthenticatedLayout,
 })

@@ -1,13 +1,12 @@
 import { getRouteApi } from '@tanstack/react-router'
 
 import { Button } from '@/components/ui'
-import { trpc } from '@/lib/trpc'
 
 const routeApi = getRouteApi('/_authenticated')
 
 export function Header() {
   const { auth } = routeApi.useRouteContext()
-  const { data: user } = trpc.auth.me.useQuery()
+  const { user } = routeApi.useRouteContext()
 
   const handleLogout = async () => {
     await auth.logout()
@@ -18,7 +17,7 @@ export function Header() {
       <div className="flex h-16 items-center justify-between px-6">
         <div className="flex items-center gap-4">
           <span className="text-sm text-muted-foreground">
-            Welcome back{user?.name ? `, ${user.name}` : ''}!
+            Welcome back{user.name ? `, ${user.name}` : ''}!
           </span>
         </div>
         <div className="flex items-center gap-4">
