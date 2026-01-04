@@ -26,8 +26,11 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src")
     }
   },
+  server: {
+    port: 5174,
+  },
   preview: {
-    port: parseInt(process.env.PORT || "5173"),
+    port: parseInt(process.env.PORT || "5174"),
     host: true,
     allowedHosts: true,
   },
