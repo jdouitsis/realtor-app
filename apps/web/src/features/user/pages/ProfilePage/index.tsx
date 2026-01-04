@@ -1,3 +1,4 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui'
 import { parseError } from '@/lib/errors'
 import { trpc } from '@/lib/trpc'
 
@@ -19,7 +20,7 @@ export function ProfilePage() {
   if (profileQuery.isLoading) {
     return (
       <>
-        <h1 className="text-3xl font-bold mb-6 mr-auto">Profile</h1>
+        <h1 className="text-3xl font-bold mb-6 mr-auto">Settings</h1>
         <p className="text-muted-foreground">Loading...</p>
       </>
     )
@@ -30,7 +31,7 @@ export function ProfilePage() {
     console.error(parsed)
     return (
       <>
-        <h1 className="text-3xl font-bold mb-6 mr-auto">Profile</h1>
+        <h1 className="text-3xl font-bold mb-6 mr-auto">Settings</h1>
         <p className="text-destructive">Failed to load profile</p>
         <p className="text-destructive">{parsed.userMessage}</p>
         <p className="text-destructive">Request ID: {parsed.requestId}</p>
@@ -40,18 +41,28 @@ export function ProfilePage() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-6 mr-auto">Profile</h1>
-      <div className="space-y-6 w-full">
-        <ProfileForm initialName={profile.name} onSuccess={handleProfileUpdate} />
-
-        <EmailChangeSection
-          currentEmail={profile.email}
-          pendingEmail={profile.pendingEmail}
-          onSuccess={handleProfileUpdate}
-        />
-        <SessionsSection />
-        <DeleteAccountSection userEmail={profile.email} />
-      </div>
+      <h1 className="text-3xl font-bold mb-6 mr-auto">Settings</h1>
+      <Tabs defaultValue="general" className="w-full">
+        <TabsList>
+          <TabsTrigger value="general">General</TabsTrigger>
+          <TabsTrigger value="sessions">Sessions</TabsTrigger>
+          <TabsTrigger value="danger">Danger</TabsTrigger>
+        </TabsList>
+        <TabsContent value="general" className="space-y-6 mt-6">
+          <ProfileForm initialName={profile.name} onSuccess={handleProfileUpdate} />
+          <EmailChangeSection
+            currentEmail={profile.email}
+            pendingEmail={profile.pendingEmail}
+            onSuccess={handleProfileUpdate}
+          />
+        </TabsContent>
+        <TabsContent value="sessions" className="mt-6">
+          <SessionsSection />
+        </TabsContent>
+        <TabsContent value="danger" className="mt-6">
+          <DeleteAccountSection userEmail={profile.email} />
+        </TabsContent>
+      </Tabs>
     </>
   )
 }
