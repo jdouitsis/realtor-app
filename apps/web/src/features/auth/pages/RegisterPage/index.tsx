@@ -44,7 +44,7 @@ export function RegisterPage() {
     setError(undefined)
     try {
       await auth.verifyOtp(otpState.userId, code)
-      void navigate({ to: '/dashboard' })
+      void navigate({ to: '/events' })
     } catch (err) {
       setError(parseError(err).userMessage)
     } finally {

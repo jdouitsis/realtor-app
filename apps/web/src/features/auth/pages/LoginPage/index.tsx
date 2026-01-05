@@ -45,7 +45,7 @@ export function LoginPage() {
     setError(undefined)
     try {
       await auth.verifyOtp(otpState.userId, code)
-      void navigate({ to: redirect ?? '/dashboard' })
+      void navigate({ to: redirect ?? '/events' })
     } catch (err) {
       setError(parseError(err).userMessage)
     } finally {

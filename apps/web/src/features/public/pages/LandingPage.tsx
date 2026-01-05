@@ -31,7 +31,7 @@ function HeroSection() {
         </p>
         <div className="mt-10 flex items-center justify-center gap-4">
           <Button size="lg" asChild>
-            <Link to="/dashboard">Browse Events</Link>
+            <Link to="/events">Browse Events</Link>
           </Button>
         </div>
       </section>
