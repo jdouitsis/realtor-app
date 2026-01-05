@@ -1,4 +1,17 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui'
+import { getRouteApi } from '@tanstack/react-router'
+import { Loader2, LogOut } from 'lucide-react'
+
+import {
+  Button,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui'
 import { parseError } from '@/lib/errors'
 import { trpc } from '@/lib/trpc'
 
@@ -7,11 +20,18 @@ import { EmailChangeSection } from './components/EmailChangeSection'
 import { ProfileForm } from './components/ProfileForm'
 import { SessionsSection } from './components/SessionsSection'
 
+const routeApi = getRouteApi('/_authenticated')
+
 export function ProfilePage() {
+  const { auth } = routeApi.useRouteContext()
   const profileQuery = trpc.user.getProfile.useQuery()
   const utils = trpc.useUtils()
 
   const profile = profileQuery.data
+
+  const handleLogout = async () => {
+    await auth.logout()
+  }
 
   const handleProfileUpdate = () => {
     void utils.user.getProfile.invalidate()
@@ -19,10 +39,10 @@ export function ProfilePage() {
 
   if (profileQuery.isLoading) {
     return (
-      <>
-        <h1 className="text-3xl font-bold mb-6 mr-auto">Settings</h1>
-        <p className="text-muted-foreground">Loading...</p>
-      </>
+      <div className="flex flex-col items-center justify-center h-full">
+        <HeaderContent onLogout={handleLogout} />
+        <Loader2 className="animate-spin m-auto" />
+      </div>
     )
   }
 
@@ -31,7 +51,7 @@ export function ProfilePage() {
     console.error(parsed)
     return (
       <>
-        <h1 className="text-3xl font-bold mb-6 mr-auto">Settings</h1>
+        <HeaderContent onLogout={handleLogout} />
         <p className="text-destructive">Failed to load profile</p>
         <p className="text-destructive">{parsed.userMessage}</p>
         <p className="text-destructive">Request ID: {parsed.requestId}</p>
@@ -41,7 +61,7 @@ export function ProfilePage() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-6 mr-auto">Settings</h1>
+      <HeaderContent onLogout={handleLogout} />
       <Tabs defaultValue="general" className="w-full">
         <TabsList>
           <TabsTrigger value="general">General</TabsTrigger>
@@ -64,5 +84,25 @@ export function ProfilePage() {
         </TabsContent>
       </Tabs>
     </>
+  )
+}
+
+function HeaderContent({ onLogout }: { onLogout: () => void }) {
+  return (
+    <div className="flex items-center justify-between mb-6 w-full">
+      <h1 className="text-3xl font-bold">Settings</h1>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="ghost" size="icon" onClick={onLogout}>
+              <LogOut className="h-5 w-5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Log out</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    </div>
   )
 }

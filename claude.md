@@ -148,6 +148,44 @@ export function notFound(resource: string, id?: string) {
 - Simple one-liner utilities where the name is self-documenting
 - Internal/private functions
 
+### React Component Patterns
+
+Never assign JSX to variables inside a component. If you need to extract a piece of UI, create a separate component function defined below the main component in the same file.
+
+**Bad:**
+
+```tsx
+function ProfilePage() {
+  const headerContent = (
+    <div className="flex items-center">
+      <h1>Settings</h1>
+      <Button onClick={handleLogout}>Log out</Button>
+    </div>
+  )
+
+  return <Layout header={headerContent}>...</Layout>
+}
+```
+
+**Good:**
+
+```tsx
+function ProfilePage() {
+  return <Layout header={<HeaderContent onLogout={handleLogout} />}>...</Layout>
+}
+
+function HeaderContent({ onLogout }: { onLogout: () => void }) {
+  return (
+    <div className="flex items-center">
+      <h1>Settings</h1>
+      <Button onClick={onLogout}>Log out</Button>
+    </div>
+  )
+}
+```
+
+This pattern improves readability, enables React to optimize re-renders, and makes the extracted UI reusable and testable.
+
 ## Git
 
 ### Commit Titles
