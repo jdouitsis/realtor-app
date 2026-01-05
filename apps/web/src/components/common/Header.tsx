@@ -40,7 +40,7 @@ export function Header() {
     <header className="border-b bg-card">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-6">
-          <Link to="/dashboard" className="text-xl font-bold">
+          <Link to="/" className="text-xl font-bold">
             ConcordPoint
           </Link>
           <DesktopNav />

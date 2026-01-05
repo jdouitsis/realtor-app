@@ -1,13 +1,8 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 import { PublicHeader } from '@/features/public'
 
 export const Route = createFileRoute('/_public')({
-  beforeLoad: ({ context }) => {
-    if (context.auth.isAuthenticated) {
-      throw redirect({ to: '/dashboard' })
-    }
-  },
   component: PublicLayout,
 })
 

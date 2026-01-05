@@ -14,7 +14,6 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
-import { Route as PublicLandingRouteImport } from './routes/_public/landing'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedOtpRouteImport } from './routes/_authenticated/otp'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -42,11 +41,6 @@ const PublicLoginRoute = PublicLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => PublicRouteRoute,
 } as any)
-const PublicLandingRoute = PublicLandingRouteImport.update({
-  id: '/landing',
-  path: '/landing',
-  getParentRoute: () => PublicRouteRoute,
-} as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -68,7 +62,6 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/otp': typeof AuthenticatedOtpRoute
   '/profile': typeof AuthenticatedProfileRoute
-  '/landing': typeof PublicLandingRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
 }
@@ -77,7 +70,6 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/otp': typeof AuthenticatedOtpRoute
   '/profile': typeof AuthenticatedProfileRoute
-  '/landing': typeof PublicLandingRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
 }
@@ -89,29 +81,14 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/otp': typeof AuthenticatedOtpRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
-  '/_public/landing': typeof PublicLandingRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/register': typeof PublicRegisterRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/dashboard'
-    | '/otp'
-    | '/profile'
-    | '/landing'
-    | '/login'
-    | '/register'
+  fullPaths: '/' | '/dashboard' | '/otp' | '/profile' | '/login' | '/register'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/dashboard'
-    | '/otp'
-    | '/profile'
-    | '/landing'
-    | '/login'
-    | '/register'
+  to: '/' | '/dashboard' | '/otp' | '/profile' | '/login' | '/register'
   id:
     | '__root__'
     | '/'
@@ -120,7 +97,6 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/otp'
     | '/_authenticated/profile'
-    | '/_public/landing'
     | '/_public/login'
     | '/_public/register'
   fileRoutesById: FileRoutesById
@@ -168,13 +144,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLoginRouteImport
       parentRoute: typeof PublicRouteRoute
     }
-    '/_public/landing': {
-      id: '/_public/landing'
-      path: '/landing'
-      fullPath: '/landing'
-      preLoaderRoute: typeof PublicLandingRouteImport
-      parentRoute: typeof PublicRouteRoute
-    }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
@@ -215,13 +184,11 @@ const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface PublicRouteRouteChildren {
-  PublicLandingRoute: typeof PublicLandingRoute
   PublicLoginRoute: typeof PublicLoginRoute
   PublicRegisterRoute: typeof PublicRegisterRoute
 }
 
 const PublicRouteRouteChildren: PublicRouteRouteChildren = {
-  PublicLandingRoute: PublicLandingRoute,
   PublicLoginRoute: PublicLoginRoute,
   PublicRegisterRoute: PublicRegisterRoute,
 }

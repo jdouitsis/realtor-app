@@ -1,24 +1,116 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useRouteContext } from '@tanstack/react-router'
 
 import { Button } from '@/components/ui'
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export function LandingPage() {
+  const context = useRouteContext({ from: '__root__' })
+  const isAuthenticated = context.auth.isAuthenticated
+
   return (
-    <main className="container mx-auto px-4 py-16">
-      <div className="mx-auto max-w-2xl text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">Welcome to ConcordPoint</h1>
-        <p className="mt-6 text-lg text-muted-foreground">
-          Get started with ConcordPoint and explore our powerful platform.
+    <div className="flex min-h-screen flex-col bg-background">
+      <LandingHeader isAuthenticated={isAuthenticated} />
+      <HeroSection />
+      <FeaturesSection />
+      <Footer />
+    </div>
+  )
+}
+
+function LandingHeader({ isAuthenticated }: { isAuthenticated: boolean }) {
+  return (
+    <header className="border-b">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+        <Link to="/" className="text-xl font-bold">
+          ConcordPoint
+        </Link>
+        <nav className="flex items-center gap-4">
+          {isAuthenticated ? (
+            <Button asChild>
+              <Link to="/dashboard">Go to Dashboard</Link>
+            </Button>
+          ) : (
+            <>
+              <Button variant="ghost" asChild>
+                <Link to="/login">Sign In</Link>
+              </Button>
+              <Button asChild>
+                <Link to="/register">Get Started</Link>
+              </Button>
+            </>
+          )}
+        </nav>
+      </div>
+    </header>
+  )
+}
+
+function HeroSection() {
+  return (
+    <main className="flex-1">
+      <section className="container mx-auto px-4 py-24 text-center">
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+          Discover Christian Events
+          <span className="block text-primary">In Your Community</span>
+        </h1>
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
+          ConcordPoint connects you with Christian events hosted by churches and organizations in
+          your area. From worship nights to community gatherings, find meaningful ways to grow in
+          faith and fellowship.
         </p>
         <div className="mt-10 flex items-center justify-center gap-4">
           <Button size="lg" asChild>
-            <Link to="/register">Start Free</Link>
-          </Button>
-          <Button size="lg" variant="outline" asChild>
-            <Link to="/login">Sign In</Link>
+            <Link to="/dashboard">Browse Events</Link>
           </Button>
         </div>
-      </div>
+      </section>
     </main>
+  )
+}
+
+function FeaturesSection() {
+  return (
+    <section className="border-t bg-muted/50 py-16">
+      <div className="container mx-auto px-4">
+        <h2 className="mb-12 text-center text-2xl font-semibold">
+          Connecting Communities Through Faith
+        </h2>
+        <div className="grid gap-6 md:grid-cols-3">
+          <FeatureCard
+            title="Find Events"
+            description="Browse worship services, Bible studies, youth groups, and community outreach events near you."
+          />
+          <FeatureCard
+            title="Connect with Churches"
+            description="Discover local churches and Christian organizations hosting events in your area."
+          />
+          <FeatureCard
+            title="Grow Together"
+            description="Build meaningful connections with others on their faith journey."
+          />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function FeatureCard({ title, description }: { title: string; description: string }) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-lg">{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardHeader>
+    </Card>
+  )
+}
+
+function Footer() {
+  return (
+    <footer className="border-t py-8">
+      <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+        <p>ConcordPoint — Bringing Christian communities together</p>
+      </div>
+    </footer>
   )
 }

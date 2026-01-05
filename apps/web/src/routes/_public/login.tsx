@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import { z } from 'zod/v4'
 
 import { LoginPage } from '@/features/auth'
@@ -8,6 +8,11 @@ const loginSearchSchema = z.object({
 })
 
 export const Route = createFileRoute('/_public/login')({
+  beforeLoad: ({ context }) => {
+    if (context.auth.isAuthenticated) {
+      throw redirect({ to: '/' })
+    }
+  },
   validateSearch: loginSearchSchema,
   component: LoginPage,
 })
