@@ -31,6 +31,15 @@ export function EventsPage() {
           </Link>
         ))}
       </div>
+
+      <div className="my-12 border-t pt-8 text-center">
+        <p className="text-muted-foreground">
+          Know of an event that should be listed here? We'd love to hear from you.
+        </p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          ConcordPoint is all about connecting church families across our city.
+        </p>
+      </div>
     </div>
   )
 }

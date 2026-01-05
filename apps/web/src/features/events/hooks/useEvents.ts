@@ -10,22 +10,13 @@ export interface Event {
 
 const EVENTS: Event[] = [
   {
-    id: '1',
-    title: 'Sunday Morning Worship',
-    date: '2026-01-12',
-    time: '10:00 AM',
-    description: 'Join us for our weekly worship service with music, prayer, and teaching.',
-    location: 'Grace Community Church, 123 Main St',
-    imageUrl: 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1200&h=400&fit=crop',
-  },
-  {
     id: '2',
-    title: 'Wednesday Prayer Meeting',
+    title: 'Line Dancing Night',
     date: '2026-01-08',
     time: '7:00 PM',
-    description: 'Midweek gathering for prayer and fellowship.',
-    location: 'Grace Community Church, Fellowship Hall',
-    imageUrl: 'https://images.unsplash.com/photo-1545987796-200677ee1011?w=1200&h=400&fit=crop',
+    description: 'Learn some moves and have fun with friends at our monthly line dancing event.',
+    location: 'Westminster Chapel',
+    imageUrl: 'https://images.unsplash.com/photo-1504609813442-a8924e83f76e?w=1200&h=400&fit=crop',
   },
   {
     id: '3',
@@ -53,6 +44,36 @@ const EVENTS: Event[] = [
     description: 'Serve our community through local outreach projects.',
     location: 'Meet at Hope Food Bank, 789 Oak Ave',
     imageUrl: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1200&h=400&fit=crop',
+  },
+  {
+    id: '6',
+    title: 'Pregnancy Care Centre Volunteer Training',
+    date: '2026-01-15',
+    time: '6:00 PM',
+    description:
+      'Learn how to support expectant mothers and families in need through our volunteer program.',
+    location: 'Pregnancy Care Centre, 200 Cedar St',
+    imageUrl: 'https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=1200&h=400&fit=crop',
+  },
+  {
+    id: '7',
+    title: 'Gospel Coalition Young Adults Conference',
+    date: '2026-01-24',
+    time: '9:00 AM',
+    description:
+      'A day of teaching, worship, and fellowship for young adults seeking to grow in their faith.',
+    location: 'Downtown Convention Centre, 500 Main St',
+    imageUrl: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&h=400&fit=crop',
+  },
+  {
+    id: '8',
+    title: 'Apologetics Canada Leadership Summit',
+    date: '2026-02-07',
+    time: '8:30 AM',
+    description:
+      "Equipping church leaders to engage thoughtfully with questions of faith in today's culture.",
+    location: 'Pacific Community Church, 1200 Oak Blvd',
+    imageUrl: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1200&h=400&fit=crop',
   },
 ]
 
