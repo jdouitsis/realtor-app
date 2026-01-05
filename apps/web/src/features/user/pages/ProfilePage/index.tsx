@@ -20,14 +20,23 @@ import { EmailChangeSection } from './components/EmailChangeSection'
 import { ProfileForm } from './components/ProfileForm'
 import { SessionsSection } from './components/SessionsSection'
 
-const routeApi = getRouteApi('/_authenticated')
+const routeApi = getRouteApi('/_authenticated/profile')
 
 export function ProfilePage() {
   const { auth } = routeApi.useRouteContext()
+  const { tab } = routeApi.useSearch()
+  const navigate = routeApi.useNavigate()
   const profileQuery = trpc.user.getProfile.useQuery()
   const utils = trpc.useUtils()
 
   const profile = profileQuery.data
+  const currentTab = tab ?? 'general'
+
+  const handleTabChange = (value: string) => {
+    void navigate({
+      search: value === 'general' ? {} : { tab: value as 'sessions' | 'danger' },
+    })
+  }
 
   const handleLogout = async () => {
     await auth.logout()
@@ -62,7 +71,7 @@ export function ProfilePage() {
   return (
     <>
       <HeaderContent onLogout={handleLogout} />
-      <Tabs defaultValue="general" className="w-full">
+      <Tabs value={currentTab} onValueChange={handleTabChange} className="w-full">
         <TabsList>
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="sessions">Sessions</TabsTrigger>
