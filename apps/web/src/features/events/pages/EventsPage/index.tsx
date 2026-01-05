@@ -1,15 +1,24 @@
 import { Link } from '@tanstack/react-router'
 
-import { useEvents } from '../hooks/useEvents'
+import { useEvents } from '../../hooks/useEvents'
+import { useEventTagFilter } from '../../hooks/useEventTagFilter'
+import { EventTagFilter } from './components/EventTagFilter'
 
 export function EventsPage() {
-  const events = useEvents()
+  const allEvents = useEvents()
+  const { filterByTags } = useEventTagFilter()
+
+  const filteredEvents = allEvents.filter(filterByTags)
 
   return (
     <div className="flex flex-col justify-start">
-      <h1 className="mb-6 text-3xl font-bold">Upcoming Events</h1>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-3xl font-bold">Upcoming Events</h1>
+        <EventTagFilter />
+      </div>
+
       <div className="flex flex-col gap-3">
-        {events.map((event) => (
+        {filteredEvents.map((event) => (
           <Link
             key={event.id}
             to="/events/$eventId"
