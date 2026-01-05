@@ -17,8 +17,12 @@ function RootLayout() {
   return (
     <>
       <Outlet />
-      <ReactQueryDevtools initialIsOpen={false} />
-      <TanStackRouterDevtools />
+      {import.meta.env.DEV && (
+        <>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <TanStackRouterDevtools />
+        </>
+      )}
     </>
   )
 }
