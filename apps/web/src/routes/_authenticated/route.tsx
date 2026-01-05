@@ -1,7 +1,6 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 import { Header } from '@/components/common/Header'
-import { Sidebar } from '@/features/dashboard'
 import { clearStorage } from '@/lib/storage'
 import { trpcClient } from '@/lib/trpc'
 
@@ -24,16 +23,13 @@ export const Route = createFileRoute('/_authenticated')({
 
 function AuthenticatedLayout() {
   return (
-    <div className="flex h-full w-full">
-      <Sidebar />
-      <div className="flex flex-1 flex-col min-h-0 w-full h-full">
-        <Header />
-        <main className="flex-1 overflow-y-auto px-6 py-6 w-full h-full">
-          <div className="max-w-4xl mx-auto h-full">
-            <Outlet />
-          </div>
-        </main>
-      </div>
+    <div className="flex h-full w-full flex-col">
+      <Header />
+      <main className="flex-1 overflow-y-auto px-4 py-6 md:px-6">
+        <div className="mx-auto h-full max-w-4xl">
+          <Outlet />
+        </div>
+      </main>
     </div>
   )
 }
