@@ -41,13 +41,13 @@ export function EventDetailPage() {
           <h1 className="text-3xl font-bold">{event.title}</h1>
         </div>
 
-        <div className="flex flex-wrap gap-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-6">
           <div className="flex items-center gap-2 text-muted-foreground">
-            <Calendar className="h-5 w-5" />
+            <Calendar className="h-5 w-5 shrink-0" />
             <span>{event.date}</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
-            <Clock className="h-5 w-5" />
+            <Clock className="h-5 w-5 shrink-0" />
             <span>{event.time}</span>
           </div>
         </div>

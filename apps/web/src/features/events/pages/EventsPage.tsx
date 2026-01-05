@@ -14,13 +14,13 @@ export function EventsPage() {
             key={event.id}
             to="/events/$eventId"
             params={{ eventId: event.id }}
-            className="flex items-center justify-between rounded-lg border p-4 transition-colors hover:bg-muted/50"
+            className="flex flex-col gap-2 rounded-lg border p-4 transition-colors hover:bg-muted/50 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
           >
-            <div>
+            <div className="min-w-0 flex-1">
               <p className="font-medium">{event.title}</p>
-              <p className="text-sm text-muted-foreground">{event.description}</p>
+              <p className="line-clamp-2 text-sm text-muted-foreground">{event.description}</p>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="shrink-0 text-sm text-muted-foreground">
               {event.date} at {event.time}
             </p>
           </Link>
