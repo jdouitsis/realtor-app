@@ -1,5 +1,6 @@
 import { getRouteApi, Link, useRouteContext } from '@tanstack/react-router'
-import { Calendar, ChevronLeft, Clock, MapPin } from 'lucide-react'
+import { Calendar, Check, ChevronLeft, Clock, MapPin, Share2 } from 'lucide-react'
+import { useState } from 'react'
 
 import { Button } from '@/components/ui'
 
@@ -12,6 +13,29 @@ export function EventDetailPage() {
   const { user } = useRouteContext({ from: '__root__' })
   const event = useEvent(eventId)
   const suggestedEvents = useSuggestedEvents(eventId, 2)
+  const [copied, setCopied] = useState(false)
+
+  const handleShare = async () => {
+    const url = window.location.href
+
+    // Use native share sheet if available (iOS, Android, etc.)
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: event?.title,
+          url,
+        })
+        return
+      } catch {
+        // User cancelled or share failed, fall back to clipboard
+      }
+    }
+
+    // Fallback to clipboard copy
+    await navigator.clipboard.writeText(url)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   if (!event) {
     return (
@@ -46,8 +70,26 @@ export function EventDetailPage() {
           />
         </div>
 
-        <div>
+        <div className="flex items-start justify-between gap-4">
           <h1 className="text-3xl font-bold">{event.title}</h1>
+          <Button
+            variant={copied ? 'default' : 'outline'}
+            size="sm"
+            onClick={handleShare}
+            className={copied ? 'bg-green-600 hover:bg-green-600' : ''}
+          >
+            {copied ? (
+              <>
+                <Check className="h-4 w-4" />
+                Copied!
+              </>
+            ) : (
+              <>
+                <Share2 className="h-4 w-4" />
+                Share
+              </>
+            )}
+          </Button>
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-6">
