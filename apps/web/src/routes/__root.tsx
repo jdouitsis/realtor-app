@@ -1,6 +1,7 @@
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { createRootRouteWithContext, Outlet, ScrollRestoration } from '@tanstack/react-router'
+import { createRootRouteWithContext, Outlet, useLocation } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
+import { useEffect } from 'react'
 
 import type { RouterContext } from '@/lib/router-context'
 import { trpcClient } from '@/lib/trpc'
@@ -14,9 +15,14 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 })
 
 function RootLayout() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+
   return (
     <>
-      <ScrollRestoration />
       <Outlet />
       {import.meta.env.DEV && (
         <>

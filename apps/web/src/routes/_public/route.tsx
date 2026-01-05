@@ -12,9 +12,9 @@ function PublicLayout() {
   const { user } = routeApi.useRouteContext()
 
   return (
-    <div className="flex h-full w-full flex-col">
+    <div className="flex min-h-full w-full flex-col">
       <NavBar user={user} />
-      <main className="flex-1 overflow-y-auto px-4 py-6 md:px-6">
+      <main className="flex-1 px-4 py-6 md:px-6">
         <div className="mx-auto h-full max-w-4xl">
           <Outlet />
         </div>
