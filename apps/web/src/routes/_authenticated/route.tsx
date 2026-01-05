@@ -26,10 +26,10 @@ function AuthenticatedLayout() {
   return (
     <div className="flex h-full w-full">
       <Sidebar />
-      <div className="flex flex-1 flex-col min-h-0 w-full">
+      <div className="flex flex-1 flex-col min-h-0 w-full h-full">
         <Header />
-        <main className="flex-1 overflow-y-auto px-6 py-6 w-full">
-          <div className="max-w-4xl mx-auto">
+        <main className="flex-1 overflow-y-auto px-6 py-6 w-full h-full">
+          <div className="max-w-4xl mx-auto h-full">
             <Outlet />
           </div>
         </main>

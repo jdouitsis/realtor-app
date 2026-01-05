@@ -1,16 +1,26 @@
-import { getRouteApi } from '@tanstack/react-router'
+import { getRouteApi, Link } from '@tanstack/react-router'
 
-import { Button } from '@/components/ui'
+import { Avatar, AvatarFallback } from '@/components/ui'
 
 const routeApi = getRouteApi('/_authenticated')
 
-export function Header() {
-  const { auth } = routeApi.useRouteContext()
-  const { user } = routeApi.useRouteContext()
+/**
+ * Extracts initials from a name string.
+ *
+ * @example
+ * getInitials('John Doe') // 'JD'
+ */
+function getInitials(name: string): string {
+  return name
+    .split(' ')
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+}
 
-  const handleLogout = async () => {
-    await auth.logout()
-  }
+export function Header() {
+  const { user } = routeApi.useRouteContext()
 
   return (
     <header className="border-b bg-card">
@@ -21,9 +31,14 @@ export function Header() {
           </span>
         </div>
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={handleLogout}>
-            Logout
-          </Button>
+          <Link
+            to="/profile"
+            className="rounded-full focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          >
+            <Avatar className="h-9 w-9 cursor-pointer">
+              <AvatarFallback>{getInitials(user.name || 'U')}</AvatarFallback>
+            </Avatar>
+          </Link>
         </div>
       </div>
     </header>

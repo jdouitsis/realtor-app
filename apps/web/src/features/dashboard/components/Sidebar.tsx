@@ -2,10 +2,7 @@ import { Link } from '@tanstack/react-router'
 
 import { Button } from '@/components/ui'
 
-const navItems = [
-  { label: 'Overview', href: '/dashboard' },
-  { label: 'Profile', href: '/profile' },
-]
+const navItems = [{ label: 'Overview', href: '/dashboard' }]
 
 export function Sidebar() {
   return (
