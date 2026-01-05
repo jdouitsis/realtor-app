@@ -10,6 +10,7 @@ export function LandingPage() {
     <div className="flex min-h-screen flex-col bg-background">
       <NavBar user={user} />
       <HeroSection />
+      <WhyConcordPointSection />
       <FeaturesSection />
       <Footer />
     </div>
@@ -36,6 +37,28 @@ function HeroSection() {
         </div>
       </section>
     </main>
+  )
+}
+
+function WhyConcordPointSection() {
+  return (
+    <section className="border-t py-16">
+      <div className="container mx-auto max-w-3xl px-4">
+        <h2 className="mb-6 text-center text-2xl font-semibold">Why ConcordPoint</h2>
+        <div className="space-y-4 text-muted-foreground">
+          <p>
+            Our cities are home to many Christian communities, each with their own congregations,
+            traditions, and events. Yet despite sharing the same faith, these church families often
+            remain disconnected — unaware of what their brothers and sisters across town are doing.
+          </p>
+          <p>
+            ConcordPoint is a simple network where different church families can act as cousins —
+            sharing events they want to open up, attending gatherings hosted by others, and getting
+            to know one another better.
+          </p>
+        </div>
+      </div>
+    </section>
   )
 }
 

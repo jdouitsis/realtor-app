@@ -5,7 +5,7 @@ import { RegisterPage } from '@/features/auth'
 export const Route = createFileRoute('/_public/register')({
   beforeLoad: ({ context }) => {
     if (context.auth.isAuthenticated) {
-      throw redirect({ to: '/' })
+      throw redirect({ to: '/events' })
     }
   },
   component: RegisterPage,
