@@ -39,8 +39,9 @@ function getErrorInfo(error: unknown) {
 function handleStepUpRedirect(error: unknown): boolean {
   const parsed = parseError(error)
   if (parsed.appCode === 'REQUEST_NEW_OTP') {
-    const currentPath = router.state.location.pathname
-    void router.navigate({ to: '/otp', search: { redirect: currentPath } })
+    const { pathname, searchStr } = router.state.location
+    const currentUrl = searchStr ? `${pathname}${searchStr}` : pathname
+    void router.navigate({ to: '/otp', search: { redirect: currentUrl } })
     return true
   }
   return false
