@@ -3,7 +3,7 @@ import { Calendar, ChevronLeft, Clock, MapPin } from 'lucide-react'
 
 import { Button } from '@/components/ui'
 
-import { useEvent } from '../hooks/useEvents'
+import { useEvent, useSuggestedEvents } from '../hooks/useEvents'
 
 const routeApi = getRouteApi('/_public/events/$eventId')
 
@@ -11,6 +11,7 @@ export function EventDetailPage() {
   const { eventId } = routeApi.useParams()
   const { user } = useRouteContext({ from: '__root__' })
   const event = useEvent(eventId)
+  const suggestedEvents = useSuggestedEvents(eventId, 2)
 
   if (!event) {
     return (
@@ -27,7 +28,7 @@ export function EventDetailPage() {
   }
 
   return (
-    <div className="flex flex-col justify-start">
+    <div className="flex flex-col justify-start pb-8">
       <Link
         to="/events"
         className="mb-6 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
@@ -79,6 +80,32 @@ export function EventDetailPage() {
           <h2 className="mb-2 text-lg font-semibold">About this event</h2>
           <p className="text-muted-foreground">{event.description}</p>
         </div>
+
+        {suggestedEvents.length > 0 && (
+          <div className="border-t pt-6">
+            <h2 className="mb-4 text-lg font-semibold">You may like these events as well</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {suggestedEvents.map((suggestedEvent) => (
+                <Link
+                  key={suggestedEvent.id}
+                  to="/events/$eventId"
+                  params={{ eventId: suggestedEvent.id }}
+                  className="group overflow-hidden rounded-lg border transition-colors hover:bg-muted/50"
+                >
+                  <img
+                    src={suggestedEvent.imageUrl}
+                    alt={suggestedEvent.title}
+                    className="h-32 w-full object-cover"
+                  />
+                  <div className="p-3">
+                    <p className="font-medium group-hover:underline">{suggestedEvent.title}</p>
+                    <p className="text-sm text-muted-foreground">{suggestedEvent.date}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

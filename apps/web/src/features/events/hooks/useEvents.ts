@@ -96,3 +96,13 @@ export function useEvents(): Event[] {
 export function useEvent(id: string): Event | undefined {
   return EVENTS.find((event) => event.id === id)
 }
+
+/**
+ * Returns suggested events, excluding the specified event ID.
+ *
+ * @example
+ * const suggested = useSuggestedEvents('1', 2)
+ */
+export function useSuggestedEvents(excludeId: string, limit: number = 2): Event[] {
+  return EVENTS.filter((event) => event.id !== excludeId).slice(0, limit)
+}
