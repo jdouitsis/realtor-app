@@ -77,10 +77,19 @@ export function NavBar({ user }: HeaderProps) {
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-72">
-            <SheetHeader>
-              <SheetTitle>Menu</SheetTitle>
+            <SheetHeader className="mb-6">
+              <SheetTitle className="mr-auto">ConcordPoint</SheetTitle>
             </SheetHeader>
-            <nav className="mt-6 flex flex-col gap-4">
+
+            {isAuthenticated && user ? (
+              <MobileAuthenticatedNav user={user} onNavigate={closeMobileMenu} />
+            ) : (
+              <MobileUnauthenticatedNav onNavigate={closeMobileMenu} />
+            )}
+
+            <div className="my-6 border-t" />
+
+            <nav className="flex flex-col gap-4">
               <Link
                 to="/events"
                 onClick={closeMobileMenu}
@@ -91,12 +100,6 @@ export function NavBar({ user }: HeaderProps) {
               >
                 Events
               </Link>
-              <div className="my-2 border-t" />
-              {isAuthenticated && user ? (
-                <MobileAuthenticatedNav user={user} onNavigate={closeMobileMenu} />
-              ) : (
-                <MobileUnauthenticatedNav onNavigate={closeMobileMenu} />
-              )}
             </nav>
           </SheetContent>
         </Sheet>
@@ -139,20 +142,19 @@ function UnauthenticatedNav() {
 function MobileAuthenticatedNav({ user, onNavigate }: { user: User; onNavigate: () => void }) {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-3">
-        <Avatar className="h-10 w-10">
-          <AvatarFallback>{getInitials(user.name || 'U')}</AvatarFallback>
-        </Avatar>
-        <span className="text-sm text-muted-foreground">
-          Welcome{user.name ? `, ${user.name}` : ''}!
-        </span>
-      </div>
       <Link
         to="/profile"
         onClick={onNavigate}
         className="text-lg text-muted-foreground transition-colors hover:text-foreground"
       >
-        Profile
+        <div className="flex items-center gap-3">
+          <Avatar className="h-10 w-10">
+            <AvatarFallback>{getInitials(user.name || 'U')}</AvatarFallback>
+          </Avatar>
+          <span className="text-sm text-muted-foreground">
+            Welcome{user.name ? `, ${user.name}` : ''}!
+          </span>
+        </div>
       </Link>
     </div>
   )
@@ -160,7 +162,7 @@ function MobileAuthenticatedNav({ user, onNavigate }: { user: User; onNavigate: 
 
 function MobileUnauthenticatedNav({ onNavigate }: { onNavigate: () => void }) {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-row gap-3">
       <Button variant="outline" asChild className="w-full">
         <Link to="/login" onClick={onNavigate}>
           Login
@@ -168,7 +170,7 @@ function MobileUnauthenticatedNav({ onNavigate }: { onNavigate: () => void }) {
       </Button>
       <Button asChild className="w-full">
         <Link to="/register" onClick={onNavigate}>
-          Get Started
+          Sign Up
         </Link>
       </Button>
     </div>
