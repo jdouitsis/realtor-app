@@ -254,7 +254,7 @@ Page components are the top-level components rendered by routes. They live in `i
 
 ```tsx
 // src/features/dashboard/pages/DashboardPage/index.tsx
-import { Header } from '@/components/common/Header'
+import { NavBar } from '@/components/common/NavBar'
 
 import { DashboardContent } from './components/DashboardContent'
 import { Sidebar } from './components/Sidebar'
@@ -264,7 +264,7 @@ export function DashboardPage() {
     <div className="flex min-h-screen">
       <Sidebar />
       <main className="flex-1 p-6">
-        <Header />
+        <NavBar />
         <DashboardContent />
       </main>
     </div>
@@ -343,7 +343,7 @@ Use the `@/` alias for absolute imports:
 // Shared UI components
 import { Button } from '@/components/ui'
 // Shared common components
-import { Header } from '@/components/common/Header'
+import { NavBar } from '@/components/common/NavBar'
 // Route API for accessing route context
 import { getRouteApi } from '@tanstack/react-router'
 

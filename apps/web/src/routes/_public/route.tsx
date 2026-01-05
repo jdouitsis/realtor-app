@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
-import { PublicHeader } from '@/features/public'
+import { NavBar } from '@/components/common/NavBar'
 
 export const Route = createFileRoute('/_public')({
   component: PublicLayout,
@@ -8,9 +8,9 @@ export const Route = createFileRoute('/_public')({
 
 function PublicLayout() {
   return (
-    <div className="h-full bg-background flex flex-col">
-      <PublicHeader />
-      <div className="flex flex-col items-center justify-center h-full w-full">
+    <div className="flex h-full flex-col bg-background">
+      <NavBar />
+      <div className="flex h-full w-full flex-col items-center justify-center">
         <Outlet />
       </div>
     </div>

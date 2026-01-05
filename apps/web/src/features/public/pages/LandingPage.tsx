@@ -1,47 +1,18 @@
 import { Link, useRouteContext } from '@tanstack/react-router'
 
+import { NavBar } from '@/components/common/NavBar'
 import { Button } from '@/components/ui'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export function LandingPage() {
-  const context = useRouteContext({ from: '__root__' })
-  const isAuthenticated = context.auth.isAuthenticated
-
+  const { user } = useRouteContext({ from: '__root__' })
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <LandingHeader isAuthenticated={isAuthenticated} />
+      <NavBar user={user} />
       <HeroSection />
       <FeaturesSection />
       <Footer />
     </div>
-  )
-}
-
-function LandingHeader({ isAuthenticated }: { isAuthenticated: boolean }) {
-  return (
-    <header className="border-b">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link to="/" className="text-xl font-bold">
-          ConcordPoint
-        </Link>
-        <nav className="flex items-center gap-4">
-          {isAuthenticated ? (
-            <Button asChild>
-              <Link to="/dashboard">Go to Dashboard</Link>
-            </Button>
-          ) : (
-            <>
-              <Button variant="ghost" asChild>
-                <Link to="/login">Sign In</Link>
-              </Button>
-              <Button asChild>
-                <Link to="/register">Get Started</Link>
-              </Button>
-            </>
-          )}
-        </nav>
-      </div>
-    </header>
   )
 }
 
