@@ -1,5 +1,5 @@
-import { getRouteApi, Link, useRouteContext } from '@tanstack/react-router'
-import { Calendar, ChevronLeft, Clock, MapPin } from 'lucide-react'
+import { getRouteApi, Link } from '@tanstack/react-router'
+import { Calendar, ChevronLeft, Clock, Mail, MapPin } from 'lucide-react'
 
 import { Button } from '@/components/ui'
 
@@ -10,7 +10,6 @@ const routeApi = getRouteApi('/_public/events/$eventId')
 
 export function EventDetailPage() {
   const { eventId } = routeApi.useParams()
-  const { user } = useRouteContext({ from: '__root__' })
   const event = useEvent(eventId)
   const suggestedEvents = useSuggestedEvents(eventId, 2)
 
@@ -64,17 +63,25 @@ export function EventDetailPage() {
         </div>
 
         <div className="border-t pt-6">
-          {user ? (
+          {event.contactEmail ? (
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Mail className="h-5 w-5" />
+              <span>
+                Contact{' '}
+                <a
+                  href={`mailto:${event.contactEmail}`}
+                  className="underline hover:text-foreground"
+                >
+                  {event.contactEmail}
+                </a>{' '}
+                for location
+              </span>
+            </div>
+          ) : (
             <div className="flex items-center gap-2 text-muted-foreground">
               <MapPin className="h-5 w-5" />
               <span>{event.location}</span>
             </div>
-          ) : (
-            <Button asChild size="sm">
-              <Link to="/login" search={{ redirect: `/events/${eventId}` }}>
-                Show Location
-              </Link>
-            </Button>
           )}
         </div>
 

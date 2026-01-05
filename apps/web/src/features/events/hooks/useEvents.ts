@@ -4,9 +4,11 @@ export interface Event {
   date: string
   time: string
   description: string
-  location: string
+  location?: string
   imageUrl: string
   tags: string[]
+  /** If set, show "contact X for location" instead of the actual location. */
+  contactEmail?: string
 }
 
 /** Available event tags for filtering. */
@@ -82,6 +84,7 @@ const EVENTS: Event[] = [
     location: 'Downtown Convention Centre, 500 Main St',
     imageUrl: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&h=400&fit=crop',
     tags: ['young-adults', 'conference'],
+    contactEmail: 'events@tgc.org',
   },
   {
     id: '8',
@@ -93,6 +96,7 @@ const EVENTS: Event[] = [
     location: 'Pacific Community Church, 1200 Oak Blvd',
     imageUrl: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1200&h=400&fit=crop',
     tags: ['conference', 'training'],
+    contactEmail: 'info@apologeticscanada.com',
   },
   {
     id: '9',
