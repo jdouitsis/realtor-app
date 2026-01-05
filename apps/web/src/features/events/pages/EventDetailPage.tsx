@@ -37,6 +37,14 @@ export function EventDetailPage() {
       </Link>
 
       <div className="space-y-6">
+        <div className="overflow-hidden rounded-lg">
+          <img
+            src={event.imageUrl}
+            alt={event.title}
+            className="h-48 w-full object-cover sm:h-64"
+          />
+        </div>
+
         <div>
           <h1 className="text-3xl font-bold">{event.title}</h1>
         </div>

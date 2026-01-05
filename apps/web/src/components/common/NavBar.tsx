@@ -48,7 +48,7 @@ export function NavBar({ user }: HeaderProps) {
 
   return (
     <header className="border-b px-4 md:px-6">
-      <div className="mx-auto flex h-16 max-w-4xl lg:max-w-full items-center justify-between">
+      <div className="mx-auto flex h-16 max-w-full items-center justify-between">
         <div className="flex items-center gap-6">
           <Link to="/" className="text-xl font-bold">
             ConcordPoint
