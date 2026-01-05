@@ -47,14 +47,14 @@ function WhyConcordPointSection() {
         <h2 className="mb-6 text-center text-2xl font-semibold">Why ConcordPoint</h2>
         <div className="space-y-4 text-muted-foreground">
           <p>
-            Our cities are home to many Christian communities, each with their own congregations,
-            traditions, and events. Yet despite sharing the same faith, these church families often
-            remain disconnected — unaware of what their brothers and sisters across town are doing.
-          </p>
-          <p>
             ConcordPoint is a simple network where different church families can act as cousins —
             sharing events they want to open up, attending gatherings hosted by others, and getting
             to know one another better.
+          </p>
+          <p>
+            Our cities are home to many Christian communities, each with their own congregations,
+            traditions, and events. Yet despite sharing the same faith, these church families often
+            remain disconnected — unaware of what their brothers and sisters across town are doing.
           </p>
         </div>
       </div>
