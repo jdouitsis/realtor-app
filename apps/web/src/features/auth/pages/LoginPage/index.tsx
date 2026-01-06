@@ -64,7 +64,7 @@ export function LoginPage() {
   }
 
   return (
-    <div className="h-full flex items-center justify-center bg-background p-4">
+    <div className="flex flex-1 items-center justify-center bg-background p-4">
       {step === 'email' ? (
         <LoginForm onSubmit={handleEmailSubmit} isLoading={isLoading} error={error} />
       ) : otpState ? (

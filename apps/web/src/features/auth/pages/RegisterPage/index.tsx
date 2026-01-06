@@ -64,7 +64,7 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="h-full flex items-center justify-center bg-background p-4">
+    <div className="flex flex-1 items-center justify-center bg-background p-4">
       {step === 'register' ? (
         <RegisterForm onSubmit={handleRegisterSubmit} isLoading={isLoading} error={error} />
       ) : otpState ? (
