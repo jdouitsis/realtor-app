@@ -12,6 +12,7 @@ interface StorageRegistry {
     tags: string[]
     active: boolean
   }
+  demo_notice_dismissed: boolean
 }
 
 type StorageKey = keyof StorageRegistry
