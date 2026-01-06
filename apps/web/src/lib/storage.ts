@@ -7,6 +7,11 @@ import { useCallback, useEffect, useState } from 'react'
  */
 interface StorageRegistry {
   auth_token: string
+  newsletter_preferences: {
+    frequency: 'weekly' | 'biweekly' | 'monthly'
+    tags: string[]
+    active: boolean
+  }
 }
 
 type StorageKey = keyof StorageRegistry

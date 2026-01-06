@@ -17,6 +17,7 @@ interface OtpState {
 
 export function RegisterPage() {
   const { auth } = routeApi.useRouteContext()
+  const { redirect } = routeApi.useSearch()
   const navigate = routeApi.useNavigate()
 
   const [step, setStep] = useState<Step>('register')
@@ -44,7 +45,7 @@ export function RegisterPage() {
     setError(undefined)
     try {
       await auth.verifyOtp(otpState.userId, code)
-      void navigate({ to: '/events' })
+      void navigate({ to: redirect ?? '/events' })
     } catch (err) {
       setError(parseError(err).userMessage)
     } finally {

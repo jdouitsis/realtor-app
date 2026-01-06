@@ -1,4 +1,7 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useRouteContext } from '@tanstack/react-router'
+import { Mail } from 'lucide-react'
+
+import { useStorage } from '@/lib/storage'
 
 import { useEvents } from '../../hooks/useEvents'
 import { useEventTagFilter } from '../../hooks/useEventTagFilter'
@@ -7,15 +10,28 @@ import { EventTagFilter } from './components/EventTagFilter'
 export function EventsPage() {
   const allEvents = useEvents()
   const { filterByTags } = useEventTagFilter()
+  const context = useRouteContext({ from: '__root__' })
+  const [newsletterPrefs] = useStorage('newsletter_preferences')
 
   const filteredEvents = allEvents.filter(filterByTags)
+  const showNewsletterPromo = !context.auth.isAuthenticated || !newsletterPrefs?.active
 
   return (
     <div className="flex flex-col justify-start">
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between">
         <h1 className="text-3xl font-bold">Upcoming Events</h1>
         <EventTagFilter />
       </div>
+
+      {showNewsletterPromo && (
+        <Link
+          to="/newsletter"
+          className="mb-6 flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <Mail className="h-4 w-4" />
+          <span>Stay up to date with our newsletter</span>
+        </Link>
+      )}
 
       <div className="flex flex-col gap-3">
         {filteredEvents.map((event) => (

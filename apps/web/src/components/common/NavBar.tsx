@@ -43,6 +43,7 @@ export function NavBar({ user }: HeaderProps) {
   const isAuthenticated = context.auth.isAuthenticated
   const pathname = useRouterState({ select: (s) => s.location.pathname })
   const isEventsActive = pathname.startsWith('/events')
+  const isNewsletterActive = pathname.startsWith('/newsletter')
 
   const closeMobileMenu = () => setMobileMenuOpen(false)
 
@@ -61,6 +62,15 @@ export function NavBar({ user }: HeaderProps) {
             )}
           >
             Events
+          </Link>
+          <Link
+            to="/newsletter"
+            className={cn(
+              'hidden text-sm transition-colors hover:text-foreground md:block',
+              isNewsletterActive ? 'font-medium text-foreground' : 'text-muted-foreground'
+            )}
+          >
+            Newsletter
           </Link>
         </div>
 
@@ -99,6 +109,16 @@ export function NavBar({ user }: HeaderProps) {
                 )}
               >
                 Events
+              </Link>
+              <Link
+                to="/newsletter"
+                onClick={closeMobileMenu}
+                className={cn(
+                  'text-lg transition-colors hover:text-foreground',
+                  isNewsletterActive ? 'font-medium text-foreground' : 'text-muted-foreground'
+                )}
+              >
+                Newsletter
               </Link>
             </nav>
           </SheetContent>

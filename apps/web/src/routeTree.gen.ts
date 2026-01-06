@@ -13,6 +13,7 @@ import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
+import { Route as PublicNewsletterRouteImport } from './routes/_public/newsletter'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedOtpRouteImport } from './routes/_authenticated/otp'
@@ -35,6 +36,11 @@ const IndexRoute = IndexRouteImport.update({
 const PublicRegisterRoute = PublicRegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicNewsletterRoute = PublicNewsletterRouteImport.update({
+  id: '/newsletter',
+  path: '/newsletter',
   getParentRoute: () => PublicRouteRoute,
 } as any)
 const PublicLoginRoute = PublicLoginRouteImport.update({
@@ -68,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/otp': typeof AuthenticatedOtpRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/login': typeof PublicLoginRoute
+  '/newsletter': typeof PublicNewsletterRoute
   '/register': typeof PublicRegisterRoute
   '/events/$eventId': typeof PublicEventsEventIdRoute
   '/events': typeof PublicEventsIndexRoute
@@ -77,6 +84,7 @@ export interface FileRoutesByTo {
   '/otp': typeof AuthenticatedOtpRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/login': typeof PublicLoginRoute
+  '/newsletter': typeof PublicNewsletterRoute
   '/register': typeof PublicRegisterRoute
   '/events/$eventId': typeof PublicEventsEventIdRoute
   '/events': typeof PublicEventsIndexRoute
@@ -89,6 +97,7 @@ export interface FileRoutesById {
   '/_authenticated/otp': typeof AuthenticatedOtpRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_public/login': typeof PublicLoginRoute
+  '/_public/newsletter': typeof PublicNewsletterRoute
   '/_public/register': typeof PublicRegisterRoute
   '/_public/events/$eventId': typeof PublicEventsEventIdRoute
   '/_public/events/': typeof PublicEventsIndexRoute
@@ -100,6 +109,7 @@ export interface FileRouteTypes {
     | '/otp'
     | '/profile'
     | '/login'
+    | '/newsletter'
     | '/register'
     | '/events/$eventId'
     | '/events'
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/otp'
     | '/profile'
     | '/login'
+    | '/newsletter'
     | '/register'
     | '/events/$eventId'
     | '/events'
@@ -120,6 +131,7 @@ export interface FileRouteTypes {
     | '/_authenticated/otp'
     | '/_authenticated/profile'
     | '/_public/login'
+    | '/_public/newsletter'
     | '/_public/register'
     | '/_public/events/$eventId'
     | '/_public/events/'
@@ -159,6 +171,13 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof PublicRegisterRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/newsletter': {
+      id: '/_public/newsletter'
+      path: '/newsletter'
+      fullPath: '/newsletter'
+      preLoaderRoute: typeof PublicNewsletterRouteImport
       parentRoute: typeof PublicRouteRoute
     }
     '/_public/login': {
@@ -214,6 +233,7 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface PublicRouteRouteChildren {
   PublicLoginRoute: typeof PublicLoginRoute
+  PublicNewsletterRoute: typeof PublicNewsletterRoute
   PublicRegisterRoute: typeof PublicRegisterRoute
   PublicEventsEventIdRoute: typeof PublicEventsEventIdRoute
   PublicEventsIndexRoute: typeof PublicEventsIndexRoute
@@ -221,6 +241,7 @@ interface PublicRouteRouteChildren {
 
 const PublicRouteRouteChildren: PublicRouteRouteChildren = {
   PublicLoginRoute: PublicLoginRoute,
+  PublicNewsletterRoute: PublicNewsletterRoute,
   PublicRegisterRoute: PublicRegisterRoute,
   PublicEventsEventIdRoute: PublicEventsEventIdRoute,
   PublicEventsIndexRoute: PublicEventsIndexRoute,
