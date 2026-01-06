@@ -64,17 +64,6 @@ const EVENTS: Event[] = [
     tags: ['outreach'],
   },
   {
-    id: '6',
-    title: 'Pregnancy Care Centre Volunteer Training',
-    date: '2026-01-15',
-    time: '6:00 PM',
-    description:
-      'Learn how to support expectant mothers and families in need through our volunteer program.',
-    location: 'Pregnancy Care Centre, 200 Cedar St',
-    imageUrl: 'https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=1200&h=400&fit=crop',
-    tags: ['outreach', 'training'],
-  },
-  {
     id: '7',
     title: 'Gospel Coalition Young Adults Conference',
     date: '2026-01-24',
@@ -106,7 +95,7 @@ const EVENTS: Event[] = [
     description:
       'Join us for a friendly pickleball tournament! All skill levels welcome. Bring your paddle or borrow one of ours.',
     location: 'Community Recreation Centre, 300 Sports Way',
-    imageUrl: 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=1200&h=400&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1659318006095-4d44845f3a1b?w=1200&h=400&fit=crop',
     tags: ['sports', 'social'],
   },
   {
@@ -117,7 +106,8 @@ const EVENTS: Event[] = [
     description:
       'Meet new tennis partners and enjoy an afternoon of doubles play followed by refreshments.',
     location: 'Greenview Tennis Club, 150 Court Lane',
-    imageUrl: 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=1200&h=400&fit=crop',
+    imageUrl:
+      'https://images.unsplash.com/flagged/photo-1576972405668-2d020a01cbfa?w=1200&h=400&fit=crop',
     tags: ['sports', 'social'],
   },
 ]
