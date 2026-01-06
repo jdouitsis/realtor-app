@@ -43,7 +43,15 @@ pnpm storybook     # Start Storybook
 
 ## Finding Context
 
-When modifying a file, walk up the directory tree until you find a `.md` file and read it for context about conventions and patterns for that area of the codebase.
+**Before exploring the codebase**, always read documentation first:
+
+1. [`docs/ADR/README.md`](docs/ADR/README.md) - Architecture decisions and their rationale
+2. [`docs/SOP/README.md`](docs/SOP/README.md) - Standard operating procedures index
+3. Relevant app READMEs from the README Index below
+
+This prevents consuming large amounts of code before understanding the patterns and decisions already in place.
+
+**When modifying a file**, walk up the directory tree until you find a `.md` file and read it for context about conventions and patterns for that area of the codebase.
 
 ```
 src/features/auth/pages/LoginPage/components/LoginForm.tsx
