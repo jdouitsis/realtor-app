@@ -20,11 +20,11 @@ export function DemoNoticeDialog() {
     <Dialog open={!dismissed} onOpenChange={(open) => !open && handleDismiss()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Welcome to ConcordPoint</DialogTitle>
+          <DialogTitle>Welcome to Concord</DialogTitle>
           <DialogDescription className="pt-2 leading-relaxed">
             This site is currently a conceptual preview. What you're seeing is sample data and
-            prototype functionality designed to demonstrate how ConcordPoint will work once we reach
-            our first official release.
+            prototype functionality designed to demonstrate how Concord will work once we reach our
+            first official release.
           </DialogDescription>
         </DialogHeader>
         <p className="text-sm text-muted-foreground">
