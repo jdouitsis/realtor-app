@@ -12,6 +12,7 @@ import {
   CardTitle,
   Label,
 } from '@/components/ui'
+import { cn } from '@/lib/utils'
 
 import { OTPInput } from './OTPInput'
 
@@ -31,6 +32,7 @@ interface OtpVerificationFormProps {
   onResend: () => void
   isLoading?: boolean
   error?: string
+  className?: string
 }
 
 const RESEND_COOLDOWN_SECONDS = 60
@@ -41,6 +43,7 @@ export function OtpVerificationForm({
   onResend,
   isLoading = false,
   error,
+  className,
 }: OtpVerificationFormProps) {
   const [resendCooldown, setResendCooldown] = useState(RESEND_COOLDOWN_SECONDS)
 
@@ -76,7 +79,7 @@ export function OtpVerificationForm({
   }
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className={cn('w-full max-w-md', className)}>
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">Check your email</CardTitle>
         <CardDescription>

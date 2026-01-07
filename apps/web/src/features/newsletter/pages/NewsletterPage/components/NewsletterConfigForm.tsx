@@ -20,7 +20,11 @@ const FREQUENCY_OPTIONS: { value: NewsletterFrequency; label: string }[] = [
   { value: 'monthly', label: 'Once a month' },
 ]
 
-export function NewsletterConfigForm() {
+interface NewsletterConfigFormProps {
+  showStatus?: boolean
+}
+
+export function NewsletterConfigForm({ showStatus = true }: NewsletterConfigFormProps) {
   const { preferences, updatePreferences } = useNewsletterPreferences()
 
   const handleFrequencyChange = (value: string) => {
@@ -48,26 +52,28 @@ export function NewsletterConfigForm() {
       </div>
 
       <div className="space-y-6">
-        {/* Status Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Newsletter Status</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-muted-foreground">
-                {preferences.active
-                  ? 'You will receive newsletter emails'
-                  : 'Newsletter emails are paused'}
-              </p>
-              <Switch
-                id="newsletter-active"
-                checked={preferences.active}
-                onCheckedChange={handleActiveToggle}
-              />
-            </div>
-          </CardContent>
-        </Card>
+        {/* Status Section - only shown when authenticated */}
+        {showStatus && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Newsletter Status</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">
+                  {preferences.active
+                    ? 'You will receive newsletter emails'
+                    : 'Newsletter emails are paused'}
+                </p>
+                <Switch
+                  id="newsletter-active"
+                  checked={preferences.active}
+                  onCheckedChange={handleActiveToggle}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Frequency Section */}
         <Card>
