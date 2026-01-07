@@ -10,7 +10,7 @@ export function LandingPage() {
     <div className="flex min-h-screen flex-col bg-background">
       <NavBar user={user} />
       <HeroSection />
-      <WhyConcordPointSection />
+      <WhyConcordSection />
       <FeaturesSection />
       <Footer />
     </div>
@@ -40,7 +40,7 @@ function HeroSection() {
   )
 }
 
-function WhyConcordPointSection() {
+function WhyConcordSection() {
   return (
     <section className="border-t py-16">
       <div className="container mx-auto max-w-3xl px-4">

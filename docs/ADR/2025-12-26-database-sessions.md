@@ -10,7 +10,7 @@ After OTP verification, users need a session to stay authenticated. The two main
 1. **Stateless (JWT):** Token contains user data, validated cryptographically
 2. **Stateful (Database):** Token is a random ID, looked up in database
 
-For a ConcordPoint application, security considerations are paramount.
+For a Concord application, security considerations are paramount.
 
 ## Decision
 
@@ -53,7 +53,7 @@ sessions: {
 - Scales horizontally without shared state
 - Self-contained user information
 
-**Rejected for ConcordPoint app because:**
+**Rejected for Concord app because:**
 
 - Cannot revoke individual sessions immediately
 - "Logout everywhere" requires a blacklist (negates stateless benefit)

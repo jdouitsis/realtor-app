@@ -1,6 +1,6 @@
-# ConcordPoint
+# Concord
 
-A ConcordPoint application built as a pnpm monorepo with Turborepo orchestration.
+A Concord application built as a pnpm monorepo with Turborepo orchestration.
 
 ## Tech Stack
 

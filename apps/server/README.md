@@ -1,6 +1,6 @@
 # Server
 
-The backend API server for the ConcordPoint application. Built with Express and tRPC, providing type-safe API endpoints that are consumed by the web frontend.
+The backend API server for the Concord application. Built with Express and tRPC, providing type-safe API endpoints that are consumed by the web frontend.
 
 ## Tech Stack
 

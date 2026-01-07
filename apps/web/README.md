@@ -1,6 +1,6 @@
 # Web App
 
-The React frontend application for the ConcordPoint platform.
+The React frontend application for the Concord platform.
 
 ## Tech Stack
 
