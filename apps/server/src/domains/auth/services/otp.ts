@@ -38,7 +38,7 @@ export async function sendOtpEmail(email: string, code: string): Promise<void> {
 
   await emailService.send({
     to: email,
-    subject: 'Your verification code',
+    subject: `Your code (${code})`,
     html,
     text,
     dev: {
