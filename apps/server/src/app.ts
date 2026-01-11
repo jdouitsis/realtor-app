@@ -7,6 +7,7 @@ import type { Database } from './db'
 import { env } from './env'
 import { logger } from './lib/logger'
 import { appRouter } from './routers'
+import devEmailRoutes from './routes/dev/emails'
 import { createContextFactory } from './trpc'
 
 /**
@@ -50,6 +51,11 @@ export function createApp(dbOverride?: Database) {
   )
 
   app.get('/health', (_, res) => res.json({ status: 'ok' }))
+
+  // Dev-only routes
+  if (env.isDev) {
+    app.use('/dev/emails', devEmailRoutes)
+  }
 
   return app
 }

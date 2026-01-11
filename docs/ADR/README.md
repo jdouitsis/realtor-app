@@ -6,6 +6,7 @@ This directory contains Architecture Decision Records (ADRs) documenting signifi
 
 | Date       | Decision                                                               | Summary                                                                      |
 | ---------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 2026-01-10 | [React Email Templates](./2026-01-10-react-email-templates.md)         | Use React Email for type-safe, previewable email templates                   |
 | 2025-01-10 | [Magic Link Auth](./2025-01-10-magic-link-auth.md)                     | Single-use magic links for passwordless login and admin-generated invites    |
 | 2025-12-28 | [Router-Based Auth](./2025-12-28-router-based-auth.md)                 | Auth via router context + factory pattern, replaces React Context            |
 | 2025-12-28 | [Authorization Header Auth](./2025-12-28-authorization-header-auth.md) | Use Authorization header + localStorage instead of cookies (Safari fix)      |

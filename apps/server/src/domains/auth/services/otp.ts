@@ -3,6 +3,7 @@ import crypto from 'node:crypto'
 import type { Database } from '@server/db'
 import { otpCodes, users } from '@server/db/schema'
 import { emailService } from '@server/infra/email'
+import { renderEmail } from '@server/infra/email/render'
 import { and, desc, eq, isNull } from 'drizzle-orm'
 
 const OTP_EXPIRY_MINUTES = 15
@@ -27,26 +28,17 @@ export async function createOtpCode(db: Database, userId: string): Promise<strin
 }
 
 export async function sendOtpEmail(email: string, code: string): Promise<void> {
+  const { html, text } = await renderEmail({
+    type: 'otp',
+    code,
+    expiresInMinutes: OTP_EXPIRY_MINUTES,
+  })
+
   await emailService.send({
     to: email,
     subject: 'Your verification code',
-    html: `
-      <div style="font-family: sans-serif; max-width: 400px; margin: 0 auto;">
-        <h1 style="font-size: 24px; margin-bottom: 16px;">Your verification code</h1>
-        <p style="font-size: 16px; color: #666; margin-bottom: 24px;">
-          Enter this code to sign in to your account. It expires in ${OTP_EXPIRY_MINUTES} minutes.
-        </p>
-        <div style="background: #f4f4f5; padding: 24px; text-align: center; border-radius: 8px;">
-          <span style="font-size: 32px; font-weight: bold; letter-spacing: 8px; font-family: monospace;">
-            ${code}
-          </span>
-        </div>
-        <p style="font-size: 14px; color: #999; margin-top: 24px;">
-          If you didn't request this code, you can safely ignore this email.
-        </p>
-      </div>
-    `,
-    text: `Your verification code is: ${code}\n\nThis code expires in ${OTP_EXPIRY_MINUTES} minutes.\n\nIf you didn't request this code, you can safely ignore this email.`,
+    html,
+    text,
     dev: {
       type: 'otp',
       to: email,

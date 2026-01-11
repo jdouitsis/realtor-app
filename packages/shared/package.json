@@ -7,6 +7,10 @@
     "./errors": {
       "types": "./src/errors.ts",
       "import": "./src/errors.ts"
+    },
+    "./types": {
+      "types": "./src/types.ts",
+      "import": "./src/types.ts"
     }
   },
   "scripts": {
