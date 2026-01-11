@@ -1,5 +1,4 @@
 import { users } from '@server/db/schema'
-import { env } from '@server/env'
 import { notFound } from '@server/lib/errors'
 import { protectedProcedure } from '@server/trpc'
 import { eq } from 'drizzle-orm'
@@ -40,20 +39,15 @@ export const generateMagicLink = protectedProcedure
       ? new Date(input.expiresAt)
       : new Date(Date.now() + DEFAULT_EXPIRY_MS)
 
-    const token = await magicLinkService.create(db, {
+    const { magicUrl } = await magicLinkService.create(db, {
       userId: input.userId,
       expiresAt,
       createdBy: adminUser.id,
       redirectUrl: input.redirectUrl,
     })
 
-    const redirectParam = input.redirectUrl
-      ? `&redirect=${encodeURIComponent(input.redirectUrl)}`
-      : ''
-    const url = `${env.WEB_URL}/login/magic?token=${token}${redirectParam}`
-
     return {
-      url,
+      url: magicUrl,
       expiresAt: expiresAt.toISOString(),
     }
   })

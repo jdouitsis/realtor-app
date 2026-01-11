@@ -40,6 +40,17 @@ export function createAuth(router: RouterLike): Auth {
     get isAuthenticated() {
       return getStorage('auth_token') !== null
     },
+    async login(email, options) {
+      // options.type: 'otp' (default) or 'magic' - determines auth method
+      // options.redirectUrl: optional redirect after magic link verification
+      const res = await trpcClient.auth.login.mutate({ email, ...options })
+      return { email: res.email }
+    },
+    async register(email, name, options) {
+      // Same options as login
+      const res = await trpcClient.auth.register.mutate({ email, name, ...options })
+      return { email: res.email }
+    },
     async verifyOtp(email, code) {
       const res = await trpcClient.auth.verifyOtp.mutate({ email, code })
       setStorage('auth_token', res.token)
@@ -53,6 +64,25 @@ export function createAuth(router: RouterLike): Auth {
     // ...other methods
   }
 }
+```
+
+### Auth Types
+
+Both `login` and `register` support two authentication methods:
+
+| Type    | Description                                    |
+| ------- | ---------------------------------------------- |
+| `otp`   | Sends a 6-digit code to verify via `verifyOtp` |
+| `magic` | Sends a magic link that authenticates on click |
+
+```typescript
+// OTP flow (default)
+await auth.login('user@example.com')
+await auth.verifyOtp('user@example.com', '123456')
+
+// Magic link flow
+await auth.login('user@example.com', { type: 'magic', redirectUrl: '/dashboard' })
+// User clicks link in email → automatically authenticated
 ```
 
 ### Accessing Auth in Components

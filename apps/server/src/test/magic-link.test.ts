@@ -13,16 +13,22 @@ describe('Magic Link Authentication', () => {
     name: 'Magic Link User',
   }
 
-  describe('requestMagicLink', () => {
-    it('returns success message regardless of whether email exists', async () => {
+  describe('login with type: magic', () => {
+    it('throws USER_NOT_FOUND for non-existent email', async () => {
       const client = createTestClient()
 
       // Request for non-existent email
-      const result = await client.trpc.auth.requestMagicLink({
-        email: 'nonexistent@example.com',
-      })
-
-      expect(result.message).toContain('If an account exists')
+      try {
+        await client.trpc.auth.login({
+          email: 'nonexistent@example.com',
+          type: 'magic',
+        })
+        expect.fail('Should have thrown')
+      } catch (error) {
+        expect(error).toBeInstanceOf(TRPCError)
+        const trpcError = error as TRPCError
+        expect(trpcError.code).toBe('NOT_FOUND')
+      }
     })
 
     it('creates a magic link token for existing user', async () => {
@@ -34,8 +40,8 @@ describe('Magic Link Authentication', () => {
       const { user } = await client.trpc.auth.verifyOtp({ email, code: otp })
       const userId = user.id
 
-      // Request magic link
-      await client.trpc.auth.requestMagicLink({ email: testUser.email })
+      // Request magic link via login
+      await client.trpc.auth.login({ email: testUser.email, type: 'magic' })
 
       // Verify token was created in database
       const db = getCurrentTx()
@@ -62,8 +68,9 @@ describe('Magic Link Authentication', () => {
       const userId = user.id
 
       // Request magic link with redirect
-      await client.trpc.auth.requestMagicLink({
+      await client.trpc.auth.login({
         email: testUser.email,
+        type: 'magic',
         redirectUrl: '/events/123',
       })
 
@@ -78,7 +85,7 @@ describe('Magic Link Authentication', () => {
       expect(magicLink.redirectUrl).toBe('/events/123')
     })
 
-    it('respects custom expiration time', async () => {
+    it('uses default 24h expiration', async () => {
       const client = createTestClient()
 
       // Register and verify user
@@ -87,11 +94,8 @@ describe('Magic Link Authentication', () => {
       const { user } = await client.trpc.auth.verifyOtp({ email, code: otp })
       const userId = user.id
 
-      // Request magic link with 48 hour expiry
-      await client.trpc.auth.requestMagicLink({
-        email: testUser.email,
-        expiresInHours: 48,
-      })
+      // Request magic link (uses default 24h expiry)
+      await client.trpc.auth.login({ email: testUser.email, type: 'magic' })
 
       const db = getCurrentTx()
       const [magicLink] = await db
@@ -101,7 +105,7 @@ describe('Magic Link Authentication', () => {
         .orderBy(desc(magicLinks.createdAt))
         .limit(1)
 
-      const expectedExpiry = Date.now() + ms('48 hours')
+      const expectedExpiry = Date.now() + ms('24 hours')
       const actualExpiry = magicLink.expiresAt.getTime()
 
       // Allow 5 second tolerance
@@ -221,8 +225,8 @@ describe('Magic Link Authentication', () => {
       const userId = user.id
       client.clearToken()
 
-      // Request magic link
-      await client.trpc.auth.requestMagicLink({ email: testUser.email })
+      // Request magic link via login
+      await client.trpc.auth.login({ email: testUser.email, type: 'magic' })
 
       // Get the token from database
       const magicToken = await getLatestMagicLinkToken(userId)
@@ -252,8 +256,9 @@ describe('Magic Link Authentication', () => {
       client.clearToken()
 
       // Request magic link with redirect
-      await client.trpc.auth.requestMagicLink({
+      await client.trpc.auth.login({
         email: testUser.email,
+        type: 'magic',
         redirectUrl: '/events/456',
       })
 
@@ -277,7 +282,7 @@ describe('Magic Link Authentication', () => {
       client.clearToken()
 
       // Request and verify magic link
-      await client.trpc.auth.requestMagicLink({ email: testUser.email })
+      await client.trpc.auth.login({ email: testUser.email, type: 'magic' })
       const magicToken = await getLatestMagicLinkToken(userId)
       await client.trpc.auth.verifyMagicLink({ token: magicToken })
 
@@ -303,7 +308,7 @@ describe('Magic Link Authentication', () => {
       client.clearToken()
 
       // Request and verify magic link once
-      await client.trpc.auth.requestMagicLink({ email: testUser.email })
+      await client.trpc.auth.login({ email: testUser.email, type: 'magic' })
       const magicToken = await getLatestMagicLinkToken(userId)
       await client.trpc.auth.verifyMagicLink({ token: magicToken })
 
@@ -329,8 +334,8 @@ describe('Magic Link Authentication', () => {
       const userId = user.id
       client.clearToken()
 
-      // Request magic link
-      await client.trpc.auth.requestMagicLink({ email: testUser.email })
+      // Request magic link via login
+      await client.trpc.auth.login({ email: testUser.email, type: 'magic' })
       const magicToken = await getLatestMagicLinkToken(userId)
 
       // Manually expire the token in database
@@ -380,7 +385,7 @@ describe('Magic Link Authentication', () => {
       client.clearToken()
 
       // Request and verify magic link
-      await client.trpc.auth.requestMagicLink({ email: testUser.email })
+      await client.trpc.auth.login({ email: testUser.email, type: 'magic' })
       const magicToken = await getLatestMagicLinkToken(userId)
       const { token } = await client.trpc.auth.verifyMagicLink({
         token: magicToken,
@@ -416,9 +421,10 @@ describe('Magic Link Authentication', () => {
       await client.trpc.auth.logout()
       client.clearToken()
 
-      // 3. Request magic link instead of OTP
-      await client.trpc.auth.requestMagicLink({
+      // 3. Login with magic link instead of OTP
+      await client.trpc.auth.login({
         email: testUser.email,
+        type: 'magic',
         redirectUrl: '/dashboard',
       })
 

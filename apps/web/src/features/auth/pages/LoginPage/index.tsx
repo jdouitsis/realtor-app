@@ -1,8 +1,6 @@
 import { getRouteApi } from '@tanstack/react-router'
 import { useState } from 'react'
 
-import { parseError } from '@/lib/errors'
-
 import { OtpVerificationForm } from '../../components/OtpVerificationForm'
 import { LoginForm, type LoginFormData } from './components/LoginForm'
 
@@ -23,39 +21,34 @@ export function LoginPage() {
   const handleEmailSubmit = async (data: LoginFormData) => {
     setIsLoading(true)
     setError(undefined)
-    try {
-      const { email } = await auth.login(data.email)
-      setOtpEmail(email)
-      setStep('otp')
-    } catch (err) {
-      setError(parseError(err).userMessage)
-    } finally {
-      setIsLoading(false)
-    }
+    await auth
+      .login(data.email)
+      .then(({ email }) => {
+        setOtpEmail(email)
+        setStep('otp')
+      })
+      .catch(setError)
+      .finally(() => setIsLoading(false))
   }
 
   const handleOtpSubmit = async (code: string) => {
     if (!otpEmail) return
     setIsLoading(true)
     setError(undefined)
-    try {
-      await auth.verifyOtp(otpEmail, code)
-      void navigate({ to: redirect ?? '/events' })
-    } catch (err) {
-      setError(parseError(err).userMessage)
-    } finally {
-      setIsLoading(false)
-    }
+    await auth
+      .verifyOtp(otpEmail, code)
+      .then(() => navigate({ to: redirect ?? '/events' }))
+      .catch(setError)
+      .finally(() => setIsLoading(false))
   }
 
   const handleResend = async () => {
     if (!otpEmail) return
     setError(undefined)
-    try {
-      await auth.resendOtp(otpEmail)
-    } catch (err) {
-      setError(parseError(err).userMessage)
-    }
+    await auth
+      .resendOtp(otpEmail)
+      .catch(setError)
+      .finally(() => setIsLoading(false))
   }
 
   return (

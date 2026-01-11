@@ -3,6 +3,7 @@ import crypto from 'node:crypto'
 import type { Database } from '@server/db'
 import type { MagicLink, User } from '@server/db/schema'
 import { magicLinks, users } from '@server/db/schema'
+import { env } from '@server/env'
 import { emailService } from '@server/infra/email'
 import { renderEmail } from '@server/infra/email/render'
 import { and, eq, isNull } from 'drizzle-orm'
@@ -22,12 +23,17 @@ export interface CreateMagicLinkOptions {
   ipAddress?: string
 }
 
+export interface CreateMagicLinkResult {
+  token: string
+  magicUrl: string
+}
+
 export type ValidateMagicLinkResult =
   | { success: true; magicLink: MagicLink; user: User }
   | { success: false; error: 'not_found' | 'expired' | 'already_used' }
 
 export interface MagicLinkService {
-  create(db: Database, options: CreateMagicLinkOptions): Promise<string>
+  create(db: Database, options: CreateMagicLinkOptions): Promise<CreateMagicLinkResult>
   validate(db: Database, token: string): Promise<ValidateMagicLinkResult>
   consume(db: Database, token: string): Promise<void>
 }
@@ -36,7 +42,7 @@ export interface MagicLinkService {
  * Service for managing magic link authentication tokens.
  *
  * @example
- * const token = await magicLinkService.create(db, { userId: 'abc', redirectUrl: '/events' })
+ * const { token, magicUrl } = await magicLinkService.create(db, { userId: 'abc', redirectUrl: '/events' })
  * const result = await magicLinkService.validate(db, token)
  * if (result.success) {
  *   await magicLinkService.consume(db, token)
@@ -56,7 +62,12 @@ export const magicLinkService: MagicLinkService = {
       ipAddress: options.ipAddress,
     })
 
-    return token
+    const redirectParam = options.redirectUrl
+      ? `&redirect=${encodeURIComponent(options.redirectUrl)}`
+      : ''
+    const magicUrl = `${env.WEB_URL}/login/magic?token=${token}${redirectParam}`
+
+    return { token, magicUrl }
   },
 
   async validate(db, token) {

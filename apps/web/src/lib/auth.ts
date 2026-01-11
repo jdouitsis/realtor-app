@@ -1,18 +1,17 @@
 import { clearStorage, getStorage, setStorage } from '@/lib/storage'
 import { trpcClient } from '@/lib/trpc'
 
-export interface RequestMagicLinkOptions {
+export interface AuthOptions {
+  type?: 'otp' | 'magic'
   redirectUrl?: string
-  expiresInHours?: number
 }
 
 export interface Auth {
   readonly isAuthenticated: boolean
-  login: (email: string) => Promise<{ email: string }>
-  register: (email: string, name: string) => Promise<{ email: string }>
+  login: (email: string, options?: AuthOptions) => Promise<{ email: string }>
+  register: (email: string, name: string, options?: AuthOptions) => Promise<{ email: string }>
   verifyOtp: (email: string, code: string) => Promise<void>
   resendOtp: (email: string) => Promise<void>
-  requestMagicLink: (email: string, options?: RequestMagicLinkOptions) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -33,13 +32,22 @@ export function createAuth(router: RouterLike): Auth {
       return getStorage('auth_token') !== null
     },
 
-    async login(email) {
-      const res = await trpcClient.auth.login.mutate({ email })
+    async login(email, options) {
+      const res = await trpcClient.auth.login.mutate({
+        email,
+        type: options?.type,
+        redirectUrl: options?.redirectUrl,
+      })
       return { email: res.email }
     },
 
-    async register(email, name) {
-      const res = await trpcClient.auth.register.mutate({ email, name })
+    async register(email, name, options) {
+      const res = await trpcClient.auth.register.mutate({
+        email,
+        name,
+        type: options?.type,
+        redirectUrl: options?.redirectUrl,
+      })
       return { email: res.email }
     },
 
@@ -51,14 +59,6 @@ export function createAuth(router: RouterLike): Auth {
 
     async resendOtp(email) {
       await trpcClient.auth.resendOtp.mutate({ email })
-    },
-
-    async requestMagicLink(email, options) {
-      await trpcClient.auth.requestMagicLink.mutate({
-        email,
-        redirectUrl: options?.redirectUrl,
-        expiresInHours: options?.expiresInHours,
-      })
     },
 
     async logout() {
