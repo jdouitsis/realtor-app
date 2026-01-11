@@ -2,6 +2,7 @@ import crypto from 'node:crypto'
 
 import type { Database } from '@server/db'
 import { otpCodes, users } from '@server/db/schema'
+import { env } from '@server/env'
 import { emailService } from '@server/infra/email'
 import { renderEmail } from '@server/infra/email/render'
 import { and, desc, eq, isNull } from 'drizzle-orm'
@@ -13,6 +14,9 @@ const MAX_ATTEMPTS = 5
 
 export function generateOtp(): string {
   // Generate a 6-digit code
+  if (env.isDev) {
+    return '000000'
+  }
   return crypto.randomInt(100000, 999999).toString()
 }
 
