@@ -21,7 +21,7 @@ export const resendEmailService: EmailService = {
 
     try {
       const { data, error } = await resend.emails.send({
-        from: env.FROM_EMAIL,
+        from: `Concord <${env.FROM_EMAIL}>`,
         to: options.to,
         subject: options.subject,
         html: options.html,

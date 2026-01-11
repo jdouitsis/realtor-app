@@ -8,9 +8,14 @@ BEFORE reading any code files, you MUST read relevant documentation:
 
 1. [`docs/ADR/README.md`](docs/ADR/README.md) - Check for architecture decisions related to your task
 2. [`docs/SOP/README.md`](docs/SOP/README.md) - Check for standard operating procedures if performing a repo-level task
-3. Walk up from the file in question to find the nearest README.md and read it
+3. [`docs/task-checklist.md`](docs/task-checklist.md) - Review before completing any task
+4. Walk up from the file in question to find the nearest README.md and read it
 
 Do NOT skip this step even if the question seems simple. This prevents wasting context on code before understanding the patterns and decisions already in place.
+
+## IMPORTANT: READ THIS
+
+- ALWAYS, and I mean ALWAYS!!! try and avoid casting. Find a better way, but make sure it's simple.
 
 ## Tech Stack
 
@@ -172,9 +177,9 @@ function ProfilePage() {
       <h1>Settings</h1>
       <Button onClick={handleLogout}>Log out</Button>
     </div>
-  )
+  );
 
-  return <Layout header={headerContent}>...</Layout>
+  return <Layout header={headerContent}>...</Layout>;
 }
 ```
 
@@ -182,7 +187,9 @@ function ProfilePage() {
 
 ```tsx
 function ProfilePage() {
-  return <Layout header={<HeaderContent onLogout={handleLogout} />}>...</Layout>
+  return (
+    <Layout header={<HeaderContent onLogout={handleLogout} />}>...</Layout>
+  );
 }
 
 function HeaderContent({ onLogout }: { onLogout: () => void }) {
@@ -191,7 +198,7 @@ function HeaderContent({ onLogout }: { onLogout: () => void }) {
       <h1>Settings</h1>
       <Button onClick={onLogout}>Log out</Button>
     </div>
-  )
+  );
 }
 ```
 
@@ -248,6 +255,7 @@ docs: add contributing guide
 | [`docs/prod-requirements.md`](docs/prod-requirements.md)             | Future production improvements to address before release          |
 | [`docs/SOP/README.md`](docs/SOP/README.md)                           | Repo-level tasks: adding commands, setting up tools, git hooks    |
 | [`docs/ADR/README.md`](docs/ADR/README.md)                           | Architecture decisions and their rationale                        |
+| [`docs/task-checklist.md`](docs/task-checklist.md)                   | Review before completing any task                                 |
 | [`apps/web/README.md`](apps/web/README.md)                           | Understanding the web app structure, commands, and tech stack     |
 | [`apps/web/src/lib/README.md`](apps/web/src/lib/README.md)           | Error handling, tRPC client, QueryClient, storage utilities       |
 | [`apps/web/src/features/README.md`](apps/web/src/features/README.md) | Creating features, pages, components; naming conventions; exports |

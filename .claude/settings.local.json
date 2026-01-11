@@ -36,7 +36,11 @@
       "Bash(git -C \"/Users/jamesdouitsis/Projects/2026-01-02 ConcordPoint\" diff)",
       "Bash(git -C \"/Users/jamesdouitsis/Projects/2026-01-02 ConcordPoint\" diff --stat)",
       "Bash(git -C \"/Users/jamesdouitsis/Projects/2026-01-02 ConcordPoint\" log --oneline -3)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "WebFetch(domain:react.email)",
+      "Bash(pnpm --filter @concordpoint/server db:generate:*)",
+      "Bash(pnpm --filter @concordpoint/server db:migrate:*)",
+      "Bash(pnpm --filter @concordpoint/server test:*)"
     ]
   }
 }
