@@ -4,15 +4,16 @@ This directory contains Architecture Decision Records (ADRs) documenting signifi
 
 ## Decisions
 
-| Date       | Decision                                                                      | Summary                                                                     |
-| ---------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| 2025-12-28 | [Router-Based Auth](./2025-12-28-router-based-auth.md)                        | Auth via router context + factory pattern, replaces React Context           |
-| 2025-12-28 | [Authorization Header Auth](./2025-12-28-authorization-header-auth.md)        | Use Authorization header + localStorage instead of cookies (Safari fix)     |
-| 2025-12-27 | [Step-Up Authentication](./2025-12-27-step-up-authentication.md)              | Require recent OTP verification for sensitive operations (email, delete)    |
-| 2025-12-26 | [Server Path Alias](./2025-12-26-server-path-alias.md)                        | Use `@server/*` instead of `@/*` in server to avoid cross-package conflicts |
-| 2025-12-26 | [Email Provider](./2025-12-26-email-provider-ports-adapters.md)               | Use Resend with ports/adapters pattern for swappable email infrastructure   |
-| 2025-12-26 | [Database Sessions](./2025-12-26-database-sessions.md)                        | Use database-backed sessions for authentication (token transport superseded)|
-| 2025-12-26 | [Rate Limiting](./2025-12-26-rate-limiting.md)                                | IP-based rate limiting on auth endpoints using tRPC middleware              |
+| Date       | Decision                                                               | Summary                                                                      |
+| ---------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 2025-01-10 | [Magic Link Auth](./2025-01-10-magic-link-auth.md)                     | Single-use magic links for passwordless login and admin-generated invites    |
+| 2025-12-28 | [Router-Based Auth](./2025-12-28-router-based-auth.md)                 | Auth via router context + factory pattern, replaces React Context            |
+| 2025-12-28 | [Authorization Header Auth](./2025-12-28-authorization-header-auth.md) | Use Authorization header + localStorage instead of cookies (Safari fix)      |
+| 2025-12-27 | [Step-Up Authentication](./2025-12-27-step-up-authentication.md)       | Require recent OTP verification for sensitive operations (email, delete)     |
+| 2025-12-26 | [Server Path Alias](./2025-12-26-server-path-alias.md)                 | Use `@server/*` instead of `@/*` in server to avoid cross-package conflicts  |
+| 2025-12-26 | [Email Provider](./2025-12-26-email-provider-ports-adapters.md)        | Use Resend with ports/adapters pattern for swappable email infrastructure    |
+| 2025-12-26 | [Database Sessions](./2025-12-26-database-sessions.md)                 | Use database-backed sessions for authentication (token transport superseded) |
+| 2025-12-26 | [Rate Limiting](./2025-12-26-rate-limiting.md)                         | IP-based rate limiting on auth endpoints using tRPC middleware               |
 
 ## Format
 

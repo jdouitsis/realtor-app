@@ -1,12 +1,18 @@
 import { clearStorage, getStorage, setStorage } from '@/lib/storage'
 import { trpcClient } from '@/lib/trpc'
 
+export interface RequestMagicLinkOptions {
+  redirectUrl?: string
+  expiresInHours?: number
+}
+
 export interface Auth {
   readonly isAuthenticated: boolean
   login: (email: string) => Promise<{ userId: string }>
   register: (email: string, name: string) => Promise<{ userId: string }>
   verifyOtp: (userId: string, code: string) => Promise<void>
   resendOtp: (userId: string) => Promise<void>
+  requestMagicLink: (email: string, options?: RequestMagicLinkOptions) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -45,6 +51,14 @@ export function createAuth(router: RouterLike): Auth {
 
     async resendOtp(userId) {
       await trpcClient.auth.resendOtp.mutate({ userId })
+    },
+
+    async requestMagicLink(email, options) {
+      await trpcClient.auth.requestMagicLink.mutate({
+        email,
+        redirectUrl: options?.redirectUrl,
+        expiresInHours: options?.expiresInHours,
+      })
     },
 
     async logout() {

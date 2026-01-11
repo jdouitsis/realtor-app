@@ -27,6 +27,9 @@ const APP_ERROR_MESSAGES: Record<AppErrorCode, string> = {
   OTP_INVALID: 'Invalid code. Please try again.',
   OTP_MAX_ATTEMPTS: 'Too many attempts. Please request a new code.',
   REQUEST_NEW_OTP: 'Please verify your identity to continue.',
+  MAGIC_LINK_EXPIRED: 'This magic link has expired. Please request a new one.',
+  MAGIC_LINK_USED: 'This magic link has already been used.',
+  MAGIC_LINK_INVALID: 'Invalid magic link.',
 }
 
 /**

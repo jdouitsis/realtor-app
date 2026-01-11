@@ -14,6 +14,11 @@ const createCaller = t.createCallerFactory(appRouter)
  */
 export class TestClient {
   private token: string | null = null
+  private ip: string
+
+  constructor(ip?: string) {
+    this.ip = ip ?? '127.0.0.1'
+  }
 
   private createContext() {
     const token = this.token
@@ -25,8 +30,8 @@ export class TestClient {
         'user-agent': 'TestClient/1.0',
         ...(token && { authorization: `Bearer ${token}` }),
       },
-      ip: '127.0.0.1',
-      socket: { remoteAddress: '127.0.0.1' },
+      ip: this.ip,
+      socket: { remoteAddress: this.ip },
     } as unknown as Request
 
     // Mock response (no longer needed for cookies, but kept for interface)
@@ -74,9 +79,13 @@ export class TestClient {
   }
 }
 
+let ipCounter = 0
+
 /**
  * Creates a new TestClient for typed tRPC testing.
  * Uses createCaller to call procedures directly (no HTTP overhead).
+ *
+ * @param options.ip - Custom IP address for rate limiting isolation. If not provided, a unique IP is generated.
  *
  * @example
  * const client = createTestClient()
@@ -85,6 +94,7 @@ export class TestClient {
  * const { user, token } = await client.trpc.auth.verifyOtp({ userId, code: otp })
  * client.setToken(token)
  */
-export function createTestClient() {
-  return new TestClient()
+export function createTestClient(options?: { ip?: string }) {
+  const ip = options?.ip ?? `10.0.0.${++ipCounter}`
+  return new TestClient(ip)
 }

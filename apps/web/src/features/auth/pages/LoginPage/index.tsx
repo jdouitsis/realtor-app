@@ -6,7 +6,7 @@ import { parseError } from '@/lib/errors'
 import { OtpVerificationForm } from '../../components/OtpVerificationForm'
 import { LoginForm, type LoginFormData } from './components/LoginForm'
 
-const routeApi = getRouteApi('/_public/login')
+const routeApi = getRouteApi('/_public/login/')
 
 type Step = 'email' | 'otp'
 
