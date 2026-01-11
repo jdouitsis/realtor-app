@@ -24,9 +24,11 @@ export function createApp(dbOverride?: Database) {
   const app = express()
 
   app.use(express.json())
+
   app.use(withCors())
   app.use(withCookieParser())
   app.use(withTrpc({ dbOverride }))
+
   app.use(withHealthCheck())
 
   // Dev-only routes
