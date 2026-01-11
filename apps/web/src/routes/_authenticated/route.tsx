@@ -1,6 +1,6 @@
-import { createFileRoute, getRouteApi, Outlet, redirect } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
-import { NavBar } from '@/components/common/NavBar'
+import { AuthenticatedLayout } from '@/features/shell'
 import { clearStorage } from '@/lib/storage'
 import { trpcClient } from '@/lib/trpc'
 
@@ -20,20 +20,3 @@ export const Route = createFileRoute('/_authenticated')({
   },
   component: AuthenticatedLayout,
 })
-
-const routeApi = getRouteApi('/_authenticated')
-
-function AuthenticatedLayout() {
-  const { user } = routeApi.useRouteContext()
-
-  return (
-    <div className="flex min-h-full w-full flex-col">
-      <NavBar user={user} />
-      <main className="flex-1 px-4 py-6 md:px-6">
-        <div className="mx-auto h-full max-w-4xl">
-          <Outlet />
-        </div>
-      </main>
-    </div>
-  )
-}
