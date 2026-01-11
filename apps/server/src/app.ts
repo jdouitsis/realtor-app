@@ -5,9 +5,9 @@ import express from 'express'
 
 import type { Database } from './db'
 import { env } from './env'
+import { withEmailTemplateViewer } from './infra/email/dev-viewer'
 import { logger } from './lib/logger'
 import { appRouter } from './routers'
-import devEmailRoutes from './routes/dev/emails'
 import { createContextFactory } from './trpc'
 
 /**
@@ -54,7 +54,7 @@ export function createApp(dbOverride?: Database) {
 
   // Dev-only routes
   if (env.isDev) {
-    app.use('/dev/emails', devEmailRoutes)
+    app.use(withEmailTemplateViewer())
   }
 
   return app
