@@ -42,20 +42,20 @@ export function NavBar({ user }: HeaderProps) {
   const context = useRouteContext({ from: '__root__' })
   const isAuthenticated = context.auth.isAuthenticated
   const pathname = useRouterState({ select: (s) => s.location.pathname })
-  const isEventsActive = pathname.startsWith('/events')
-  const isNewsletterActive = pathname.startsWith('/newsletter')
+  const isEventsActive = pathname.startsWith('/public/events')
+  const isNewsletterActive = pathname.startsWith('/public/newsletter')
 
   const closeMobileMenu = () => setMobileMenuOpen(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background px-4 md:px-6">
+    <header className="sticky top-0 border-b bg-background px-4 md:px-6">
       <div className="mx-auto flex h-16 max-w-full items-center justify-between">
         <div className="flex items-center gap-6">
           <Link to="/" className="text-xl font-bold">
             Concord
           </Link>
           <Link
-            to="/events"
+            to="/public/events"
             className={cn(
               'hidden text-sm transition-colors hover:text-foreground md:block',
               isEventsActive ? 'font-medium text-foreground' : 'text-muted-foreground'
@@ -64,7 +64,7 @@ export function NavBar({ user }: HeaderProps) {
             Events
           </Link>
           <Link
-            to="/newsletter"
+            to="/public/newsletter"
             className={cn(
               'hidden text-sm transition-colors hover:text-foreground md:block',
               isNewsletterActive ? 'font-medium text-foreground' : 'text-muted-foreground'
@@ -101,7 +101,7 @@ export function NavBar({ user }: HeaderProps) {
 
             <nav className="flex flex-col gap-4">
               <Link
-                to="/events"
+                to="/public/events"
                 onClick={closeMobileMenu}
                 className={cn(
                   'text-lg transition-colors hover:text-foreground',
@@ -111,7 +111,7 @@ export function NavBar({ user }: HeaderProps) {
                 Events
               </Link>
               <Link
-                to="/newsletter"
+                to="/public/newsletter"
                 onClick={closeMobileMenu}
                 className={cn(
                   'text-lg transition-colors hover:text-foreground',

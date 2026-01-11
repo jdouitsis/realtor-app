@@ -1,4 +1,4 @@
-import { getRouteApi, Link } from '@tanstack/react-router'
+import { Link, useParams, useRouterState } from '@tanstack/react-router'
 import { Calendar, ChevronLeft, Clock, Mail, MapPin } from 'lucide-react'
 
 import { Button } from '@/components/ui'
@@ -6,10 +6,11 @@ import { Button } from '@/components/ui'
 import { ShareButton } from '../components/ShareButton'
 import { getEvent, getSuggestedEvents } from '../hooks/events'
 
-const routeApi = getRouteApi('/_public/events/$eventId')
-
 export function EventDetailPage() {
-  const { eventId } = routeApi.useParams()
+  const params = useParams({ strict: false })
+  const eventId = (params as { eventId: string }).eventId
+  const pathname = useRouterState({ select: (s) => s.location.pathname })
+  const isPublicRoute = pathname.startsWith('/public/')
   const event = getEvent(eventId)
   const suggestedEvents = getSuggestedEvents(eventId, 2)
 
@@ -21,7 +22,7 @@ export function EventDetailPage() {
           This event may have been removed or the link is incorrect.
         </p>
         <Button asChild variant="outline">
-          <Link to="/events">Back to Events</Link>
+          <Link to={isPublicRoute ? '/public/events' : '/events'}>Back to Events</Link>
         </Button>
       </div>
     )
@@ -30,7 +31,7 @@ export function EventDetailPage() {
   return (
     <div className="flex flex-col justify-start pb-8">
       <Link
-        to="/events"
+        to={isPublicRoute ? '/public/events' : '/events'}
         className="mb-6 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
       >
         <ChevronLeft className="h-4 w-4" />
@@ -97,7 +98,7 @@ export function EventDetailPage() {
               {suggestedEvents.map((suggestedEvent) => (
                 <Link
                   key={suggestedEvent.id}
-                  to="/events/$eventId"
+                  to={isPublicRoute ? '/public/events/$eventId' : '/events/$eventId'}
                   params={{ eventId: suggestedEvent.id }}
                   className="group overflow-hidden rounded-lg border transition-colors hover:bg-muted/50"
                 >

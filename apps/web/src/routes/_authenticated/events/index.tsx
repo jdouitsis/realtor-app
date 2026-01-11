@@ -7,7 +7,7 @@ const eventsSearchSchema = z.object({
   tags: z.array(z.string()).optional(),
 })
 
-export const Route = createFileRoute('/_public/events/')({
+export const Route = createFileRoute('/_authenticated/events/')({
   validateSearch: eventsSearchSchema,
   component: EventsPage,
 })

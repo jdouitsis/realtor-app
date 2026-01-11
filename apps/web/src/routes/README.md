@@ -7,53 +7,79 @@ File-based routing using TanStack Router. Routes are automatically generated fro
 ```
 routes/
 ├── __root.tsx              # Root layout (providers, global UI)
-├── index.tsx               # / → redirects based on auth state
-├── _public/                # Public section (unauthenticated users only)
-│   ├── route.tsx           # Layout with auth redirect guard
-│   ├── landing.tsx         # /landing - marketing page
-│   ├── login.tsx           # /login - with ?redirect param
-│   └── register.tsx        # /register
+├── index.tsx               # / → LandingPage (redirects to /dashboard if authenticated)
+├── _public/                # Public section (accessible to all, some redirect if authed)
+│   ├── route.tsx           # Layout with NavBar
+│   ├── login/
+│   │   ├── index.tsx       # /login - with ?redirect param
+│   │   └── magic.tsx       # /login/magic - magic link verification
+│   ├── register.tsx        # /register
+│   └── public/             # Public content pages (redirect to auth versions if logged in)
+│       ├── events/
+│       │   ├── index.tsx   # /public/events - public events listing
+│       │   └── $eventId.tsx# /public/events/:id - public event detail
+│       └── newsletter.tsx  # /public/newsletter - public newsletter page
 └── _authenticated/         # Protected section (authenticated users only)
-    ├── route.tsx           # Layout with auth guard
-    └── dashboard.tsx       # /dashboard
+    ├── route.tsx           # Layout with Sidebar + top bar (desktop) / mobile menu
+    ├── dashboard.tsx       # /dashboard
+    ├── profile.tsx         # /profile
+    ├── otp.tsx             # /otp - step-up verification
+    ├── events/
+    │   ├── index.tsx       # /events - authenticated events listing
+    │   └── $eventId.tsx    # /events/:id - authenticated event detail
+    └── newsletter.tsx      # /newsletter - authenticated newsletter page
 ```
 
 ## Authentication Flow
 
 ### Index Route (`/`)
 
-The index route redirects users based on their authentication state:
+The index route handles users based on their authentication state:
 
-- **Authenticated** → `/dashboard`
-- **Unauthenticated** → `/landing`
+- **Authenticated** → Redirects to `/dashboard`
+- **Unauthenticated** → Shows `LandingPage` component
 
 ```typescript
 beforeLoad: ({ context }) => {
   if (context.auth.isAuthenticated) {
     throw redirect({ to: '/dashboard' })
-  } else {
-    throw redirect({ to: '/landing' })
   }
-}
+},
+component: LandingPage,
 ```
 
 ### Public Routes (`_public/`)
 
-Public routes are for unauthenticated users. If an authenticated user tries to access these routes, they're redirected to `/dashboard`.
+Public routes are accessible to unauthenticated users. Login and register pages redirect authenticated users to `/dashboard`.
 
-| Route      | Path        | Description                       |
-| ---------- | ----------- | --------------------------------- |
-| `landing`  | `/landing`  | Marketing page for new visitors   |
-| `login`    | `/login`    | Login form with ?redirect support |
-| `register` | `/register` | Registration form                 |
+| Route               | Path                 | Description                                  |
+| ------------------- | -------------------- | -------------------------------------------- |
+| `login`             | `/login`             | Login form with ?redirect support            |
+| `login/magic`       | `/login/magic`       | Magic link verification                      |
+| `register`          | `/register`          | Registration form                            |
+| `public/events`     | `/public/events`     | Public events listing (redirects if authed)  |
+| `public/events/$id` | `/public/events/:id` | Public event detail (redirects if authed)    |
+| `public/newsletter` | `/public/newsletter` | Public newsletter page (redirects if authed) |
 
 ### Authenticated Routes (`_authenticated/`)
 
 Protected routes require authentication. If an unauthenticated user tries to access these routes, they're redirected to `/login` with a `?redirect` param to return after login.
 
-| Route       | Path         | Description         |
-| ----------- | ------------ | ------------------- |
-| `dashboard` | `/dashboard` | Main dashboard view |
+| Route        | Path          | Description                   |
+| ------------ | ------------- | ----------------------------- |
+| `dashboard`  | `/dashboard`  | Main dashboard view           |
+| `profile`    | `/profile`    | User profile with tabs        |
+| `otp`        | `/otp`        | Step-up OTP verification      |
+| `events`     | `/events`     | Authenticated events listing  |
+| `events/$id` | `/events/:id` | Authenticated event detail    |
+| `newsletter` | `/newsletter` | Authenticated newsletter page |
+
+### Authenticated Layout
+
+The authenticated layout is provided by the `shell` feature. See [`features/shell/README.md`](../features/shell/README.md) for details.
+
+- **Desktop (md+)**: Left sidebar with collapsible navigation + sticky top bar
+- **Mobile (<md)**: Top header with hamburger menu (opens from left)
 
 ## Pathless Layout Routes
 

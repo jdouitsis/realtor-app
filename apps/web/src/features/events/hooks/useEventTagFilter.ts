@@ -1,8 +1,6 @@
-import { getRouteApi } from '@tanstack/react-router'
+import { useNavigate, useSearch } from '@tanstack/react-router'
 
 import { EVENT_TAGS } from './events'
-
-const routeApi = getRouteApi('/_public/events/')
 
 /**
  * Hook for managing event tag filters via URL search params.
@@ -12,23 +10,28 @@ const routeApi = getRouteApi('/_public/events/')
  * const filteredEvents = allEvents.filter(filterByTags)
  */
 export function useEventTagFilter() {
-  const { tags: selectedTags = [] } = routeApi.useSearch()
-  const navigate = routeApi.useNavigate()
+  const search = useSearch({ strict: false })
+  const selectedTags = (search as { tags?: string[] }).tags ?? []
+  const navigate = useNavigate()
 
   const toggleTag = (tagValue: string) => {
     const newTags = selectedTags.includes(tagValue)
       ? selectedTags.filter((t) => t !== tagValue)
       : [...selectedTags, tagValue]
 
-    void navigate({
-      search: newTags.length > 0 ? { tags: newTags } : {},
-    })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const newSearch: any = newTags.length > 0 ? { tags: newTags } : {}
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    void navigate({ search: newSearch })
   }
 
   const isSelected = (tagValue: string) => selectedTags.includes(tagValue)
 
   const clearAll = () => {
-    void navigate({ search: {} })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const emptySearch: any = {}
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    void navigate({ search: emptySearch })
   }
 
   const filterByTags = (event: { tags: string[] }) =>
