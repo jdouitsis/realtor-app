@@ -6,8 +6,9 @@ import { magicLinks, users } from '@server/db/schema'
 import { emailService } from '@server/infra/email'
 import { renderEmail } from '@server/infra/email/render'
 import { and, eq, isNull } from 'drizzle-orm'
+import ms from 'ms'
 
-const DEFAULT_EXPIRY_HOURS = 24
+const DEFAULT_EXPIRY_MS = ms('24 hours')
 
 function generateMagicToken(): string {
   return crypto.randomBytes(32).toString('hex')
@@ -44,8 +45,7 @@ export interface MagicLinkService {
 export const magicLinkService: MagicLinkService = {
   async create(db, options) {
     const token = generateMagicToken()
-    const expiresAt =
-      options.expiresAt ?? new Date(Date.now() + DEFAULT_EXPIRY_HOURS * 60 * 60 * 1000)
+    const expiresAt = options.expiresAt ?? new Date(Date.now() + DEFAULT_EXPIRY_MS)
 
     await db.insert(magicLinks).values({
       userId: options.userId,

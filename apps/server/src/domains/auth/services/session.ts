@@ -4,8 +4,9 @@ import type { Database } from '@server/db'
 import type { Session, User } from '@server/db/schema'
 import { sessions, users } from '@server/db/schema'
 import { and, eq, gt, isNull } from 'drizzle-orm'
+import ms from 'ms'
 
-const SESSION_DURATION_DAYS = 30
+const SESSION_DURATION_MS = ms('30 days')
 
 function generateToken(): string {
   return crypto.randomBytes(32).toString('hex')
@@ -32,7 +33,7 @@ export interface SessionService {
 export const sessionService: SessionService = {
   async create(db, userId, options) {
     const token = generateToken()
-    const expiresAt = new Date(Date.now() + SESSION_DURATION_DAYS * 24 * 60 * 60 * 1000)
+    const expiresAt = new Date(Date.now() + SESSION_DURATION_MS)
 
     await db.insert(sessions).values({
       userId,
@@ -76,10 +77,7 @@ export const sessionService: SessionService = {
   },
 
   async invalidate(db, token) {
-    await db
-      .update(sessions)
-      .set({ invalidatedAt: new Date() })
-      .where(eq(sessions.token, token))
+    await db.update(sessions).set({ invalidatedAt: new Date() }).where(eq(sessions.token, token))
   },
 
   async invalidateAllForUser(db, userId) {

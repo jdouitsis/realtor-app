@@ -3,6 +3,7 @@ import { sessionService } from '@server/domains/auth/services/session'
 import { AppError } from '@server/lib/errors'
 import { getRateLimitConfig, type RateLimitType } from '@server/lib/rate-limit'
 import { TRPCError } from '@trpc/server'
+import ms from 'ms'
 import { RateLimiterMemory } from 'rate-limiter-flexible'
 
 import { t } from './init'
@@ -98,7 +99,7 @@ export const authMiddleware = t.middleware(async ({ ctx, next }) => {
   return next({ ctx: { ...ctx, user: result.user, session: result.session } })
 })
 
-const FRESH_OTP_DURATION_MS = 15 * 60 * 1000 // 15 minutes
+const FRESH_OTP_DURATION_MS = ms('15 minutes')
 
 /**
  * Requires a fresh OTP verification (within last 15 minutes) for sensitive actions.

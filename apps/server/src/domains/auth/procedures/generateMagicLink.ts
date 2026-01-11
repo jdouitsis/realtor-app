@@ -3,11 +3,12 @@ import { env } from '@server/env'
 import { notFound } from '@server/lib/errors'
 import { protectedProcedure } from '@server/trpc'
 import { eq } from 'drizzle-orm'
+import ms from 'ms'
 import { z } from 'zod'
 
 import { magicLinkService } from '../services/magicLink'
 
-const DEFAULT_EXPIRY_HOURS = 24
+const DEFAULT_EXPIRY_MS = ms('24 hours')
 
 const generateMagicLinkInput = z.object({
   userId: z.string().uuid(),
@@ -37,7 +38,7 @@ export const generateMagicLink = protectedProcedure
 
     const expiresAt = input.expiresAt
       ? new Date(input.expiresAt)
-      : new Date(Date.now() + DEFAULT_EXPIRY_HOURS * 60 * 60 * 1000)
+      : new Date(Date.now() + DEFAULT_EXPIRY_MS)
 
     const token = await magicLinkService.create(db, {
       userId: input.userId,

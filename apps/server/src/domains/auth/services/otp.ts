@@ -5,7 +5,9 @@ import { otpCodes, users } from '@server/db/schema'
 import { emailService } from '@server/infra/email'
 import { renderEmail } from '@server/infra/email/render'
 import { and, desc, eq, isNull } from 'drizzle-orm'
+import ms from 'ms'
 
+const OTP_EXPIRY_MS = ms('15 minutes')
 const OTP_EXPIRY_MINUTES = 15
 const MAX_ATTEMPTS = 5
 
@@ -16,7 +18,7 @@ export function generateOtp(): string {
 
 export async function createOtpCode(db: Database, userId: string): Promise<string> {
   const code = generateOtp()
-  const expiresAt = new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000)
+  const expiresAt = new Date(Date.now() + OTP_EXPIRY_MS)
 
   await db.insert(otpCodes).values({
     userId,

@@ -1,3 +1,5 @@
+import ms from 'ms'
+
 import { MagicLinkEmail, type MagicLinkEmailProps } from './MagicLinkEmail'
 import { OtpEmail, type OtpEmailProps } from './OtpEmail'
 
@@ -20,7 +22,7 @@ export const emailTemplates = {
     description: 'Passwordless sign-in link',
     defaultProps: {
       url: 'https://example.com/auth/magic?token=abc123',
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      expiresAt: new Date(Date.now() + ms('24 hours')),
     } satisfies MagicLinkEmailProps,
   },
 } as const

@@ -3,11 +3,12 @@ import { emailService } from '@server/infra/email'
 import { AppError } from '@server/lib/errors'
 import { sensitiveProtectedProcedure } from '@server/trpc'
 import { eq } from 'drizzle-orm'
+import ms from 'ms'
 import { z } from 'zod'
 
 import { createOtpCode, invalidateUserOtps, sendOtpEmail } from '../../auth/services/otp'
 
-const PENDING_EMAIL_EXPIRY_MINUTES = 30
+const PENDING_EMAIL_EXPIRY_MS = ms('30 minutes')
 
 const initiateEmailChangeInput = z.object({
   newEmail: z.string().email('Invalid email address'),
@@ -57,7 +58,7 @@ export const initiateEmailChange = sensitiveProtectedProcedure
     await invalidateUserOtps(db, user.id)
 
     // Store pending email
-    const expiresAt = new Date(Date.now() + PENDING_EMAIL_EXPIRY_MINUTES * 60 * 1000)
+    const expiresAt = new Date(Date.now() + PENDING_EMAIL_EXPIRY_MS)
     await db
       .update(users)
       .set({

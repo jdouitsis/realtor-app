@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server'
 import { and, desc, eq, isNull } from 'drizzle-orm'
+import ms from 'ms'
 import { describe, expect, it } from 'vitest'
 
 import { magicLinks, otpCodes, users } from '../db/schema'
@@ -97,7 +98,7 @@ describe('Magic Link Authentication', () => {
         .orderBy(desc(magicLinks.createdAt))
         .limit(1)
 
-      const expectedExpiry = Date.now() + 48 * 60 * 60 * 1000
+      const expectedExpiry = Date.now() + ms('48 hours')
       const actualExpiry = magicLink.expiresAt.getTime()
 
       // Allow 5 second tolerance

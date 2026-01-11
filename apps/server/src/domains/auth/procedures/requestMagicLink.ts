@@ -2,11 +2,13 @@ import { users } from '@server/db/schema'
 import { env } from '@server/env'
 import { createRateLimitMiddleware, publicProcedure } from '@server/trpc'
 import { eq } from 'drizzle-orm'
+import ms from 'ms'
 import { z } from 'zod'
 
 import { magicLinkService, sendMagicLinkEmail } from '../services/magicLink'
 
 const MAX_EXPIRY_HOURS = 168 // 7 days
+const ONE_HOUR_MS = ms('1 hour')
 
 const requestMagicLinkInput = z.object({
   email: z.string().email(),
@@ -35,7 +37,7 @@ export const requestMagicLink = publicProcedure
     }
 
     const expiresAt = input.expiresInHours
-      ? new Date(Date.now() + input.expiresInHours * 60 * 60 * 1000)
+      ? new Date(Date.now() + input.expiresInHours * ONE_HOUR_MS)
       : undefined
 
     const token = await magicLinkService.create(db, {
