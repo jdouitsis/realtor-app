@@ -1,6 +1,5 @@
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { createRootRouteWithContext, Outlet, useLocation } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { useEffect } from 'react'
 
 import type { RouterContext } from '@/lib/router-context'
@@ -27,7 +26,7 @@ function RootLayout() {
       {import.meta.env.DEV && (
         <>
           <ReactQueryDevtools initialIsOpen={false} />
-          <TanStackRouterDevtools />
+          {/* <TanStackRouterDevtools /> */}
         </>
       )}
     </>

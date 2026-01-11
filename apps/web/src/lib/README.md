@@ -237,6 +237,7 @@ Add the key and type to `StorageRegistry`:
 ```typescript
 interface StorageRegistry {
   auth_token: string
+  sidebar_collapsed: boolean
   theme: 'light' | 'dark' // Add new keys here
 }
 ```

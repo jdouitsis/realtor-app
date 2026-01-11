@@ -13,6 +13,7 @@ interface StorageRegistry {
     active: boolean
   }
   demo_notice_dismissed: boolean
+  sidebar_collapsed: boolean
 }
 
 type StorageKey = keyof StorageRegistry

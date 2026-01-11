@@ -99,7 +99,7 @@ export function ProfilePage() {
 function HeaderContent({ onLogout }: { onLogout: () => void }) {
   return (
     <div className="flex items-center justify-between mb-6 w-full">
-      <h1 className="text-3xl font-bold">Settings</h1>
+      <h1 className="text-3xl font-bold">Profile</h1>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>

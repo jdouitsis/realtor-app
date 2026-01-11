@@ -259,5 +259,6 @@ docs: add contributing guide
 | [`apps/web/README.md`](apps/web/README.md)                           | Understanding the web app structure, commands, and tech stack     |
 | [`apps/web/src/lib/README.md`](apps/web/src/lib/README.md)           | Error handling, tRPC client, QueryClient, storage utilities       |
 | [`apps/web/src/features/README.md`](apps/web/src/features/README.md) | Creating features, pages, components; naming conventions; exports |
+| [`apps/web/src/features/shell/README.md`](apps/web/src/features/shell/README.md) | Authenticated layout, sidebar, mobile nav, menu configuration |
 | [`apps/server/README.md`](apps/server/README.md)                     | Server architecture, tRPC setup, domain structure                 |
 | [`packages/shared/README.md`](packages/shared/README.md)             | Shared types between server and client; adding new error codes    |
