@@ -1,6 +1,16 @@
-# ConcordPoint
+# Concord
 
-A ConcordPoint application built as a pnpm monorepo with Turborepo orchestration.
+A Concord application built as a pnpm monorepo with Turborepo orchestration.
+
+## IMPORTANT: Read Documentation First
+
+BEFORE reading any code files, you MUST read relevant documentation:
+
+1. [`docs/ADR/README.md`](docs/ADR/README.md) - Check for architecture decisions related to your task
+2. [`docs/SOP/README.md`](docs/SOP/README.md) - Check for standard operating procedures if performing a repo-level task
+3. Walk up from the file in question to find the nearest README.md and read it
+
+Do NOT skip this step even if the question seems simple. This prevents wasting context on code before understanding the patterns and decisions already in place.
 
 ## Tech Stack
 
@@ -41,17 +51,9 @@ pnpm format        # Format with Prettier
 pnpm storybook     # Start Storybook
 ```
 
-## Finding Context
+## Finding the Right README
 
-**Before exploring the codebase**, always read documentation first:
-
-1. [`docs/ADR/README.md`](docs/ADR/README.md) - Architecture decisions and their rationale
-2. [`docs/SOP/README.md`](docs/SOP/README.md) - Standard operating procedures index
-3. Relevant app READMEs from the README Index below
-
-This prevents consuming large amounts of code before understanding the patterns and decisions already in place.
-
-**When modifying a file**, walk up the directory tree until you find a `.md` file and read it for context about conventions and patterns for that area of the codebase.
+When walking up the directory tree, here's an example:
 
 ```
 src/features/auth/pages/LoginPage/components/LoginForm.tsx
@@ -64,7 +66,8 @@ src/features/auth/pages/LoginPage/components/LoginForm.tsx
 Key documentation locations:
 
 - `apps/*/README.md` - Feature module conventions
-- `docs/SOP/` - Standard operating procedures for repo-level tasks. Read the `docs/SOP/README.md` to understand which SOP you need
+- `docs/SOP/README.md` - Standard operating procedures for repo-level tasks
+- `docs/ADR/README.md` - Architecture decisions index
 
 ## Rules
 
