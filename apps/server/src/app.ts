@@ -1,10 +1,11 @@
-import cookieParser from 'cookie-parser'
-import cors from 'cors'
+import withCookieParser from 'cookie-parser'
 import express from 'express'
 
 import type { Database } from './db'
 import { env } from './env'
 import { withEmailTemplateViewer } from './infra/email/dev-viewer'
+import { withCors } from './lib/cors'
+import { withHealthCheck } from './lib/health'
 import { withTrpc } from './trpc/express'
 
 /**
@@ -22,12 +23,11 @@ import { withTrpc } from './trpc/express'
 export function createApp(dbOverride?: Database) {
   const app = express()
 
-  app.use(cors({ origin: env.WEB_URL, credentials: true }))
-  app.use(cookieParser())
   app.use(express.json())
+  app.use(withCors())
+  app.use(withCookieParser())
   app.use(withTrpc({ dbOverride }))
-
-  app.get('/health', (_, res) => res.json({ status: 'ok' }))
+  app.use(withHealthCheck())
 
   // Dev-only routes
   if (env.isDev) {
