@@ -12,7 +12,7 @@ const loginInput = z.object({
 
 const loginOutput = z.object({
   message: z.string(),
-  userId: z.string(),
+  email: z.string(),
 })
 
 export const login = publicProcedure
@@ -31,6 +31,6 @@ export const login = publicProcedure
 
     return {
       message: 'Check your email for a verification code.',
-      userId: user.id,
+      email: input.email,
     }
   })

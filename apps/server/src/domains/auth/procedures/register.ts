@@ -13,7 +13,7 @@ const registerInput = z.object({
 
 const registerOutput = z.object({
   message: z.string(),
-  userId: z.string(),
+  email: z.string(),
 })
 
 export const register = publicProcedure
@@ -43,6 +43,6 @@ export const register = publicProcedure
 
     return {
       message: 'Account created! Check your email for a verification code.',
-      userId: user.id,
+      email: input.email,
     }
   })

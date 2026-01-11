@@ -45,8 +45,8 @@ export function createAuth(router: RouterLike): Auth {
     get isAuthenticated() {
       return getStorage('auth_token') !== null
     },
-    async verifyOtp(userId, code) {
-      const res = await trpcClient.auth.verifyOtp.mutate({ userId, code })
+    async verifyOtp(email, code) {
+      const res = await trpcClient.auth.verifyOtp.mutate({ email, code })
       setStorage('auth_token', res.token)
       void router.invalidate()
     },

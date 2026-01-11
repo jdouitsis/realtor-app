@@ -8,10 +8,10 @@ export interface RequestMagicLinkOptions {
 
 export interface Auth {
   readonly isAuthenticated: boolean
-  login: (email: string) => Promise<{ userId: string }>
-  register: (email: string, name: string) => Promise<{ userId: string }>
-  verifyOtp: (userId: string, code: string) => Promise<void>
-  resendOtp: (userId: string) => Promise<void>
+  login: (email: string) => Promise<{ email: string }>
+  register: (email: string, name: string) => Promise<{ email: string }>
+  verifyOtp: (email: string, code: string) => Promise<void>
+  resendOtp: (email: string) => Promise<void>
   requestMagicLink: (email: string, options?: RequestMagicLinkOptions) => Promise<void>
   logout: () => Promise<void>
 }
@@ -35,22 +35,22 @@ export function createAuth(router: RouterLike): Auth {
 
     async login(email) {
       const res = await trpcClient.auth.login.mutate({ email })
-      return { userId: res.userId }
+      return { email: res.email }
     },
 
     async register(email, name) {
       const res = await trpcClient.auth.register.mutate({ email, name })
-      return { userId: res.userId }
+      return { email: res.email }
     },
 
-    async verifyOtp(userId, code) {
-      const res = await trpcClient.auth.verifyOtp.mutate({ userId, code })
+    async verifyOtp(email, code) {
+      const res = await trpcClient.auth.verifyOtp.mutate({ email, code })
       setStorage('auth_token', res.token)
       void router.invalidate()
     },
 
-    async resendOtp(userId) {
-      await trpcClient.auth.resendOtp.mutate({ userId })
+    async resendOtp(email) {
+      await trpcClient.auth.resendOtp.mutate({ email })
     },
 
     async requestMagicLink(email, options) {

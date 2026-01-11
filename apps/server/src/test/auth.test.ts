@@ -2,7 +2,7 @@ import { TRPCError } from '@trpc/server'
 import { and, desc, eq, isNull } from 'drizzle-orm'
 import { describe, expect, it } from 'vitest'
 
-import { otpCodes } from '../db/schema'
+import { otpCodes, users } from '../db/schema'
 import { getCurrentTx } from './db'
 import { createTestClient } from './trpc-client'
 
@@ -19,22 +19,22 @@ describe('Auth flow: register -> verify -> me -> logout -> login -> verify -> lo
     const registerResult = await client.trpc.auth.register(testUser)
 
     expect(registerResult.message).toContain('Check your email')
-    expect(registerResult.userId).toBeDefined()
-
-    const userId = registerResult.userId
+    expect(registerResult.email).toBe(testUser.email)
 
     // 2. Get OTP from database and verify
-    const registerOtp = await getLatestOtpCode(userId)
+    const registerOtp = await getLatestOtpCode(testUser.email)
     const verifyResult = await client.trpc.auth.verifyOtp({
-      userId,
+      email: testUser.email,
       code: registerOtp,
     })
 
     expect(verifyResult.user).toMatchObject({
-      id: userId,
       email: testUser.email,
       name: testUser.name,
     })
+    expect(verifyResult.user.id).toBeDefined()
+
+    const userId = verifyResult.user.id
 
     // Token should be returned
     expect(verifyResult.token).toBeDefined()
@@ -64,12 +64,12 @@ describe('Auth flow: register -> verify -> me -> logout -> login -> verify -> lo
     const loginResult = await client.trpc.auth.login({ email: testUser.email })
 
     expect(loginResult.message).toContain('Check your email')
-    expect(loginResult.userId).toBe(userId)
+    expect(loginResult.email).toBe(testUser.email)
 
     // 7. Get new OTP and verify
-    const loginOtp = await getLatestOtpCode(userId)
+    const loginOtp = await getLatestOtpCode(testUser.email)
     const verifyLoginResult = await client.trpc.auth.verifyOtp({
-      userId,
+      email: testUser.email,
       code: loginOtp,
     })
 
@@ -139,11 +139,11 @@ describe('Auth flow: register -> verify -> me -> logout -> login -> verify -> lo
     const client = createTestClient()
 
     // Register user
-    const { userId } = await client.trpc.auth.register(testUser)
+    const { email } = await client.trpc.auth.register(testUser)
 
     // Try with wrong code
     try {
-      await client.trpc.auth.verifyOtp({ userId, code: '000000' })
+      await client.trpc.auth.verifyOtp({ email, code: '000000' })
       expect.fail('Should have thrown')
     } catch (error) {
       expect(error).toBeInstanceOf(TRPCError)
@@ -167,18 +167,24 @@ describe('Auth flow: register -> verify -> me -> logout -> login -> verify -> lo
 })
 
 /**
- * Fetches the most recent unused OTP code for a user from the database.
+ * Fetches the most recent unused OTP code for a user from the database by email.
  * Used in tests to bypass email verification.
  */
-async function getLatestOtpCode(userId: string): Promise<string> {
+async function getLatestOtpCode(email: string): Promise<string> {
   const db = getCurrentTx()
+
+  // First get user by email
+  const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1)
+
+  if (!user) throw new Error(`No user found with email ${email}`)
+
   const [otp] = await db
     .select()
     .from(otpCodes)
-    .where(and(eq(otpCodes.userId, userId), isNull(otpCodes.usedAt)))
+    .where(and(eq(otpCodes.userId, user.id), isNull(otpCodes.usedAt)))
     .orderBy(desc(otpCodes.createdAt))
     .limit(1)
 
-  if (!otp) throw new Error(`No OTP found for user ${userId}`)
+  if (!otp) throw new Error(`No OTP found for user ${email}`)
   return otp.code
 }

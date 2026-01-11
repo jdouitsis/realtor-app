@@ -35,12 +35,12 @@ import { createTestClient } from './trpc-client'
 it('authenticates user', async () => {
   const client = createTestClient()
 
-  // Register and verify - session cookie is automatically captured
-  const { userId } = await client.trpc.auth.register({ email: 'test@example.com', name: 'Test' })
-  const otp = await getLatestOtpCode(userId)
-  await client.trpc.auth.verifyOtp({ userId, code: otp })
+  // Register and verify - session token is automatically captured
+  const { email } = await client.trpc.auth.register({ email: 'test@example.com', name: 'Test' })
+  const otp = await getLatestOtpCode(email)
+  await client.trpc.auth.verifyOtp({ email, code: otp })
 
-  // Subsequent calls include the session cookie
+  // Subsequent calls include the session token
   const user = await client.trpc.auth.me()
   expect(user).not.toBeNull()
 })
@@ -117,10 +117,10 @@ describe('Auth', () => {
 ```typescript
 it('returns correct error for invalid OTP', async () => {
   const client = createTestClient()
-  const { userId } = await client.trpc.auth.register({ email: 'test@example.com', name: 'Test' })
+  const { email } = await client.trpc.auth.register({ email: 'test@example.com', name: 'Test' })
 
   try {
-    await client.trpc.auth.verifyOtp({ userId, code: '000000' })
+    await client.trpc.auth.verifyOtp({ email, code: '000000' })
     expect.fail('Should have thrown')
   } catch (error) {
     expect(error).toBeInstanceOf(TRPCError)

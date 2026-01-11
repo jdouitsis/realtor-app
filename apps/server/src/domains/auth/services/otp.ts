@@ -114,3 +114,14 @@ export async function getUserEmail(db: Database, userId: string): Promise<string
   const [user] = await db.select().from(users).where(eq(users.id, userId)).limit(1)
   return user?.email ?? null
 }
+
+/**
+ * Get user ID by email address.
+ *
+ * @example
+ * const userId = await getUserIdByEmail(db, 'user@example.com')
+ */
+export async function getUserIdByEmail(db: Database, email: string): Promise<string | null> {
+  const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1)
+  return user?.id ?? null
+}

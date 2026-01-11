@@ -29,9 +29,10 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // First register a user
-      const { userId } = await client.trpc.auth.register(testUser)
-      const otp = await getLatestOtpCode(userId)
-      await client.trpc.auth.verifyOtp({ userId, code: otp })
+      const { email } = await client.trpc.auth.register(testUser)
+      const otp = await getLatestOtpCode(email)
+      const { user } = await client.trpc.auth.verifyOtp({ email, code: otp })
+      const userId = user.id
 
       // Request magic link
       await client.trpc.auth.requestMagicLink({ email: testUser.email })
@@ -55,9 +56,10 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // Register and verify user
-      const { userId } = await client.trpc.auth.register(testUser)
-      const otp = await getLatestOtpCode(userId)
-      await client.trpc.auth.verifyOtp({ userId, code: otp })
+      const { email } = await client.trpc.auth.register(testUser)
+      const otp = await getLatestOtpCode(email)
+      const { user } = await client.trpc.auth.verifyOtp({ email, code: otp })
+      const userId = user.id
 
       // Request magic link with redirect
       await client.trpc.auth.requestMagicLink({
@@ -80,9 +82,10 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // Register and verify user
-      const { userId } = await client.trpc.auth.register(testUser)
-      const otp = await getLatestOtpCode(userId)
-      await client.trpc.auth.verifyOtp({ userId, code: otp })
+      const { email } = await client.trpc.auth.register(testUser)
+      const otp = await getLatestOtpCode(email)
+      const { user } = await client.trpc.auth.verifyOtp({ email, code: otp })
+      const userId = user.id
 
       // Request magic link with 48 hour expiry
       await client.trpc.auth.requestMagicLink({
@@ -112,7 +115,8 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // Register a user first to have a valid userId
-      const { userId } = await client.trpc.auth.register(testUser)
+      const { email } = await client.trpc.auth.register(testUser)
+      const userId = await getUserIdByEmail(email)
 
       // Try to generate without authentication
       try {
@@ -129,19 +133,22 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // Register and login admin user
-      const { userId: adminId } = await client.trpc.auth.register({
-        email: 'admin@example.com',
+      const adminEmail = 'admin@example.com'
+      await client.trpc.auth.register({
+        email: adminEmail,
         name: 'Admin User',
       })
-      const adminOtp = await getLatestOtpCode(adminId)
-      const { token } = await client.trpc.auth.verifyOtp({
-        userId: adminId,
+      const adminOtp = await getLatestOtpCode(adminEmail)
+      const { user: adminUser, token } = await client.trpc.auth.verifyOtp({
+        email: adminEmail,
         code: adminOtp,
       })
+      const adminId = adminUser.id
       client.setToken(token)
 
       // Register target user
-      const { userId: targetId } = await client.trpc.auth.register(testUser)
+      const { email: targetEmail } = await client.trpc.auth.register(testUser)
+      const targetId = await getUserIdByEmail(targetEmail)
 
       // Generate magic link
       const result = await client.trpc.auth.generateMagicLink({
@@ -166,9 +173,9 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // Register and login
-      const { userId } = await client.trpc.auth.register(testUser)
-      const otp = await getLatestOtpCode(userId)
-      const { token } = await client.trpc.auth.verifyOtp({ userId, code: otp })
+      const { email } = await client.trpc.auth.register(testUser)
+      const otp = await getLatestOtpCode(email)
+      const { token } = await client.trpc.auth.verifyOtp({ email, code: otp })
       client.setToken(token)
 
       // Try to generate for non-existent user
@@ -188,14 +195,14 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // Register and login
-      const { userId } = await client.trpc.auth.register(testUser)
-      const otp = await getLatestOtpCode(userId)
-      const { token } = await client.trpc.auth.verifyOtp({ userId, code: otp })
+      const { email } = await client.trpc.auth.register(testUser)
+      const otp = await getLatestOtpCode(email)
+      const { user, token } = await client.trpc.auth.verifyOtp({ email, code: otp })
       client.setToken(token)
 
       // Generate magic link with redirect
       const result = await client.trpc.auth.generateMagicLink({
-        userId,
+        userId: user.id,
         redirectUrl: '/onboarding',
       })
 
@@ -208,9 +215,10 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // Register and verify user
-      const { userId } = await client.trpc.auth.register(testUser)
-      const otp = await getLatestOtpCode(userId)
-      await client.trpc.auth.verifyOtp({ userId, code: otp })
+      const { email } = await client.trpc.auth.register(testUser)
+      const otp = await getLatestOtpCode(email)
+      const { user } = await client.trpc.auth.verifyOtp({ email, code: otp })
+      const userId = user.id
       client.clearToken()
 
       // Request magic link
@@ -237,9 +245,10 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // Register and verify user
-      const { userId } = await client.trpc.auth.register(testUser)
-      const otp = await getLatestOtpCode(userId)
-      await client.trpc.auth.verifyOtp({ userId, code: otp })
+      const { email } = await client.trpc.auth.register(testUser)
+      const otp = await getLatestOtpCode(email)
+      const { user } = await client.trpc.auth.verifyOtp({ email, code: otp })
+      const userId = user.id
       client.clearToken()
 
       // Request magic link with redirect
@@ -261,9 +270,10 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // Register and verify user
-      const { userId } = await client.trpc.auth.register(testUser)
-      const otp = await getLatestOtpCode(userId)
-      await client.trpc.auth.verifyOtp({ userId, code: otp })
+      const { email } = await client.trpc.auth.register(testUser)
+      const otp = await getLatestOtpCode(email)
+      const { user } = await client.trpc.auth.verifyOtp({ email, code: otp })
+      const userId = user.id
       client.clearToken()
 
       // Request and verify magic link
@@ -286,9 +296,10 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // Register and verify user
-      const { userId } = await client.trpc.auth.register(testUser)
-      const otp = await getLatestOtpCode(userId)
-      await client.trpc.auth.verifyOtp({ userId, code: otp })
+      const { email } = await client.trpc.auth.register(testUser)
+      const otp = await getLatestOtpCode(email)
+      const { user } = await client.trpc.auth.verifyOtp({ email, code: otp })
+      const userId = user.id
       client.clearToken()
 
       // Request and verify magic link once
@@ -312,9 +323,10 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // Register and verify user
-      const { userId } = await client.trpc.auth.register(testUser)
-      const otp = await getLatestOtpCode(userId)
-      await client.trpc.auth.verifyOtp({ userId, code: otp })
+      const { email } = await client.trpc.auth.register(testUser)
+      const otp = await getLatestOtpCode(email)
+      const { user } = await client.trpc.auth.verifyOtp({ email, code: otp })
+      const userId = user.id
       client.clearToken()
 
       // Request magic link
@@ -361,9 +373,10 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // Register and verify user
-      const { userId } = await client.trpc.auth.register(testUser)
-      const otp = await getLatestOtpCode(userId)
-      await client.trpc.auth.verifyOtp({ userId, code: otp })
+      const { email } = await client.trpc.auth.register(testUser)
+      const otp = await getLatestOtpCode(email)
+      const { user } = await client.trpc.auth.verifyOtp({ email, code: otp })
+      const userId = user.id
       client.clearToken()
 
       // Request and verify magic link
@@ -390,12 +403,13 @@ describe('Magic Link Authentication', () => {
       const client = createTestClient()
 
       // 1. Register a new user (via OTP first time)
-      const { userId } = await client.trpc.auth.register(testUser)
-      const registerOtp = await getLatestOtpCode(userId)
-      const { token: initialToken } = await client.trpc.auth.verifyOtp({
-        userId,
+      const { email } = await client.trpc.auth.register(testUser)
+      const registerOtp = await getLatestOtpCode(email)
+      const { user, token: initialToken } = await client.trpc.auth.verifyOtp({
+        email,
         code: registerOtp,
       })
+      const userId = user.id
 
       // 2. Logout
       client.setToken(initialToken)
@@ -410,11 +424,15 @@ describe('Magic Link Authentication', () => {
 
       // 4. Get token and verify
       const magicToken = await getLatestMagicLinkToken(userId)
-      const { user, token, redirectUrl } = await client.trpc.auth.verifyMagicLink({
+      const {
+        user: verifiedUser,
+        token,
+        redirectUrl,
+      } = await client.trpc.auth.verifyMagicLink({
         token: magicToken,
       })
 
-      expect(user.email).toBe(testUser.email)
+      expect(verifiedUser.email).toBe(testUser.email)
       expect(token).toBeDefined()
       expect(redirectUrl).toBe('/dashboard')
 
@@ -434,19 +452,36 @@ describe('Magic Link Authentication', () => {
 })
 
 /**
- * Fetches the most recent unused OTP code for a user from the database.
+ * Fetches the most recent unused OTP code for a user from the database by email.
  */
-async function getLatestOtpCode(userId: string): Promise<string> {
+async function getLatestOtpCode(email: string): Promise<string> {
   const db = getCurrentTx()
+
+  // First get user by email
+  const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1)
+
+  if (!user) throw new Error(`No user found with email ${email}`)
+
   const [otp] = await db
     .select()
     .from(otpCodes)
-    .where(and(eq(otpCodes.userId, userId), isNull(otpCodes.usedAt)))
+    .where(and(eq(otpCodes.userId, user.id), isNull(otpCodes.usedAt)))
     .orderBy(desc(otpCodes.createdAt))
     .limit(1)
 
-  if (!otp) throw new Error(`No OTP found for user ${userId}`)
+  if (!otp) throw new Error(`No OTP found for user ${email}`)
   return otp.code
+}
+
+/**
+ * Gets a user's ID by their email address.
+ */
+async function getUserIdByEmail(email: string): Promise<string> {
+  const db = getCurrentTx()
+  const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1)
+
+  if (!user) throw new Error(`No user found with email ${email}`)
+  return user.id
 }
 
 /**

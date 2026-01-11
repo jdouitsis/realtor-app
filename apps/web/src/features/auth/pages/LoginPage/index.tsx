@@ -10,18 +10,13 @@ const routeApi = getRouteApi('/_public/login/')
 
 type Step = 'email' | 'otp'
 
-interface OtpState {
-  userId: string
-  email: string
-}
-
 export function LoginPage() {
   const { auth } = routeApi.useRouteContext()
   const navigate = routeApi.useNavigate()
   const { redirect } = routeApi.useSearch()
 
   const [step, setStep] = useState<Step>('email')
-  const [otpState, setOtpState] = useState<OtpState | null>(null)
+  const [otpEmail, setOtpEmail] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string>()
 
@@ -29,8 +24,8 @@ export function LoginPage() {
     setIsLoading(true)
     setError(undefined)
     try {
-      const { userId } = await auth.login(data.email)
-      setOtpState({ userId, email: data.email })
+      const { email } = await auth.login(data.email)
+      setOtpEmail(email)
       setStep('otp')
     } catch (err) {
       setError(parseError(err).userMessage)
@@ -40,11 +35,11 @@ export function LoginPage() {
   }
 
   const handleOtpSubmit = async (code: string) => {
-    if (!otpState) return
+    if (!otpEmail) return
     setIsLoading(true)
     setError(undefined)
     try {
-      await auth.verifyOtp(otpState.userId, code)
+      await auth.verifyOtp(otpEmail, code)
       void navigate({ to: redirect ?? '/events' })
     } catch (err) {
       setError(parseError(err).userMessage)
@@ -54,10 +49,10 @@ export function LoginPage() {
   }
 
   const handleResend = async () => {
-    if (!otpState) return
+    if (!otpEmail) return
     setError(undefined)
     try {
-      await auth.resendOtp(otpState.userId)
+      await auth.resendOtp(otpEmail)
     } catch (err) {
       setError(parseError(err).userMessage)
     }
@@ -67,9 +62,9 @@ export function LoginPage() {
     <div className="flex flex-1 items-center justify-center bg-background p-4">
       {step === 'email' ? (
         <LoginForm onSubmit={handleEmailSubmit} isLoading={isLoading} error={error} />
-      ) : otpState ? (
+      ) : otpEmail ? (
         <OtpVerificationForm
-          email={otpState.email}
+          email={otpEmail}
           onSubmit={handleOtpSubmit}
           onResend={handleResend}
           isLoading={isLoading}

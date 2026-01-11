@@ -5,11 +5,11 @@ import { eq } from 'drizzle-orm'
 import { match } from 'ts-pattern'
 import { z } from 'zod'
 
-import { verifyOtpCode } from '../services/otp'
+import { getUserIdByEmail, verifyOtpCode } from '../services/otp'
 import { sessionService } from '../services/session'
 
 const verifyOtpInput = z.object({
-  userId: z.string().uuid(),
+  email: z.string().email(),
   code: z.string().length(6),
 })
 
@@ -27,7 +27,13 @@ export const verifyOtp = publicProcedure
   .input(verifyOtpInput)
   .output(verifyOtpOutput)
   .mutation(async ({ input, ctx: { db, req } }) => {
-    const result = await verifyOtpCode(db, input.userId, input.code)
+    // Look up user by email
+    const userId = await getUserIdByEmail(db, input.email)
+    if (!userId) {
+      throw new AppError({ code: 'USER_NOT_FOUND', message: 'User not found.' })
+    }
+
+    const result = await verifyOtpCode(db, userId, input.code)
 
     if (!result.success) {
       const [code, message] = match<typeof result.error, [AppErrorCode, string]>(result.error)

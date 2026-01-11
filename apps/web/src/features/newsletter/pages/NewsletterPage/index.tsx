@@ -27,18 +27,13 @@ const signupSchema = z.object({
 type SignupFormData = z.infer<typeof signupSchema>
 type Step = 'email' | 'otp'
 
-interface OtpState {
-  userId: string
-  email: string
-}
-
 export function NewsletterPage() {
   const context = useRouteContext({ from: '__root__' })
   const { auth } = context
   const isAuthenticated = auth.isAuthenticated
 
   const [step, setStep] = useState<Step>('email')
-  const [otpState, setOtpState] = useState<OtpState | null>(null)
+  const [otpEmail, setOtpEmail] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string>()
 
@@ -54,8 +49,8 @@ export function NewsletterPage() {
     setIsLoading(true)
     setError(undefined)
     try {
-      const { userId } = await auth.register(data.email, data.name)
-      setOtpState({ userId, email: data.email })
+      const { email } = await auth.register(data.email, data.name)
+      setOtpEmail(email)
       setStep('otp')
     } catch (err) {
       setError(parseError(err).userMessage)
@@ -65,11 +60,11 @@ export function NewsletterPage() {
   }
 
   const handleOtpSubmit = async (code: string) => {
-    if (!otpState) return
+    if (!otpEmail) return
     setIsLoading(true)
     setError(undefined)
     try {
-      await auth.verifyOtp(otpState.userId, code)
+      await auth.verifyOtp(otpEmail, code)
       // Router will invalidate and re-render since user is now authenticated
     } catch (err) {
       setError(parseError(err).userMessage)
@@ -79,10 +74,10 @@ export function NewsletterPage() {
   }
 
   const handleResend = async () => {
-    if (!otpState) return
+    if (!otpEmail) return
     setError(undefined)
     try {
-      await auth.resendOtp(otpState.userId)
+      await auth.resendOtp(otpEmail)
     } catch (err) {
       setError(parseError(err).userMessage)
     }
@@ -139,9 +134,9 @@ export function NewsletterPage() {
         </Card>
       )}
 
-      {step === 'otp' && otpState && (
+      {step === 'otp' && otpEmail && (
         <OtpVerificationForm
-          email={otpState.email}
+          email={otpEmail}
           onSubmit={handleOtpSubmit}
           onResend={handleResend}
           isLoading={isLoading}
