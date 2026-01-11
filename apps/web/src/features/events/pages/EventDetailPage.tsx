@@ -4,14 +4,14 @@ import { Calendar, ChevronLeft, Clock, Mail, MapPin } from 'lucide-react'
 import { Button } from '@/components/ui'
 
 import { ShareButton } from '../components/ShareButton'
-import { useEvent, useSuggestedEvents } from '../hooks/useEvents'
+import { getEvent, getSuggestedEvents } from '../hooks/events'
 
 const routeApi = getRouteApi('/_public/events/$eventId')
 
 export function EventDetailPage() {
   const { eventId } = routeApi.useParams()
-  const event = useEvent(eventId)
-  const suggestedEvents = useSuggestedEvents(eventId, 2)
+  const event = getEvent(eventId)
+  const suggestedEvents = getSuggestedEvents(eventId, 2)
 
   if (!event) {
     return (

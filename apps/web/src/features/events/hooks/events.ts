@@ -116,9 +116,9 @@ const EVENTS: Event[] = [
  * Returns all events.
  *
  * @example
- * const events = useEvents()
+ * const events = getEvents()
  */
-export function useEvents(): Event[] {
+export function getEvents(): Event[] {
   return EVENTS
 }
 
@@ -126,9 +126,9 @@ export function useEvents(): Event[] {
  * Returns a single event by ID, or undefined if not found.
  *
  * @example
- * const event = useEvent('1')
+ * const event = getEvent('1')
  */
-export function useEvent(id: string): Event | undefined {
+export function getEvent(id: string): Event | undefined {
   return EVENTS.find((event) => event.id === id)
 }
 
@@ -136,8 +136,8 @@ export function useEvent(id: string): Event | undefined {
  * Returns suggested events, excluding the specified event ID.
  *
  * @example
- * const suggested = useSuggestedEvents('1', 2)
+ * const suggested = getSuggestedEvents('1', 2)
  */
-export function useSuggestedEvents(excludeId: string, limit: number = 2): Event[] {
+export function getSuggestedEvents(excludeId: string, limit: number = 2): Event[] {
   return EVENTS.filter((event) => event.id !== excludeId).slice(0, limit)
 }

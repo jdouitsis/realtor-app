@@ -1,6 +1,6 @@
 import { getRouteApi } from '@tanstack/react-router'
 
-import { EVENT_TAGS } from './useEvents'
+import { EVENT_TAGS } from './events'
 
 const routeApi = getRouteApi('/_public/events/')
 

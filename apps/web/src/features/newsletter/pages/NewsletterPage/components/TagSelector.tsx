@@ -1,5 +1,5 @@
 import { Checkbox, Label } from '@/components/ui'
-import { EVENT_TAGS } from '@/features/events/hooks/useEvents'
+import { EVENT_TAGS } from '@/features/events/hooks/events'
 
 interface TagSelectorProps {
   selectedTags: string[]

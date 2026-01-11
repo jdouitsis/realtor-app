@@ -3,12 +3,12 @@ import { Mail } from 'lucide-react'
 
 import { useStorage } from '@/lib/storage'
 
-import { useEvents } from '../../hooks/useEvents'
+import { getEvents } from '../../hooks/events'
 import { useEventTagFilter } from '../../hooks/useEventTagFilter'
 import { EventTagFilter } from './components/EventTagFilter'
 
 export function EventsPage() {
-  const allEvents = useEvents()
+  const allEvents = getEvents()
   const { filterByTags } = useEventTagFilter()
   const context = useRouteContext({ from: '__root__' })
   const [newsletterPrefs] = useStorage('newsletter_preferences')
