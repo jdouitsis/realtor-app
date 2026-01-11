@@ -135,7 +135,7 @@ const OTPInput = React.forwardRef<HTMLInputElement, OTPInputProps>(
       <div
         role="group"
         aria-labelledby={id ? `${id}-label` : undefined}
-        className={cn('flex gap-2', className)}
+        className={cn('flex gap-1.5 sm:gap-2', className)}
       >
         {positions.map((position) => (
           <input
@@ -157,7 +157,7 @@ const OTPInput = React.forwardRef<HTMLInputElement, OTPInputProps>(
             aria-label={`Digit ${position + 1} of ${length}`}
             aria-invalid={hasError}
             className={cn(
-              'flex h-12 w-12 items-center justify-center rounded-md border border-input bg-transparent text-center text-xl font-semibold shadow-sm transition-colors',
+              'flex h-10 w-10 items-center justify-center rounded-md border border-input bg-transparent text-center text-lg font-semibold shadow-sm transition-colors sm:h-12 sm:w-12 sm:text-xl',
               'placeholder:text-muted-foreground',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
               'disabled:cursor-not-allowed disabled:opacity-50',
