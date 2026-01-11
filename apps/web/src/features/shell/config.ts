@@ -1,4 +1,4 @@
-import { Calendar, LayoutDashboard, Mail, User } from 'lucide-react'
+import { Calendar, LayoutDashboard, Mail } from 'lucide-react'
 import type { ComponentType } from 'react'
 
 export const sideBarTransition = 'width 0.15s linear'
