@@ -18,6 +18,11 @@ RUN pnpm install --frozen-lockfile
 
 # Build the app
 FROM deps AS builder
+
+# Vite env vars must be available at build time
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 COPY . .
 RUN pnpm turbo build --filter=@app/web
 

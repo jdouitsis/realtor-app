@@ -9,6 +9,7 @@ This directory contains SOPs for common repository-level tasks.
 | [sop-database-migrations.md](./sop-database-migrations.md)     | Schema changes, adding tables, Railway deployment migrations     |
 | [sop-discriminated-unions.md](./sop-discriminated-unions.md)   | Type-safe unions with ts-pattern, MapToUnionWithTypeFieldAdded   |
 | [sop-email-templates.md](./sop-email-templates.md)             | Creating, modifying, and previewing email templates              |
+| [sop-environment-variables.md](./sop-environment-variables.md) | Adding env vars to web/server, Railway config, VITE_* variables  |
 | [sop-local-storage.md](./sop-local-storage.md)                 | Adding localStorage keys, using useStorage hook, cross-tab sync  |
 | [sop-logging.md](./sop-logging.md)                             | Server logging, using ctx.log, redaction, troubleshooting        |
 | [sop-staging-promotion.md](./sop-staging-promotion.md)         | How staging is auto-updated from main, manual sync               |
@@ -26,6 +27,9 @@ This directory contains SOPs for common repository-level tasks.
 - **Adding a new email template** → `sop-email-templates.md`
 - **Modifying existing emails** → `sop-email-templates.md`
 - **Previewing email templates** → `sop-email-templates.md`
+- **Adding environment variables** → `sop-environment-variables.md`
+- **Configuring VITE_* variables** → `sop-environment-variables.md`
+- **Railway environment setup** → `sop-environment-variables.md`
 - **Adding a new script** that should run across the monorepo → `sop-turbo-pack.md`
 - **Setting up a new tool** (linter, formatter, test runner) → `sop-turbo-pack.md`
 - **Modifying git hooks** → `sop-turbo-pack.md`
