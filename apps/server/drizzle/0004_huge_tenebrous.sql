@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "is_realtor" boolean DEFAULT false NOT NULL;

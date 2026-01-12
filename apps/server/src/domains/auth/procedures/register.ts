@@ -38,6 +38,7 @@ export const register = publicProcedure
       .values({
         email: input.email,
         name: input.name,
+        isRealtor: true,
       })
       .returning()
 
