@@ -5,14 +5,6 @@ import { users } from './auth'
 // Enums
 export const clientStatusEnum = pgEnum('client_status', ['pending', 'active'])
 
-export const documentTypeEnum = pgEnum('document_type', [
-  'credit_score',
-  'photo_id',
-  'paystub_1',
-  'paystub_2',
-  'job_letter',
-])
-
 // Junction table for realtor-client relationships
 export const realtorClients = pgTable(
   'realtor_clients',
@@ -83,7 +75,6 @@ export const clientDocuments = pgTable('client_documents', {
   onboardingId: uuid('onboarding_id')
     .notNull()
     .references(() => clientOnboarding.id, { onDelete: 'cascade' }),
-  type: documentTypeEnum('type').notNull(),
   title: text('title').notNull(),
   s3Key: text('s3_key').notNull(),
   filename: text('filename').notNull(),
