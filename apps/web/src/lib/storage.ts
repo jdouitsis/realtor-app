@@ -7,7 +7,6 @@ import { useCallback, useEffect, useState } from 'react'
  */
 interface StorageRegistry {
   auth_token: string
-  demo_notice_dismissed: boolean
   sidebar_collapsed: boolean
 }
 
