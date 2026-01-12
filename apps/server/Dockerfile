@@ -14,7 +14,7 @@ COPY packages/shared/package.json ./packages/shared/
 
 # Install dependencies
 FROM base AS deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 # Build/typecheck
 FROM deps AS builder
