@@ -2,7 +2,7 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "nixpacksConfigPath": "apps/web/nixpacks.toml"
+    "nixpacksConfigPath": "nixpacks.toml"
   },
   "deploy": {
     "numReplicas": 1,
