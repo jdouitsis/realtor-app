@@ -28,15 +28,14 @@ export function Sidebar({ isCollapsed, className }: SidebarProps) {
         {/* Logo */}
         <div className="flex h-14 items-center justify-between border-b px-3">
           <Link to="/dashboard" className="flex items-center px-3 text-xl font-bold">
-            <span>C</span>
             <span
               style={{
-                width: isCollapsed ? 0 : 70,
+                width: isCollapsed ? 13 : 70,
                 transition: sideBarTransition,
               }}
               className="overflow-hidden"
             >
-              oncord
+              Realtor
             </span>
           </Link>
         </div>

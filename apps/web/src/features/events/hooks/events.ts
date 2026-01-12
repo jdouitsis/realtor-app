@@ -29,7 +29,7 @@ const EVENTS: Event[] = [
     date: '2026-01-08',
     time: '7:00 PM',
     description: 'Learn some moves and have fun with friends at our monthly line dancing event.',
-    location: 'Concord Point Community Church',
+    location: 'Community Center',
     imageUrl: 'https://images.unsplash.com/photo-1504609813442-a8924e83f76e?w=1200&h=400&fit=crop',
     tags: ['social'],
   },

@@ -1,6 +1,6 @@
 # Server
 
-The backend API server for the Concord application. Built with Express and tRPC, providing type-safe API endpoints that are consumed by the web frontend.
+The backend API server for the Realtor App application. Built with Express and tRPC, providing type-safe API endpoints that are consumed by the web frontend.
 
 ## Tech Stack
 
@@ -68,8 +68,8 @@ This provides complete isolation between tests without needing to manage cleanup
 ### Running Tests
 
 ```bash
-pnpm --filter @concordpoint/server test        # Run once
-pnpm --filter @concordpoint/server test:watch  # Watch mode
+pnpm --filter @app/server test        # Run once
+pnpm --filter @app/server test:watch  # Watch mode
 ```
 
 ### Writing Tests
@@ -152,8 +152,8 @@ The server uses a two-tier linting setup for optimal performance:
 To run commands for just this package:
 
 ```bash
-pnpm --filter @concordpoint/server dev
-pnpm --filter @concordpoint/server build
+pnpm --filter @app/server dev
+pnpm --filter @app/server build
 ```
 
 ## Database
@@ -170,7 +170,7 @@ The server uses [Drizzle ORM](https://orm.drizzle.team/) with PostgreSQL.
 
 2. Apply migrations to the database:
    ```bash
-   pnpm --filter @concordpoint/server db:migrate
+   pnpm --filter @app/server db:migrate
    ```
 
 ### Commands
@@ -218,8 +218,8 @@ src/db/
 
 3. Generate and run migrations:
    ```bash
-   pnpm --filter @concordpoint/server db:generate
-   pnpm --filter @concordpoint/server db:migrate
+   pnpm --filter @app/server db:generate
+   pnpm --filter @app/server db:migrate
    ```
 
 ### Conventions
@@ -298,7 +298,7 @@ The server exports its router types for the frontend to consume:
 
 ```typescript
 // In apps/web, the tRPC client imports types from:
-import type { AppRouter } from '@concordpoint/server/trpc'
+import type { AppRouter } from '@app/server/trpc'
 ```
 
 This enables full end-to-end type safety between frontend and backend.

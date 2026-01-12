@@ -79,8 +79,8 @@ it('returns health status', async () => {
 ## Running Tests
 
 ```bash
-pnpm --filter @concordpoint/server test        # Run once
-pnpm --filter @concordpoint/server test:watch  # Watch mode
+pnpm --filter @app/server test        # Run once
+pnpm --filter @app/server test:watch  # Watch mode
 ```
 
 ## Writing Tests

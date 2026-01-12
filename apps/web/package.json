@@ -1,5 +1,5 @@
 {
-  "name": "@concordpoint/web",
+  "name": "@app/web",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -17,7 +17,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@concordpoint/shared": "workspace:*",
+    "@app/shared": "workspace:*",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-checkbox": "^1.3.3",
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.3",
-    "@concordpoint/server": "workspace:*",
+    "@app/server": "workspace:*",
     "@eslint/js": "^9.39.1",
     "@storybook/addon-a11y": "^10.1.10",
     "@storybook/addon-docs": "^10.1.10",

@@ -52,7 +52,7 @@ export function NavBar({ user }: HeaderProps) {
       <div className="mx-auto flex h-16 max-w-full items-center justify-between">
         <div className="flex items-center gap-6">
           <Link to="/" className="text-xl font-bold">
-            Concord
+            Realtor App
           </Link>
           <Link
             to="/public/events"
@@ -88,7 +88,7 @@ export function NavBar({ user }: HeaderProps) {
           </SheetTrigger>
           <SheetContent side="right" className="w-72">
             <SheetHeader className="mb-6">
-              <SheetTitle className="mr-auto">Concord</SheetTitle>
+              <SheetTitle className="mr-auto">Realtor App</SheetTitle>
             </SheetHeader>
 
             {isAuthenticated && user ? (

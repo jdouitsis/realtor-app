@@ -63,7 +63,7 @@ Menu items appear in both the desktop sidebar and mobile navigation.
 ┌─────────────────────────────────────────────────┐
 │ Mobile (<md)                                    │
 ├─────────────────────────────────────────────────┤
-│ [spacer]  Concord  [menu]  ← Header             │
+│ [spacer]  Realtor App  [menu]  ← Header             │
 ├─────────────────────────────────────────────────┤
 │                                                 │
 │ Main Content (<Outlet />)                       │
@@ -93,7 +93,7 @@ Main layout wrapper that renders:
 
 Collapsible sidebar with:
 
-- Logo header ("Concord" / "C")
+- Logo header ("Realtor App" / "C")
 - Navigation items from `MenuItems`
 - Smooth width transition (0.15s)
 

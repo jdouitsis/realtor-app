@@ -6,7 +6,7 @@
   },
   "deploy": {
     "numReplicas": 1,
-    "startCommand": "pnpm --filter @concordpoint/server db:migrate && pnpm --filter @concordpoint/server start",
+    "startCommand": "pnpm --filter @app/server db:migrate && pnpm --filter @app/server start",
     "healthcheckPath": "/health",
     "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",

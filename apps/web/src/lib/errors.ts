@@ -1,4 +1,4 @@
-import type { AppErrorCode } from '@concordpoint/shared/errors'
+import type { AppErrorCode } from '@app/shared/errors'
 import { TRPCClientError } from '@trpc/client'
 
 /** Shape of tRPC error data from our server's errorFormatter */
@@ -14,7 +14,7 @@ interface TRPCErrorData {
 /**
  * Type-safe user-friendly messages for app-specific error codes.
  * This Record type ensures compile-time failure if a new error code
- * is added to @concordpoint/shared/errors without a corresponding message here.
+ * is added to @app/shared/errors without a corresponding message here.
  */
 const APP_ERROR_MESSAGES: Record<AppErrorCode, string> = {
   INVALID_CREDENTIALS: 'Invalid email or password.',

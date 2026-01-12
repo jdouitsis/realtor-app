@@ -11,10 +11,10 @@ nixPkgs = ["nodejs_22", "pnpm"]
 cmds = ["pnpm install --frozen-lockfile"]
 
 [phases.build]
-cmds = ["pnpm --filter @concordpoint/server typecheck"]
+cmds = ["pnpm --filter @app/server typecheck"]
 
 [start]
 # Migrations run at startup (not build) because Railway internal networking
 # (postgres.railway.internal) is only available at runtime
 # NOTE: This command is overridden in railway.json
-cmd = "pnpm --filter @concordpoint/server db:migrate && pnpm --filter @concordpoint/server start"
+cmd = "pnpm --filter @app/server db:migrate && pnpm --filter @app/server start"

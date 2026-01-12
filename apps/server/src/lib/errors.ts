@@ -1,8 +1,8 @@
-import type { AppErrorCode } from '@concordpoint/shared/errors'
+import type { AppErrorCode } from '@app/shared/errors'
 import { TRPCError } from '@trpc/server'
 
 // Re-export from shared package for convenience
-export { AppErrorCode } from '@concordpoint/shared/errors'
+export { AppErrorCode } from '@app/shared/errors'
 
 /** Maps application error codes to tRPC error codes */
 const APP_CODE_TO_TRPC: Record<AppErrorCode, TRPCError['code']> = {

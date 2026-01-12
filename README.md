@@ -1,6 +1,6 @@
-# Concord
+# Realtor App
 
-A Concord application built as a pnpm monorepo with Turborepo orchestration.
+A Realtor App application built as a pnpm monorepo with Turborepo orchestration.
 
 ## Tech Stack
 

@@ -23,13 +23,13 @@ export function MagicLinkEmail({ url, expiresAt }: MagicLinkEmailProps) {
     : 'This link expires in 24 hours.'
 
   return (
-    <EmailLayout preview="Sign in to Concord">
-      <Text style={text.heading}>Sign in to Concord</Text>
+    <EmailLayout preview="Sign in to Realtor App">
+      <Text style={text.heading}>Sign in to Realtor App</Text>
       <Text style={text.description}>
         Click the button below to sign in to your account. {expiryText}
       </Text>
       <Section style={layout.center}>
-        <Button href={url}>Sign in to Concord</Button>
+        <Button href={url}>Sign in to Realtor App</Button>
       </Section>
       <Text style={text.fallback}>
         Or copy and paste this URL into your browser:

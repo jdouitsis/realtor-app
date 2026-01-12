@@ -42,7 +42,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Push database schema
-        run: pnpm --filter @concordpoint/server db:push
+        run: pnpm --filter @app/server db:push
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
 
@@ -53,6 +53,6 @@ jobs:
         run: pnpm lint
 
       - name: Test
-        run: pnpm --filter @concordpoint/server test
+        run: pnpm --filter @app/server test
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres

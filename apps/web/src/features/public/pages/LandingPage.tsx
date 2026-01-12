@@ -10,7 +10,7 @@ export function LandingPage() {
     <div className="flex min-h-screen flex-col bg-background">
       <NavBar user={user} />
       <HeroSection />
-      <WhyConcordSection />
+      <WhyRealtorAppSection />
       <FeaturesSection />
       <Footer />
     </div>
@@ -26,9 +26,9 @@ function HeroSection() {
           <span className="block text-primary">In Your Community</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          Concord connects you with Christian events hosted by churches and organizations in your
-          area. From worship nights to community gatherings, find meaningful ways to grow in faith
-          and fellowship.
+          Realtor App connects you with Christian events hosted by churches and organizations in
+          your area. From worship nights to community gatherings, find meaningful ways to grow in
+          faith and fellowship.
         </p>
         <div className="mt-10 flex items-center justify-center gap-4">
           <Button size="lg" asChild>
@@ -40,16 +40,16 @@ function HeroSection() {
   )
 }
 
-function WhyConcordSection() {
+function WhyRealtorAppSection() {
   return (
     <section className="border-t py-16">
       <div className="container mx-auto max-w-3xl px-4">
-        <h2 className="mb-6 text-center text-2xl font-semibold">Why Concord</h2>
+        <h2 className="mb-6 text-center text-2xl font-semibold">Why Realtor App</h2>
         <div className="space-y-4 text-muted-foreground">
           <p>
-            Concord is a simple network where different church families can act as cousins — sharing
-            events they want to open up, attending gatherings hosted by others, and getting to know
-            one another better.
+            Realtor App is a simple network where different church families can act as cousins —
+            sharing events they want to open up, attending gatherings hosted by others, and getting
+            to know one another better.
           </p>
           <p>
             Our cities are home to many Christian communities, each with their own congregations,
@@ -103,7 +103,7 @@ function Footer() {
   return (
     <footer className="border-t py-8">
       <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-        <p>Concord — Bringing Christian communities together</p>
+        <p>Realtor App — Bringing Christian communities together</p>
       </div>
     </footer>
   )

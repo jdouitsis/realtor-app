@@ -1,7 +1,7 @@
 import { render } from '@react-email/components'
 import { match } from 'ts-pattern'
 
-import type { MapToUnionWithTypeFieldAdded } from '@concordpoint/shared/types'
+import type { MapToUnionWithTypeFieldAdded } from '@app/shared/types'
 
 import { MagicLinkEmail, type MagicLinkEmailProps } from './templates/MagicLinkEmail'
 import { OtpEmail, type OtpEmailProps } from './templates/OtpEmail'

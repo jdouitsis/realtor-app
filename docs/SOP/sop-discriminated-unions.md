@@ -5,7 +5,7 @@ This document explains how to create type-safe discriminated unions using the `M
 ## The Pattern
 
 ```typescript
-import type { MapToUnionWithTypeFieldAdded } from '@concordpoint/shared/types'
+import type { MapToUnionWithTypeFieldAdded } from '@app/shared/types'
 
 // 1. Define a map of type keys to their payloads
 type EventMap = {

@@ -17,7 +17,7 @@ importers:
 
   apps/server:
     dependencies:
-      '@concordpoint/shared':
+      '@app/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       '@react-email/components':
@@ -156,7 +156,7 @@ importers:
 
   apps/web:
     dependencies:
-      '@concordpoint/shared':
+      '@app/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       '@hookform/resolvers':
@@ -238,12 +238,12 @@ importers:
         specifier: '3'
         version: 3.25.76
     devDependencies:
+      '@app/server':
+        specifier: workspace:*
+        version: link:../server
       '@chromatic-com/storybook':
         specifier: ^4.1.3
         version: 4.1.3(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.7.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
-      '@concordpoint/server':
-        specifier: workspace:*
-        version: link:../server
       '@eslint/js':
         specifier: ^9.39.1
         version: 9.39.2

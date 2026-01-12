@@ -22,7 +22,7 @@ const fiveMinutes = 5 * 60 * 1000;
 ### When creating type-safe unions with a `type` discriminator, use `MapToUnionWithTypeFieldAdded`:
 
 ```typescript
-import type { MapToUnionWithTypeFieldAdded } from "@concordpoint/shared/types";
+import type { MapToUnionWithTypeFieldAdded } from "@app/shared/types";
 
 type EventMap = {
   userCreated: { userId: string; email: string };

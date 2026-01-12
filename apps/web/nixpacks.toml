@@ -11,7 +11,7 @@ nixPkgs = ["nodejs_22", "pnpm"]
 cmds = ["pnpm install --frozen-lockfile"]
 
 [phases.build]
-cmds = ["pnpm turbo build --filter=@concordpoint/web"]
+cmds = ["pnpm turbo build --filter=@app/web"]
 
 [start]
-cmd = "pnpm --filter @concordpoint/web start"
+cmd = "pnpm --filter @app/web start"

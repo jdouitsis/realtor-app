@@ -1,6 +1,6 @@
-# @concordpoint/shared
+# @app/shared
 
-Shared types and constants used by both `@concordpoint/server` and `@concordpoint/web`.
+Shared types and constants used by both `@app/server` and `@app/web`.
 
 ## Purpose
 
@@ -10,7 +10,7 @@ This package provides a single source of truth for types that must stay in sync 
 
 | Export Path              | Contents                       |
 | ------------------------ | ------------------------------ |
-| `@concordpoint/shared/errors` | `AppErrorCode` type and object |
+| `@app/shared/errors` | `AppErrorCode` type and object |
 
 ## Adding a New Error Code
 

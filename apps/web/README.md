@@ -1,6 +1,6 @@
 # Web App
 
-The React frontend application for the Concord platform.
+The React frontend application for the Realtor App platform.
 
 ## Tech Stack
 

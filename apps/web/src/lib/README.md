@@ -177,7 +177,7 @@ const mutation = trpc.user.updateName.useMutation({
 
 ### Adding New Error Codes
 
-When adding a new `AppErrorCode` in `@concordpoint/shared/errors`:
+When adding a new `AppErrorCode` in `@app/shared/errors`:
 
 1. Add the user-friendly message in `errors.ts`:
 

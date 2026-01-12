@@ -44,7 +44,7 @@ export function AuthenticatedLayout() {
         <header className="z-40 flex h-14 shrink-0 items-center justify-between border-b bg-background px-4 md:hidden">
           <div className="w-9" /> {/* Spacer for centering */}
           <Link to="/dashboard" className="text-xl font-bold">
-            Concord
+            Realtor App
           </Link>
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
@@ -54,7 +54,7 @@ export function AuthenticatedLayout() {
             </SheetTrigger>
             <SheetContent side="left" className="w-72">
               <SheetHeader className="mb-6">
-                <SheetTitle className="mr-auto">Concord</SheetTitle>
+                <SheetTitle className="mr-auto">Realtor App</SheetTitle>
               </SheetHeader>
               <MobileNav onNavigate={closeMobileMenu} onLogout={handleLogout} />
             </SheetContent>

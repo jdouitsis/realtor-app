@@ -31,10 +31,10 @@ Run from repository root:
 
 | Command                                       | Purpose                                      |
 | --------------------------------------------- | -------------------------------------------- |
-| `pnpm --filter @concordpoint/server db:generate`   | Generate migration from schema changes       |
-| `pnpm --filter @concordpoint/server db:migrate`    | Apply pending migrations to database         |
-| `pnpm --filter @concordpoint/server db:push`       | Push schema directly (dev only, no history)  |
-| `pnpm --filter @concordpoint/server db:studio`     | Open Drizzle Studio GUI                      |
+| `pnpm --filter @app/server db:generate`   | Generate migration from schema changes       |
+| `pnpm --filter @app/server db:migrate`    | Apply pending migrations to database         |
+| `pnpm --filter @app/server db:push`       | Push schema directly (dev only, no history)  |
+| `pnpm --filter @app/server db:studio`     | Open Drizzle Studio GUI                      |
 
 ## Development Workflow
 
@@ -43,12 +43,12 @@ Run from repository root:
 1. Edit schema in `apps/server/src/db/schema/`
 2. Generate migration:
    ```bash
-   pnpm --filter @concordpoint/server db:generate
+   pnpm --filter @app/server db:generate
    ```
 3. Review generated SQL in `apps/server/drizzle/`
 4. Apply migration:
    ```bash
-   pnpm --filter @concordpoint/server db:migrate
+   pnpm --filter @app/server db:migrate
    ```
 
 ### Option B: Quick Iteration with db:push
@@ -56,7 +56,7 @@ Run from repository root:
 For rapid prototyping, use `db:push` to sync schema directly:
 
 ```bash
-pnpm --filter @concordpoint/server db:push
+pnpm --filter @app/server db:push
 ```
 
 **Warning:** `db:push` does not create migration files. Before merging to main, always run `db:generate` to create proper migrations.
@@ -67,7 +67,7 @@ Migrations run automatically at startup (not during build) via `nixpacks.toml`:
 
 ```toml
 [start]
-cmd = "pnpm --filter @concordpoint/server db:migrate && pnpm --filter @concordpoint/server start"
+cmd = "pnpm --filter @app/server db:migrate && pnpm --filter @app/server start"
 ```
 
 **Why at startup instead of build?** Railway's internal networking (`postgres.railway.internal`) is only available at runtime, not during the build phase.
@@ -88,7 +88,7 @@ To run migrations manually against Railway:
 # Get DATABASE_URL from Railway dashboard → PostgreSQL → Connect tab
 export DATABASE_URL="postgresql://..."
 
-pnpm --filter @concordpoint/server db:migrate
+pnpm --filter @app/server db:migrate
 ```
 
 ## Adding a New Table
@@ -117,8 +117,8 @@ pnpm --filter @concordpoint/server db:migrate
 3. Generate and apply migration:
 
    ```bash
-   pnpm --filter @concordpoint/server db:generate
-   pnpm --filter @concordpoint/server db:migrate
+   pnpm --filter @app/server db:generate
+   pnpm --filter @app/server db:migrate
    ```
 
 ## Modifying Existing Tables
@@ -140,7 +140,7 @@ export const users = pgTable('users', {
 })
 ```
 
-Then generate migration: `pnpm --filter @concordpoint/server db:generate`
+Then generate migration: `pnpm --filter @app/server db:generate`
 
 ### Renaming a Column
 

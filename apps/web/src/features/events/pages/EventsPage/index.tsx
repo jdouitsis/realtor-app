@@ -62,7 +62,7 @@ export function EventsPage() {
           Know of an event that should be listed here? We'd love to hear from you.
         </p>
         <p className="mt-1 text-sm text-muted-foreground">
-          Concord is all about connecting church families across our city.
+          Realtor App is all about connecting church families across our city.
         </p>
       </div>
     </div>

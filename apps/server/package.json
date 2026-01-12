@@ -1,5 +1,5 @@
 {
-  "name": "@concordpoint/server",
+  "name": "@app/server",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -24,7 +24,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@concordpoint/shared": "workspace:*",
+    "@app/shared": "workspace:*",
     "@react-email/components": "^1.0.4",
     "@trpc/server": "^11.0.0",
     "cookie-parser": "^1.4.7",
