@@ -12,7 +12,7 @@ export const Route = createFileRoute('/_public/login/magic')({
   beforeLoad: ({ context, search }) => {
     // If already authenticated, redirect directly without consuming the magic link
     if (context.auth.isAuthenticated) {
-      throw redirect({ to: search.redirect ?? '/events' })
+      throw redirect({ to: search.redirect ?? '/dashboard' })
     }
   },
   validateSearch: magicLinkSearchSchema,

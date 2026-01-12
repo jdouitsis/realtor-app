@@ -9,7 +9,7 @@ The application supports OTP-based authentication where users enter their email,
 
 1. **Admin-generated links:** Invite new users or re-engage inactive users with a single-click login link
 2. **Passwordless login:** Users can request a magic link instead of entering an OTP code
-3. **Deep linking:** Send users directly to a specific page after authentication (e.g., `/events/123`)
+3. **Deep linking:** Send users directly to a specific page after authentication (e.g., `/dashboard`)
 
 ## Decision
 
@@ -17,7 +17,7 @@ Implement **magic link authentication** alongside the existing OTP flow:
 
 - **Single-use tokens:** 256-bit random tokens consumed on first use
 - **Configurable expiration:** Default 24 hours, up to 7 days for admin-generated links
-- **Redirect support:** Links can include a redirect URL (e.g., `/login/magic?token=abc&redirect=/events`)
+- **Redirect support:** Links can include a redirect URL (e.g., `/login/magic?token=abc&redirect=/dashboard`)
 - **Two flows:** User-initiated (sends email) and admin-generated (returns URL directly)
 
 ### URL Format

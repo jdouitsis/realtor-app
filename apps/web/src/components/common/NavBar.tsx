@@ -1,4 +1,4 @@
-import { Link, useRouteContext, useRouterState } from '@tanstack/react-router'
+import { Link, useRouteContext } from '@tanstack/react-router'
 import { Menu } from 'lucide-react'
 import { useState } from 'react'
 
@@ -12,7 +12,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui'
-import { cn } from '@/lib/utils'
 
 interface User {
   name: string | null
@@ -41,9 +40,6 @@ export function NavBar({ user }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const context = useRouteContext({ from: '__root__' })
   const isAuthenticated = context.auth.isAuthenticated
-  const pathname = useRouterState({ select: (s) => s.location.pathname })
-  const isEventsActive = pathname.startsWith('/public/events')
-  const isNewsletterActive = pathname.startsWith('/public/newsletter')
 
   const closeMobileMenu = () => setMobileMenuOpen(false)
 
@@ -53,24 +49,6 @@ export function NavBar({ user }: HeaderProps) {
         <div className="flex items-center gap-6">
           <Link to="/" className="text-xl font-bold">
             Realtor App
-          </Link>
-          <Link
-            to="/public/events"
-            className={cn(
-              'hidden text-sm transition-colors hover:text-foreground md:block',
-              isEventsActive ? 'font-medium text-foreground' : 'text-muted-foreground'
-            )}
-          >
-            Events
-          </Link>
-          <Link
-            to="/public/newsletter"
-            className={cn(
-              'hidden text-sm transition-colors hover:text-foreground md:block',
-              isNewsletterActive ? 'font-medium text-foreground' : 'text-muted-foreground'
-            )}
-          >
-            Newsletter
           </Link>
         </div>
 
@@ -96,31 +74,6 @@ export function NavBar({ user }: HeaderProps) {
             ) : (
               <MobileUnauthenticatedNav onNavigate={closeMobileMenu} />
             )}
-
-            <div className="my-6 border-t" />
-
-            <nav className="flex flex-col gap-4">
-              <Link
-                to="/public/events"
-                onClick={closeMobileMenu}
-                className={cn(
-                  'text-lg transition-colors hover:text-foreground',
-                  isEventsActive ? 'font-medium text-foreground' : 'text-muted-foreground'
-                )}
-              >
-                Events
-              </Link>
-              <Link
-                to="/public/newsletter"
-                onClick={closeMobileMenu}
-                className={cn(
-                  'text-lg transition-colors hover:text-foreground',
-                  isNewsletterActive ? 'font-medium text-foreground' : 'text-muted-foreground'
-                )}
-              >
-                Newsletter
-              </Link>
-            </nav>
           </SheetContent>
         </Sheet>
       </div>

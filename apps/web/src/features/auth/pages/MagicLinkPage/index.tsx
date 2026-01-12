@@ -20,7 +20,7 @@ export function MagicLinkPage() {
 
       // Redirect after brief success state
       setTimeout(() => {
-        const destination = result.redirectUrl ?? redirectUrl ?? '/events'
+        const destination = result.redirectUrl ?? redirectUrl ?? '/dashboard'
         void navigate({ to: destination })
       }, 2000)
     },

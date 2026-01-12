@@ -37,7 +37,7 @@ export function LoginPage() {
     setError(undefined)
     await auth
       .verifyOtp(otpEmail, code)
-      .then(() => navigate({ to: redirect ?? '/events' }))
+      .then(() => navigate({ to: redirect ?? '/dashboard' }))
       .catch(setError)
       .finally(() => setIsLoading(false))
   }

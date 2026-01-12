@@ -15,19 +15,11 @@ routes/
 │   │   └── magic.tsx       # /login/magic - magic link verification
 │   ├── register.tsx        # /register
 │   └── public/             # Public content pages (redirect to auth versions if logged in)
-│       ├── events/
-│       │   ├── index.tsx   # /public/events - public events listing
-│       │   └── $eventId.tsx# /public/events/:id - public event detail
-│       └── newsletter.tsx  # /public/newsletter - public newsletter page
 └── _authenticated/         # Protected section (authenticated users only)
     ├── route.tsx           # Layout with Sidebar + top bar (desktop) / mobile menu
     ├── dashboard.tsx       # /dashboard
     ├── profile.tsx         # /profile
     ├── otp.tsx             # /otp - step-up verification
-    ├── events/
-    │   ├── index.tsx       # /events - authenticated events listing
-    │   └── $eventId.tsx    # /events/:id - authenticated event detail
-    └── newsletter.tsx      # /newsletter - authenticated newsletter page
 ```
 
 ## Authentication Flow
@@ -52,27 +44,21 @@ component: LandingPage,
 
 Public routes are accessible to unauthenticated users. Login and register pages redirect authenticated users to `/dashboard`.
 
-| Route               | Path                 | Description                                  |
-| ------------------- | -------------------- | -------------------------------------------- |
-| `login`             | `/login`             | Login form with ?redirect support            |
-| `login/magic`       | `/login/magic`       | Magic link verification                      |
-| `register`          | `/register`          | Registration form                            |
-| `public/events`     | `/public/events`     | Public events listing (redirects if authed)  |
-| `public/events/$id` | `/public/events/:id` | Public event detail (redirects if authed)    |
-| `public/newsletter` | `/public/newsletter` | Public newsletter page (redirects if authed) |
+| Route         | Path           | Description                       |
+| ------------- | -------------- | --------------------------------- |
+| `login`       | `/login`       | Login form with ?redirect support |
+| `login/magic` | `/login/magic` | Magic link verification           |
+| `register`    | `/register`    | Registration form                 |
 
 ### Authenticated Routes (`_authenticated/`)
 
 Protected routes require authentication. If an unauthenticated user tries to access these routes, they're redirected to `/login` with a `?redirect` param to return after login.
 
-| Route        | Path          | Description                   |
-| ------------ | ------------- | ----------------------------- |
-| `dashboard`  | `/dashboard`  | Main dashboard view           |
-| `profile`    | `/profile`    | User profile with tabs        |
-| `otp`        | `/otp`        | Step-up OTP verification      |
-| `events`     | `/events`     | Authenticated events listing  |
-| `events/$id` | `/events/:id` | Authenticated event detail    |
-| `newsletter` | `/newsletter` | Authenticated newsletter page |
+| Route       | Path         | Description              |
+| ----------- | ------------ | ------------------------ |
+| `dashboard` | `/dashboard` | Main dashboard view      |
+| `profile`   | `/profile`   | User profile with tabs   |
+| `otp`       | `/otp`       | Step-up OTP verification |
 
 ### Authenticated Layout
 

@@ -15,15 +15,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedOtpRouteImport } from './routes/_authenticated/otp'
-import { Route as AuthenticatedNewsletterRouteImport } from './routes/_authenticated/newsletter'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as PublicLoginIndexRouteImport } from './routes/_public/login/index'
-import { Route as AuthenticatedEventsIndexRouteImport } from './routes/_authenticated/events/index'
-import { Route as PublicPublicNewsletterRouteImport } from './routes/_public/public/newsletter'
 import { Route as PublicLoginMagicRouteImport } from './routes/_public/login/magic'
-import { Route as AuthenticatedEventsEventIdRouteImport } from './routes/_authenticated/events/$eventId'
-import { Route as PublicPublicEventsIndexRouteImport } from './routes/_public/public/events/index'
-import { Route as PublicPublicEventsEventIdRouteImport } from './routes/_public/public/events/$eventId'
 
 const PublicRouteRoute = PublicRouteRouteImport.update({
   id: '/_public',
@@ -53,11 +47,6 @@ const AuthenticatedOtpRoute = AuthenticatedOtpRouteImport.update({
   path: '/otp',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedNewsletterRoute = AuthenticatedNewsletterRouteImport.update({
-  id: '/newsletter',
-  path: '/newsletter',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -68,69 +57,29 @@ const PublicLoginIndexRoute = PublicLoginIndexRouteImport.update({
   path: '/login/',
   getParentRoute: () => PublicRouteRoute,
 } as any)
-const AuthenticatedEventsIndexRoute =
-  AuthenticatedEventsIndexRouteImport.update({
-    id: '/events/',
-    path: '/events/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const PublicPublicNewsletterRoute = PublicPublicNewsletterRouteImport.update({
-  id: '/public/newsletter',
-  path: '/public/newsletter',
-  getParentRoute: () => PublicRouteRoute,
-} as any)
 const PublicLoginMagicRoute = PublicLoginMagicRouteImport.update({
   id: '/login/magic',
   path: '/login/magic',
   getParentRoute: () => PublicRouteRoute,
 } as any)
-const AuthenticatedEventsEventIdRoute =
-  AuthenticatedEventsEventIdRouteImport.update({
-    id: '/events/$eventId',
-    path: '/events/$eventId',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const PublicPublicEventsIndexRoute = PublicPublicEventsIndexRouteImport.update({
-  id: '/public/events/',
-  path: '/public/events/',
-  getParentRoute: () => PublicRouteRoute,
-} as any)
-const PublicPublicEventsEventIdRoute =
-  PublicPublicEventsEventIdRouteImport.update({
-    id: '/public/events/$eventId',
-    path: '/public/events/$eventId',
-    getParentRoute: () => PublicRouteRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/newsletter': typeof AuthenticatedNewsletterRoute
   '/otp': typeof AuthenticatedOtpRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/register': typeof PublicRegisterRoute
-  '/events/$eventId': typeof AuthenticatedEventsEventIdRoute
   '/login/magic': typeof PublicLoginMagicRoute
-  '/public/newsletter': typeof PublicPublicNewsletterRoute
-  '/events': typeof AuthenticatedEventsIndexRoute
   '/login': typeof PublicLoginIndexRoute
-  '/public/events/$eventId': typeof PublicPublicEventsEventIdRoute
-  '/public/events': typeof PublicPublicEventsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/newsletter': typeof AuthenticatedNewsletterRoute
   '/otp': typeof AuthenticatedOtpRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/register': typeof PublicRegisterRoute
-  '/events/$eventId': typeof AuthenticatedEventsEventIdRoute
   '/login/magic': typeof PublicLoginMagicRoute
-  '/public/newsletter': typeof PublicPublicNewsletterRoute
-  '/events': typeof AuthenticatedEventsIndexRoute
   '/login': typeof PublicLoginIndexRoute
-  '/public/events/$eventId': typeof PublicPublicEventsEventIdRoute
-  '/public/events': typeof PublicPublicEventsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -138,66 +87,42 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_public': typeof PublicRouteRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/_authenticated/newsletter': typeof AuthenticatedNewsletterRoute
   '/_authenticated/otp': typeof AuthenticatedOtpRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_public/register': typeof PublicRegisterRoute
-  '/_authenticated/events/$eventId': typeof AuthenticatedEventsEventIdRoute
   '/_public/login/magic': typeof PublicLoginMagicRoute
-  '/_public/public/newsletter': typeof PublicPublicNewsletterRoute
-  '/_authenticated/events/': typeof AuthenticatedEventsIndexRoute
   '/_public/login/': typeof PublicLoginIndexRoute
-  '/_public/public/events/$eventId': typeof PublicPublicEventsEventIdRoute
-  '/_public/public/events/': typeof PublicPublicEventsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/dashboard'
-    | '/newsletter'
     | '/otp'
     | '/profile'
     | '/register'
-    | '/events/$eventId'
     | '/login/magic'
-    | '/public/newsletter'
-    | '/events'
     | '/login'
-    | '/public/events/$eventId'
-    | '/public/events'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/dashboard'
-    | '/newsletter'
     | '/otp'
     | '/profile'
     | '/register'
-    | '/events/$eventId'
     | '/login/magic'
-    | '/public/newsletter'
-    | '/events'
     | '/login'
-    | '/public/events/$eventId'
-    | '/public/events'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/_public'
     | '/_authenticated/dashboard'
-    | '/_authenticated/newsletter'
     | '/_authenticated/otp'
     | '/_authenticated/profile'
     | '/_public/register'
-    | '/_authenticated/events/$eventId'
     | '/_public/login/magic'
-    | '/_public/public/newsletter'
-    | '/_authenticated/events/'
     | '/_public/login/'
-    | '/_public/public/events/$eventId'
-    | '/_public/public/events/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -250,13 +175,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOtpRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/newsletter': {
-      id: '/_authenticated/newsletter'
-      path: '/newsletter'
-      fullPath: '/newsletter'
-      preLoaderRoute: typeof AuthenticatedNewsletterRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -271,20 +189,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLoginIndexRouteImport
       parentRoute: typeof PublicRouteRoute
     }
-    '/_authenticated/events/': {
-      id: '/_authenticated/events/'
-      path: '/events'
-      fullPath: '/events'
-      preLoaderRoute: typeof AuthenticatedEventsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_public/public/newsletter': {
-      id: '/_public/public/newsletter'
-      path: '/public/newsletter'
-      fullPath: '/public/newsletter'
-      preLoaderRoute: typeof PublicPublicNewsletterRouteImport
-      parentRoute: typeof PublicRouteRoute
-    }
     '/_public/login/magic': {
       id: '/_public/login/magic'
       path: '/login/magic'
@@ -292,46 +196,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLoginMagicRouteImport
       parentRoute: typeof PublicRouteRoute
     }
-    '/_authenticated/events/$eventId': {
-      id: '/_authenticated/events/$eventId'
-      path: '/events/$eventId'
-      fullPath: '/events/$eventId'
-      preLoaderRoute: typeof AuthenticatedEventsEventIdRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_public/public/events/': {
-      id: '/_public/public/events/'
-      path: '/public/events'
-      fullPath: '/public/events'
-      preLoaderRoute: typeof PublicPublicEventsIndexRouteImport
-      parentRoute: typeof PublicRouteRoute
-    }
-    '/_public/public/events/$eventId': {
-      id: '/_public/public/events/$eventId'
-      path: '/public/events/$eventId'
-      fullPath: '/public/events/$eventId'
-      preLoaderRoute: typeof PublicPublicEventsEventIdRouteImport
-      parentRoute: typeof PublicRouteRoute
-    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedNewsletterRoute: typeof AuthenticatedNewsletterRoute
   AuthenticatedOtpRoute: typeof AuthenticatedOtpRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
-  AuthenticatedEventsEventIdRoute: typeof AuthenticatedEventsEventIdRoute
-  AuthenticatedEventsIndexRoute: typeof AuthenticatedEventsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedNewsletterRoute: AuthenticatedNewsletterRoute,
   AuthenticatedOtpRoute: AuthenticatedOtpRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
-  AuthenticatedEventsEventIdRoute: AuthenticatedEventsEventIdRoute,
-  AuthenticatedEventsIndexRoute: AuthenticatedEventsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -340,19 +217,13 @@ const AuthenticatedRouteRouteWithChildren =
 interface PublicRouteRouteChildren {
   PublicRegisterRoute: typeof PublicRegisterRoute
   PublicLoginMagicRoute: typeof PublicLoginMagicRoute
-  PublicPublicNewsletterRoute: typeof PublicPublicNewsletterRoute
   PublicLoginIndexRoute: typeof PublicLoginIndexRoute
-  PublicPublicEventsEventIdRoute: typeof PublicPublicEventsEventIdRoute
-  PublicPublicEventsIndexRoute: typeof PublicPublicEventsIndexRoute
 }
 
 const PublicRouteRouteChildren: PublicRouteRouteChildren = {
   PublicRegisterRoute: PublicRegisterRoute,
   PublicLoginMagicRoute: PublicLoginMagicRoute,
-  PublicPublicNewsletterRoute: PublicPublicNewsletterRoute,
   PublicLoginIndexRoute: PublicLoginIndexRoute,
-  PublicPublicEventsEventIdRoute: PublicPublicEventsEventIdRoute,
-  PublicPublicEventsIndexRoute: PublicPublicEventsIndexRoute,
 }
 
 const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(

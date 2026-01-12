@@ -11,7 +11,7 @@ export const Route = createFileRoute('/_public/register')({
   validateSearch: registerSearchSchema,
   beforeLoad: ({ context, search }) => {
     if (context.auth.isAuthenticated) {
-      throw redirect({ to: search.redirect ?? '/events' })
+      throw redirect({ to: search.redirect ?? '/dashboard' })
     }
   },
   component: RegisterPage,

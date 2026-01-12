@@ -22,17 +22,16 @@ function HeroSection() {
     <main className="flex-1">
       <section className="container mx-auto px-4 py-24 text-center">
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-          Discover Christian Events
-          <span className="block text-primary">In Your Community</span>
+          Find Your Perfect Home
+          <span className="block text-primary">With Ease</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          Realtor App connects you with Christian events hosted by churches and organizations in
-          your area. From worship nights to community gatherings, find meaningful ways to grow in
-          faith and fellowship.
+          Realtor App helps you discover properties that match your lifestyle. Browse listings,
+          connect with agents, and find your dream home.
         </p>
         <div className="mt-10 flex items-center justify-center gap-4">
           <Button size="lg" asChild>
-            <Link to="/events">Browse Events</Link>
+            <Link to="/register">Get Started</Link>
           </Button>
         </div>
       </section>
@@ -47,14 +46,12 @@ function WhyRealtorAppSection() {
         <h2 className="mb-6 text-center text-2xl font-semibold">Why Realtor App</h2>
         <div className="space-y-4 text-muted-foreground">
           <p>
-            Realtor App is a simple network where different church families can act as cousins —
-            sharing events they want to open up, attending gatherings hosted by others, and getting
-            to know one another better.
+            Realtor App simplifies the home search process by bringing together the best listings
+            and connecting you directly with experienced real estate professionals.
           </p>
           <p>
-            Our cities are home to many Christian communities, each with their own congregations,
-            traditions, and events. Yet despite sharing the same faith, these church families often
-            remain disconnected — unaware of what their brothers and sisters across town are doing.
+            Whether you're buying your first home or looking for an investment property, our
+            platform provides the tools and insights you need to make informed decisions.
           </p>
         </div>
       </div>
@@ -67,20 +64,20 @@ function FeaturesSection() {
     <section className="border-t bg-muted/50 py-16">
       <div className="container mx-auto px-4">
         <h2 className="mb-12 text-center text-2xl font-semibold">
-          Connecting Communities Through Faith
+          Everything You Need to Find Home
         </h2>
         <div className="grid gap-6 md:grid-cols-3">
           <FeatureCard
-            title="Find Events"
-            description="Browse worship services, Bible studies, youth groups, and community outreach events near you."
+            title="Search Properties"
+            description="Browse thousands of listings with detailed filters to find exactly what you're looking for."
           />
           <FeatureCard
-            title="Connect with Churches"
-            description="Discover local churches and Christian organizations hosting events in your area."
+            title="Connect with Agents"
+            description="Get in touch with experienced real estate professionals in your area."
           />
           <FeatureCard
-            title="Grow Together"
-            description="Build meaningful connections with others on their faith journey."
+            title="Track Favorites"
+            description="Save properties you love and get notified about price changes and updates."
           />
         </div>
       </div>
@@ -103,7 +100,7 @@ function Footer() {
   return (
     <footer className="border-t py-8">
       <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-        <p>Realtor App — Bringing Christian communities together</p>
+        <p>Realtor App — Find your dream home</p>
       </div>
     </footer>
   )

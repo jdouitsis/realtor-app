@@ -39,7 +39,6 @@ import { Calendar } from 'lucide-react'
 
 export const MenuItems: MenuItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard, to: '/dashboard' },
-  { label: 'Events', icon: Calendar, to: '/events' },
   // Add new items here
 ]
 ```

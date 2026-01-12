@@ -42,7 +42,7 @@ export interface MagicLinkService {
  * Service for managing magic link authentication tokens.
  *
  * @example
- * const { token, magicUrl } = await magicLinkService.create(db, { userId: 'abc', redirectUrl: '/events' })
+ * const { token, magicUrl } = await magicLinkService.create(db, { userId: 'abc', redirectUrl: '/dashboard' })
  * const result = await magicLinkService.validate(db, token)
  * if (result.success) {
  *   await magicLinkService.consume(db, token)

@@ -7,11 +7,6 @@ import { useCallback, useEffect, useState } from 'react'
  */
 interface StorageRegistry {
   auth_token: string
-  newsletter_preferences: {
-    frequency: 'weekly' | 'biweekly' | 'monthly'
-    tags: string[]
-    active: boolean
-  }
   demo_notice_dismissed: boolean
   sidebar_collapsed: boolean
 }

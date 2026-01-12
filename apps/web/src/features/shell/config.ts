@@ -1,4 +1,4 @@
-import { Calendar, LayoutDashboard, Mail } from 'lucide-react'
+import { LayoutDashboard } from 'lucide-react'
 import type { ComponentType } from 'react'
 
 export const sideBarTransition = 'width 0.15s linear'
@@ -11,6 +11,4 @@ export interface MenuItem {
 
 export const MenuItems: MenuItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard, to: '/dashboard' },
-  { label: 'Events', icon: Calendar, to: '/events' },
-  { label: 'Newsletter', icon: Mail, to: '/newsletter' },
 ]

@@ -71,7 +71,7 @@ describe('Magic Link Authentication', () => {
       await client.trpc.auth.login({
         email: testUser.email,
         type: 'magic',
-        redirectUrl: '/events/123',
+        redirectUrl: '/dashboard',
       })
 
       const db = getCurrentTx()
@@ -82,7 +82,7 @@ describe('Magic Link Authentication', () => {
         .orderBy(desc(magicLinks.createdAt))
         .limit(1)
 
-      expect(magicLink.redirectUrl).toBe('/events/123')
+      expect(magicLink.redirectUrl).toBe('/dashboard')
     })
 
     it('uses default 24h expiration', async () => {
@@ -259,7 +259,7 @@ describe('Magic Link Authentication', () => {
       await client.trpc.auth.login({
         email: testUser.email,
         type: 'magic',
-        redirectUrl: '/events/456',
+        redirectUrl: '/dashboard',
       })
 
       const magicToken = await getLatestMagicLinkToken(userId)
@@ -268,7 +268,7 @@ describe('Magic Link Authentication', () => {
         token: magicToken,
       })
 
-      expect(result.redirectUrl).toBe('/events/456')
+      expect(result.redirectUrl).toBe('/dashboard')
     })
 
     it('marks magic link as used after verification', async () => {
