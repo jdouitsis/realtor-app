@@ -1,4 +1,4 @@
-name: Deploy to Staging (${{ github.event.head_commit.message }})
+name: Deploy to Staging
 
 on:
   push:

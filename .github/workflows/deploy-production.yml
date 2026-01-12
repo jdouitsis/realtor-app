@@ -1,4 +1,4 @@
-name: Deploy to Production (${{ github.event.head_commit.message }})
+name: Deploy to Production
 
 on:
   workflow_dispatch:
