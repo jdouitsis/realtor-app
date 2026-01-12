@@ -1,7 +1,8 @@
-name: Promote to Staging
+name: Deploy to Staging (${{ github.event.head_commit.message }})
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [main]
 
 jobs:
   validate:
