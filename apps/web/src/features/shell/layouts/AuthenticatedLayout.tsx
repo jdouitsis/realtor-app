@@ -6,12 +6,13 @@ import { Button, Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } fr
 
 import { MobileNav } from '../components/MobileNav'
 import { Sidebar } from '../components/Sidebar'
+import { UserAvatar } from '../components/UserAvatar'
 import { useSidebarCollapsed } from '../hooks/useSidebarCollapsed'
 
 const routeApi = getRouteApi('/_authenticated')
 
 export function AuthenticatedLayout() {
-  const { auth } = routeApi.useRouteContext()
+  const { auth, user } = routeApi.useRouteContext()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isCollapsed, toggleCollapsed] = useSidebarCollapsed()
 
@@ -42,7 +43,6 @@ export function AuthenticatedLayout() {
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Mobile header - shown only on mobile */}
         <header className="z-40 flex h-14 shrink-0 items-center justify-between border-b bg-background px-4 md:hidden">
-          <div className="w-9" /> {/* Spacer for centering */}
           <Link to="/dashboard" className="text-xl font-bold">
             Realtor App
           </Link>
@@ -56,7 +56,7 @@ export function AuthenticatedLayout() {
               <SheetHeader className="mb-6">
                 <SheetTitle className="mr-auto">Realtor App</SheetTitle>
               </SheetHeader>
-              <MobileNav onNavigate={closeMobileMenu} onLogout={handleLogout} />
+              <MobileNav user={user} onNavigate={closeMobileMenu} onLogout={handleLogout} />
             </SheetContent>
           </Sheet>
         </header>
@@ -64,6 +64,7 @@ export function AuthenticatedLayout() {
         {/* Desktop header - shown only on desktop */}
         <header className="z-40 hidden h-14 shrink-0 items-center border-b bg-background px-6 md:flex">
           <div className="flex-1" />
+          <UserAvatar user={user} onLogout={handleLogout} />
         </header>
 
         <main className="flex-1 overflow-y-auto px-4 py-6 md:px-6">

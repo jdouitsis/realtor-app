@@ -10,7 +10,8 @@ shell/
 │   └── AuthenticatedLayout.tsx  # Main layout wrapper for authenticated routes
 ├── components/
 │   ├── Sidebar.tsx              # Collapsible desktop sidebar
-│   └── MobileNav.tsx            # Mobile navigation menu (in sheet)
+│   ├── MobileNav.tsx            # Mobile navigation menu (in sheet)
+│   └── UserAvatar.tsx           # User avatar with dropdown menu
 ├── hooks/
 │   └── useSidebarCollapsed.ts   # Sidebar collapse state with localStorage
 ├── config.ts                    # Menu items configuration
@@ -51,7 +52,7 @@ Menu items appear in both the desktop sidebar and mobile navigation.
 ┌─────────────────────────────────────────────────┐
 │ Desktop (md+)                                   │
 ├────────┬────────────────────────────────────────┤
-│        │ Header (empty, for future use)         │
+│        │ Header                       [avatar]  │
 │ Side-  ├────────────────────────────────────────┤
 │ bar    │                                        │
 │        │ Main Content (<Outlet />)              │
@@ -62,7 +63,7 @@ Menu items appear in both the desktop sidebar and mobile navigation.
 ┌─────────────────────────────────────────────────┐
 │ Mobile (<md)                                    │
 ├─────────────────────────────────────────────────┤
-│ [spacer]  Realtor App  [menu]  ← Header             │
+│ Realtor App                        [menu]       │
 ├─────────────────────────────────────────────────┤
 │                                                 │
 │ Main Content (<Outlet />)                       │
@@ -85,8 +86,8 @@ Collapse state persists to localStorage via the `sidebar_collapsed` key.
 
 Main layout wrapper that renders:
 
-- Desktop: Sidebar + toggle button + header + main content
-- Mobile: Header with sheet menu + main content
+- Desktop: Sidebar + toggle button + header (with user avatar) + main content
+- Mobile: Header (with user avatar and sheet menu) + main content
 
 ### Sidebar
 
@@ -100,5 +101,14 @@ Collapsible sidebar with:
 
 Navigation menu rendered inside a Sheet component:
 
+- User avatar with name/email (links to Profile)
 - All items from `MenuItems`
 - Logout button at bottom
+
+### UserAvatar
+
+User avatar with dropdown menu (desktop only):
+
+- Displays user initials (from name)
+- Dropdown menu with Profile link and Logout button
+- Appears in the top-right of the desktop header
