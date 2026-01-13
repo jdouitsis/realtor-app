@@ -27,10 +27,10 @@ export default defineConfig({
     }
   },
   server: {
-    port: 5174,
+    port: 5177,
   },
   preview: {
-    port: parseInt(process.env.PORT || "5174"),
+    port: parseInt(process.env.PORT || "5177"),
     host: true,
     allowedHosts: true,
   },
