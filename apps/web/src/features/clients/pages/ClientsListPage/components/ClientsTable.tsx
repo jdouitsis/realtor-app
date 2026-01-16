@@ -49,7 +49,6 @@ export function ClientsTable({ clients, onRowClick }: ClientsTableProps) {
         <thead>
           <tr className="border-b text-left text-sm text-muted-foreground">
             <th className="pb-3 font-medium">Name</th>
-            <th className="pb-3 font-medium">Email</th>
             <th className="pb-3 font-medium">Status</th>
             <th className="pb-3 font-medium hidden sm:table-cell">Created</th>
             <th className="pb-3 font-medium w-10"></th>
@@ -67,35 +66,20 @@ export function ClientsTable({ clients, onRowClick }: ClientsTableProps) {
                   <Avatar className="h-8 w-8 text-xs">
                     <AvatarFallback>{getInitials(client.nickname ?? client.name)}</AvatarFallback>
                   </Avatar>
-                  {client.nickname ? (
-                    <div>
-                      <span
-                        className="font-medium truncate max-w-[200px] block"
-                        title={client.nickname}
-                      >
-                        {client.nickname}
-                      </span>
-                      <span
-                        className="text-sm text-muted-foreground truncate max-w-[200px] block"
-                        title={client.name}
-                      >
-                        {client.name}
-                      </span>
-                    </div>
-                  ) : (
-                    <span className="font-medium truncate max-w-[200px] block" title={client.name}>
-                      {client.name}
-                    </span>
-                  )}
+                  <span
+                    className="font-medium truncate max-w-[200px] block"
+                    title={client.nickname ? `${client.nickname} (${client.name})` : client.name}
+                  >
+                    {client.nickname ? (
+                      <>
+                        {client.nickname}{' '}
+                        <span className="text-muted-foreground font-normal">({client.name})</span>
+                      </>
+                    ) : (
+                      client.name
+                    )}
+                  </span>
                 </div>
-              </td>
-              <td className="py-4">
-                <span
-                  className="text-muted-foreground truncate max-w-[200px] block"
-                  title={client.email}
-                >
-                  {client.email}
-                </span>
               </td>
               <td className="py-4">
                 <StatusBadge status={client.status} />
