@@ -43,6 +43,13 @@
       "when": 1768529963919,
       "tag": "0005_curvy_iceman",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1768536228988,
+      "tag": "0006_easy_black_crow",
+      "breakpoints": true
     }
   ]
 }

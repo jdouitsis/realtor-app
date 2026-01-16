@@ -3,7 +3,7 @@ import { pgEnum, pgTable, timestamp, unique, uuid } from 'drizzle-orm/pg-core'
 import { users } from './auth'
 
 // Enums
-export const clientStatusEnum = pgEnum('client_status', ['pending', 'active'])
+export const clientStatusEnum = pgEnum('client_status', ['invited', 'active', 'inactive'])
 
 // Junction table for realtor-client relationships
 export const realtorClients = pgTable(
@@ -16,7 +16,7 @@ export const realtorClients = pgTable(
     clientId: uuid('client_id')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
-    status: clientStatusEnum('status').notNull().default('pending'),
+    status: clientStatusEnum('status').notNull().default('invited'),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     deletedAt: timestamp('deleted_at', { withTimezone: true }),
   },
