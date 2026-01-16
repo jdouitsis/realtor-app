@@ -53,21 +53,21 @@ ALTER TYPE client_status ADD VALUE 'inactive';
 ### API Shape (tRPC)
 
 ```typescript
-clients.list      // Query: { status?: 'invited' | 'active' | 'inactive' } → Client[]
-clients.getById   // Query: { id: string } → Client
-clients.invite    // Mutation: { email: string, name: string } → { clientId: string } | Error
-clients.updateStatus // Mutation: { clientId: string, status: 'active' | 'inactive' } → void
+clients.list; // Query: { status?: 'invited' | 'active' | 'inactive' } → Client[]
+clients.getById; // Query: { id: string } → Client
+clients.invite; // Mutation: { email: string, name: string } → { clientId: string } | Error
+clients.updateStatus; // Mutation: { clientId: string, status: 'active' | 'inactive' } → void
 ```
 
 ## Feature Tracker
 
-| #   | Feature                  | Status  | File                            |
-| --- | ------------------------ | ------- | ------------------------------- |
-| 01  | Schema Migration         | Complete | `feature-01-schema.md`          |
-| 02  | Clients Domain Backend   | Pending | `feature-02-backend.md`         |
-| 03  | Clients List Page        | Pending | `feature-03-list-page.md`       |
-| 04  | Client Profile Page      | Pending | `feature-04-profile-page.md`    |
-| 05  | Invite Client Flow       | Pending | `feature-05-invite-flow.md`     |
+| #   | Feature                | Status   | File                         |
+| --- | ---------------------- | -------- | ---------------------------- |
+| 01  | Schema Migration       | Complete | `feature-01-schema.md`       |
+| 02  | Clients Domain Backend | Complete | `feature-02-backend.md`      |
+| 03  | Clients List Page      | Complete | `feature-03-list-page.md`    |
+| 04  | Client Profile Page    | Pending  | `feature-04-profile-page.md` |
+| 05  | Invite Client Flow     | Pending  | `feature-05-invite-flow.md`  |
 
 ### Feature Dependencies
 
