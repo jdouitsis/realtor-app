@@ -1,11 +1,14 @@
 import { getRouteApi } from '@tanstack/react-router'
 import { Loader2, UserPlus, Users } from 'lucide-react'
+import { useState } from 'react'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui'
 import { parseError } from '@/lib/errors'
 import { trpc } from '@/lib/trpc'
 
 import { type Client, ClientsTable } from './components/ClientsTable'
+import { InviteClientDialog } from './components/InviteClientDialog'
 import { StatusFilter } from './components/StatusFilter'
 
 const routeApi = getRouteApi('/_authenticated/clients/')
@@ -13,6 +16,8 @@ const routeApi = getRouteApi('/_authenticated/clients/')
 type FilterStatus = 'all' | 'invited' | 'active' | 'inactive'
 
 export function ClientsListPage() {
+  const [isInviteOpen, setIsInviteOpen] = useState(false)
+
   const { status } = routeApi.useSearch()
   const routeNavigate = routeApi.useNavigate()
 
@@ -32,11 +37,17 @@ export function ClientsListPage() {
     // void navigate({ to: '/clients/$id', params: { id } })
   }
 
+  const handleInviteSuccess = (_clientId: string, email: string) => {
+    toast.success(`Invitation sent to ${email}`)
+    // TODO: Navigate to client profile when Feature 04 is implemented
+    // void routeNavigate({ to: '/clients/$id', params: { id: clientId } })
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 className="text-3xl font-bold">Clients</h1>
-        <Button disabled>
+        <Button onClick={() => setIsInviteOpen(true)}>
           <UserPlus className="h-4 w-4" />
           Invite Client
         </Button>
@@ -51,6 +62,12 @@ export function ClientsListPage() {
         onRefetch={() => void clientsQuery.refetch()}
         currentStatus={currentStatus}
         onRowClick={handleRowClick}
+      />
+
+      <InviteClientDialog
+        open={isInviteOpen}
+        onOpenChange={setIsInviteOpen}
+        onSuccess={handleInviteSuccess}
       />
     </div>
   )

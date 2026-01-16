@@ -1,7 +1,7 @@
 # Feature 05: Invite Client Flow
 
 > **Epic:** [Client Management](overview.md)
-> **Status:** Pending
+> **Status:** Complete
 > **Estimated Effort:** M
 
 ## Summary
@@ -21,16 +21,16 @@ Implement the invite client flow with a modal dialog triggered from the clients 
 
 ## Acceptance Criteria
 
-- [ ] AC1: "+ Invite Client" button on clients list page opens a modal dialog
-- [ ] AC2: Form validates email format and requires name (min 1 character)
-- [ ] AC3: Submit button shows loading state during mutation
-- [ ] AC4: On success, modal closes and navigates to `/clients/:id` (new client)
-- [ ] AC5: On success, show toast: "Invitation sent to {email}"
-- [ ] AC6: On duplicate (ALREADY_EXISTS), show inline message with "View Profile" link
-- [ ] AC7: On duplicate, clicking "View Profile" closes modal and navigates to existing client
-- [ ] AC8: Form clears when modal is closed and reopened
-- [ ] AC9: Client list invalidates and refetches after successful invite
-- [ ] AC10: Escape key or clicking outside closes the modal
+- [x] AC1: "+ Invite Client" button on clients list page opens a modal dialog
+- [x] AC2: Form validates email format and requires name (min 1 character)
+- [x] AC3: Submit button shows loading state during mutation
+- [ ] AC4: On success, modal closes and navigates to `/clients/:id` (new client) _(blocked: Feature 04 required)_
+- [x] AC5: On success, show toast: "Invitation sent to {email}"
+- [x] AC6: On duplicate (ALREADY_EXISTS), show inline message with "View Profile" link
+- [ ] AC7: On duplicate, clicking "View Profile" closes modal and navigates to existing client _(blocked: Feature 04 required)_
+- [x] AC8: Form clears when modal is closed and reopened
+- [x] AC9: Client list invalidates and refetches after successful invite
+- [x] AC10: Escape key or clicking outside closes the modal
 
 ## Technical Specification
 

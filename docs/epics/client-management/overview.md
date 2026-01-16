@@ -67,7 +67,7 @@ clients.updateStatus; // Mutation: { clientId: string, status: 'active' | 'inact
 | 02  | Clients Domain Backend | Complete | `feature-02-backend.md`      |
 | 03  | Clients List Page      | Complete | `feature-03-list-page.md`    |
 | 04  | Client Profile Page    | Pending  | `feature-04-profile-page.md` |
-| 05  | Invite Client Flow     | Pending  | `feature-05-invite-flow.md`  |
+| 05  | Invite Client Flow     | Complete | `feature-05-invite-flow.md`  |
 
 ### Feature Dependencies
 
