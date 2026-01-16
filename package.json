@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "turbo dev",
+    "check": "turbo typecheck lint format build",
     "test": "turbo test",
     "test:watch": "turbo test:watch",
     "typecheck": "turbo typecheck",

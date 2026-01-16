@@ -29,13 +29,25 @@ export const verifyStepUpOtp = protectedProcedure
 
     if (!result.success) {
       const error = match(result.error)
-        .with('max_attempts', () => ({ code: 'OTP_MAX_ATTEMPTS', message: 'Too many attempts. Please request a new code.' } as const))
-        .with('expired', () => ({ code: 'OTP_EXPIRED', message: 'Verification code has expired' } as const))
-        .with('invalid', () => ({ code: 'OTP_INVALID', message: 'Invalid verification code' } as const))
+        .with(
+          'max_attempts',
+          () =>
+            ({
+              code: 'OTP_MAX_ATTEMPTS',
+              message: 'Too many attempts. Please request a new code.',
+            }) as const
+        )
+        .with(
+          'expired',
+          () => ({ code: 'OTP_EXPIRED', message: 'Verification code has expired' }) as const
+        )
+        .with(
+          'invalid',
+          () => ({ code: 'OTP_INVALID', message: 'Invalid verification code' }) as const
+        )
         .exhaustive()
 
       throw new AppError(error)
-
     }
 
     // Update session to mark OTP as recently verified
