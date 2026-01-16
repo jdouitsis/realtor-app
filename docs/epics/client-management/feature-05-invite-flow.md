@@ -24,10 +24,10 @@ Implement the invite client flow with a modal dialog triggered from the clients 
 - [x] AC1: "+ Invite Client" button on clients list page opens a modal dialog
 - [x] AC2: Form validates email format and requires name (min 1 character)
 - [x] AC3: Submit button shows loading state during mutation
-- [ ] AC4: On success, modal closes and navigates to `/clients/:id` (new client) _(blocked: Feature 04 required)_
+- [x] AC4: On success, modal closes and navigates to `/clients/:id` (new client)
 - [x] AC5: On success, show toast: "Invitation sent to {email}"
 - [x] AC6: On duplicate (ALREADY_EXISTS), show inline message with "View Profile" link
-- [ ] AC7: On duplicate, clicking "View Profile" closes modal and navigates to existing client _(blocked: Feature 04 required)_
+- [x] AC7: On duplicate, clicking "View Profile" closes modal and navigates to existing client
 - [x] AC8: Form clears when modal is closed and reopened
 - [x] AC9: Client list invalidates and refetches after successful invite
 - [x] AC10: Escape key or clicking outside closes the modal

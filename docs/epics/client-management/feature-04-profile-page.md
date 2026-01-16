@@ -1,7 +1,7 @@
 # Feature 04: Client Profile Page
 
 > **Epic:** [Client Management](overview.md)
-> **Status:** Pending
+> **Status:** Complete
 > **Estimated Effort:** M
 
 ## Summary
@@ -21,16 +21,16 @@ Create the client profile page accessible at `/clients/:id`. This page displays 
 
 ## Acceptance Criteria
 
-- [ ] AC1: `/clients/:id` route is accessible under the authenticated layout
-- [ ] AC2: Page displays client's name, email, and status
-- [ ] AC3: Status is shown with a colored badge (same as list page)
-- [ ] AC4: "Change Status" button allows toggling between active/inactive
-- [ ] AC5: Status change shows loading state during mutation
-- [ ] AC6: Status change updates the UI optimistically
-- [ ] AC7: "Back to Clients" link navigates to `/clients`
-- [ ] AC8: 404 page displays if client doesn't exist or doesn't belong to realtor
-- [ ] AC9: Loading state shows skeleton while fetching
-- [ ] AC10: Cannot change status of "invited" clients (button disabled or hidden)
+- [x] AC1: `/clients/:id` route is accessible under the authenticated layout
+- [x] AC2: Page displays client's name, email, and status
+- [x] AC3: Status is shown with a colored badge (same as list page)
+- [x] AC4: "Change Status" button allows toggling between active/inactive
+- [x] AC5: Status change shows loading state during mutation
+- [x] AC6: Status change updates the UI optimistically
+- [x] AC7: "Back to Clients" link navigates to `/clients`
+- [x] AC8: 404 page displays if client doesn't exist or doesn't belong to realtor
+- [x] AC9: Loading state shows while fetching
+- [x] AC10: Cannot change status of "invited" clients (button disabled)
 
 ## Technical Specification
 

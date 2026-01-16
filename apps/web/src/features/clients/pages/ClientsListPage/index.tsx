@@ -1,4 +1,4 @@
-import { getRouteApi } from '@tanstack/react-router'
+import { getRouteApi, useNavigate } from '@tanstack/react-router'
 import { Loader2, UserPlus, Users } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -20,6 +20,7 @@ export function ClientsListPage() {
 
   const { status } = routeApi.useSearch()
   const routeNavigate = routeApi.useNavigate()
+  const navigate = useNavigate()
 
   const currentStatus: FilterStatus = status ?? 'all'
   const queryStatus = currentStatus === 'all' ? undefined : currentStatus
@@ -32,15 +33,13 @@ export function ClientsListPage() {
     })
   }
 
-  const handleRowClick = (_id: string) => {
-    // TODO: Navigate to client detail page when Feature 04 is implemented
-    // void navigate({ to: '/clients/$id', params: { id } })
+  const handleRowClick = (id: string) => {
+    void navigate({ to: '/clients/$id', params: { id } })
   }
 
-  const handleInviteSuccess = (_clientId: string, email: string) => {
+  const handleInviteSuccess = (clientId: string, email: string) => {
     toast.success(`Invitation sent to ${email}`)
-    // TODO: Navigate to client profile when Feature 04 is implemented
-    // void routeNavigate({ to: '/clients/$id', params: { id: clientId } })
+    void navigate({ to: '/clients/$id', params: { id: clientId } })
   }
 
   return (
