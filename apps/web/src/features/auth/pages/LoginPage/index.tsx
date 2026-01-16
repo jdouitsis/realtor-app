@@ -1,6 +1,8 @@
 import { getRouteApi } from '@tanstack/react-router'
 import { useState } from 'react'
 
+import { parseError } from '@/lib/errors'
+
 import { OtpVerificationForm } from '../../components/OtpVerificationForm'
 import { LoginForm, type LoginFormData } from './components/LoginForm'
 
@@ -23,11 +25,14 @@ export function LoginPage() {
     setError(undefined)
     await auth
       .login(data.email)
-      .then(({ email }) => {
-        setOtpEmail(email)
+      .then(() => {
+        setOtpEmail(data.email)
         setStep('otp')
       })
-      .catch(setError)
+      .catch((error) => {
+        const parsed = parseError(error)
+        setError(parsed.userMessage)
+      })
       .finally(() => setIsLoading(false))
   }
 
@@ -38,7 +43,10 @@ export function LoginPage() {
     await auth
       .verifyOtp(otpEmail, code)
       .then(() => navigate({ to: redirect ?? '/dashboard' }))
-      .catch(setError)
+      .catch((error) => {
+        const parsed = parseError(error)
+        setError(parsed.userMessage)
+      })
       .finally(() => setIsLoading(false))
   }
 
@@ -47,7 +55,10 @@ export function LoginPage() {
     setError(undefined)
     await auth
       .resendOtp(otpEmail)
-      .catch(setError)
+      .catch((error) => {
+        const parsed = parseError(error)
+        setError(parsed.userMessage)
+      })
       .finally(() => setIsLoading(false))
   }
 
