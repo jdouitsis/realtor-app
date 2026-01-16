@@ -1,34 +1,36 @@
 import { Button } from '@/components/ui'
 import { cn } from '@/lib/utils'
 
-type FilterStatus = 'all' | 'invited' | 'active' | 'inactive'
+type Status = 'invited' | 'active' | 'inactive'
 
 interface StatusFilterProps {
-  value: FilterStatus
-  onChange: (status: FilterStatus) => void
+  selectedStatuses: Status[]
+  onToggle: (status: Status) => void
 }
 
-const filterOptions: { value: FilterStatus; label: string }[] = [
-  { value: 'all', label: 'All' },
+const filterOptions: { value: Status; label: string }[] = [
   { value: 'invited', label: 'Invited' },
   { value: 'active', label: 'Active' },
   { value: 'inactive', label: 'Inactive' },
 ]
 
-export function StatusFilter({ value, onChange }: StatusFilterProps) {
+export function StatusFilter({ selectedStatuses, onToggle }: StatusFilterProps) {
   return (
     <div className="flex gap-1">
-      {filterOptions.map((option) => (
-        <Button
-          key={option.value}
-          variant={value === option.value ? 'secondary' : 'ghost'}
-          size="sm"
-          onClick={() => onChange(option.value)}
-          className={cn(value === option.value && 'bg-secondary')}
-        >
-          {option.label}
-        </Button>
-      ))}
+      {filterOptions.map((option) => {
+        const isSelected = selectedStatuses.includes(option.value)
+        return (
+          <Button
+            key={option.value}
+            variant={isSelected ? 'secondary' : 'ghost'}
+            size="sm"
+            onClick={() => onToggle(option.value)}
+            className={cn(isSelected && 'bg-secondary')}
+          >
+            {option.label}
+          </Button>
+        )
+      })}
     </div>
   )
 }

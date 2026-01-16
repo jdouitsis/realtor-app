@@ -1,6 +1,6 @@
 import { getRouteApi, useNavigate } from '@tanstack/react-router'
 import { Loader2, UserPlus, Users } from 'lucide-react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui'
@@ -13,23 +13,45 @@ import { StatusFilter } from './components/StatusFilter'
 
 const routeApi = getRouteApi('/_authenticated/clients/')
 
-type FilterStatus = 'all' | 'invited' | 'active' | 'inactive'
+type Status = 'invited' | 'active' | 'inactive'
+
+const DEFAULT_STATUSES: Status[] = ['invited', 'active']
 
 export function ClientsListPage() {
   const [isInviteOpen, setIsInviteOpen] = useState(false)
 
-  const { status } = routeApi.useSearch()
+  const { statuses } = routeApi.useSearch()
   const routeNavigate = routeApi.useNavigate()
   const navigate = useNavigate()
 
-  const currentStatus: FilterStatus = status ?? 'all'
-  const queryStatus = currentStatus === 'all' ? undefined : currentStatus
+  const currentStatuses: Status[] = statuses ?? DEFAULT_STATUSES
 
-  const clientsQuery = trpc.clients.list.useQuery({ status: queryStatus }, { staleTime: 30_000 })
+  const clientsQuery = trpc.clients.list.useQuery({}, { staleTime: 30_000 })
 
-  const handleStatusChange = (newStatus: FilterStatus) => {
+  const filteredClients = useMemo(() => {
+    if (!clientsQuery.data) return undefined
+    if (currentStatuses.length === 0) return clientsQuery.data
+    return clientsQuery.data.filter((c) => currentStatuses.includes(c.status))
+  }, [clientsQuery.data, currentStatuses])
+
+  const handleStatusToggle = (status: Status) => {
+    const allStatuses: Status[] = ['invited', 'active', 'inactive']
+    const allSelected = allStatuses.every((s) => currentStatuses.includes(s))
+
+    let newStatuses: Status[]
+    if (allSelected) {
+      // When all are selected, clicking one selects only that one
+      newStatuses = [status]
+    } else if (currentStatuses.includes(status)) {
+      // Deselect the clicked status
+      newStatuses = currentStatuses.filter((s) => s !== status)
+    } else {
+      // Add the clicked status
+      newStatuses = [...currentStatuses, status]
+    }
+
     void routeNavigate({
-      search: newStatus === 'all' ? {} : { status: newStatus },
+      search: newStatuses.length === 0 ? {} : { statuses: newStatuses.join(',') },
     })
   }
 
@@ -52,14 +74,14 @@ export function ClientsListPage() {
         </Button>
       </div>
 
-      <StatusFilter value={currentStatus} onChange={handleStatusChange} />
+      <StatusFilter selectedStatuses={currentStatuses} onToggle={handleStatusToggle} />
 
       <ClientsContent
-        clients={clientsQuery.data}
+        clients={filteredClients}
         isLoading={clientsQuery.isLoading}
         error={clientsQuery.error}
         onRefetch={() => void clientsQuery.refetch()}
-        currentStatus={currentStatus}
+        hasAnyClients={(clientsQuery.data?.length ?? 0) > 0}
         onRowClick={handleRowClick}
       />
 
@@ -77,7 +99,7 @@ interface ClientsContentProps {
   isLoading: boolean
   error: unknown
   onRefetch: () => void
-  currentStatus: FilterStatus
+  hasAnyClients: boolean
   onRowClick: (id: string) => void
 }
 
@@ -86,7 +108,7 @@ function ClientsContent({
   isLoading,
   error,
   onRefetch,
-  currentStatus,
+  hasAnyClients,
   onRowClick,
 }: ClientsContentProps) {
   if (isLoading) {
@@ -111,14 +133,14 @@ function ClientsContent({
   }
 
   if (!clients || clients.length === 0) {
-    return <EmptyState currentStatus={currentStatus} />
+    return <EmptyState hasAnyClients={hasAnyClients} />
   }
 
   return <ClientsTable clients={clients} onRowClick={onRowClick} />
 }
 
-function EmptyState({ currentStatus }: { currentStatus: FilterStatus }) {
-  if (currentStatus === 'all') {
+function EmptyState({ hasAnyClients }: { hasAnyClients: boolean }) {
+  if (!hasAnyClients) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
         <Users className="h-12 w-12 text-muted-foreground mb-4" />
@@ -128,10 +150,9 @@ function EmptyState({ currentStatus }: { currentStatus: FilterStatus }) {
     )
   }
 
-  const statusLabel = currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1)
   return (
     <div className="flex flex-col items-center justify-center py-12 text-center">
-      <p className="text-muted-foreground">No {statusLabel.toLowerCase()} clients found</p>
+      <p className="text-muted-foreground">No clients match the selected filters</p>
     </div>
   )
 }

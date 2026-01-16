@@ -3,10 +3,6 @@ import { protectedProcedure } from '@server/trpc'
 import { and, desc, eq, isNull } from 'drizzle-orm'
 import { z } from 'zod'
 
-const listInput = z.object({
-  status: z.enum(['invited', 'active', 'inactive']).optional(),
-})
-
 const clientOutput = z.object({
   id: z.string(),
   clientId: z.string(),
@@ -22,18 +18,12 @@ const listOutput = z.array(clientOutput)
  * Returns the list of clients for the authenticated realtor.
  *
  * @example
- * const clients = await trpc.clients.list.query({ status: 'active' })
+ * const clients = await trpc.clients.list.query({})
  */
 export const list = protectedProcedure
-  .input(listInput)
+  .input(z.object({}))
   .output(listOutput)
-  .query(async ({ input, ctx: { db, user } }) => {
-    const conditions = [eq(realtorClients.realtorId, user.id), isNull(realtorClients.deletedAt)]
-
-    if (input.status) {
-      conditions.push(eq(realtorClients.status, input.status))
-    }
-
+  .query(async ({ ctx: { db, user } }) => {
     const results = await db
       .select({
         id: realtorClients.id,
@@ -45,7 +35,7 @@ export const list = protectedProcedure
       })
       .from(realtorClients)
       .innerJoin(users, eq(realtorClients.clientId, users.id))
-      .where(and(...conditions))
+      .where(and(eq(realtorClients.realtorId, user.id), isNull(realtorClients.deletedAt)))
       .orderBy(desc(realtorClients.createdAt))
 
     return results

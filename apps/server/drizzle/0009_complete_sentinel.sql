@@ -1,0 +1,1 @@
+CREATE INDEX "realtor_clients_realtor_id_idx" ON "realtor_clients" USING btree ("realtor_id");
