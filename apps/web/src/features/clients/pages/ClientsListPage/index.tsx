@@ -36,7 +36,7 @@ export function ClientsListPage() {
     let newStatuses: ClientStatus[]
     if (allSelected) {
       // When all are selected, clicking one selects only that one
-      newStatuses = [status]
+      newStatuses = CLIENT_STATUSES.filter((s) => s !== status)
     } else if (currentStatuses.includes(status)) {
       // Deselect the clicked status
       newStatuses = currentStatuses.filter((s) => s !== status)
