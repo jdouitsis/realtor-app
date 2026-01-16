@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui'
-import { cn } from '@/lib/utils'
 
 type Status = 'invited' | 'active' | 'inactive'
 
@@ -22,10 +21,14 @@ export function StatusFilter({ selectedStatuses, onToggle }: StatusFilterProps) 
         return (
           <Button
             key={option.value}
-            variant={isSelected ? 'secondary' : 'ghost'}
+            variant="ghost"
             size="sm"
             onClick={() => onToggle(option.value)}
-            className={cn(isSelected && 'bg-secondary')}
+            className={
+              isSelected
+                ? 'border border-input bg-background shadow-sm'
+                : 'border border-transparent'
+            }
           >
             {option.label}
           </Button>
