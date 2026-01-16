@@ -28,8 +28,9 @@ export function DeleteAccountSection({ userEmail }: DeleteAccountSectionProps) {
   })
 
   const deleteAccount = trpc.user.deleteAccount.useMutation({
-    onSuccess: async () => {
+    onSuccess: () => {
       clearStorage('auth_token')
+      form.reset()
       void router.invalidate()
     },
     onError: (err) => {

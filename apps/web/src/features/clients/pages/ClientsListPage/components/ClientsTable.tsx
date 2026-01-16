@@ -1,6 +1,8 @@
 import { type ClientStatus } from '@app/shared/clients'
 import { ChevronRight } from 'lucide-react'
 
+import { Avatar, AvatarFallback } from '@/components/ui'
+
 import { StatusBadge } from './StatusBadge'
 
 export interface Client {
@@ -16,6 +18,15 @@ export interface Client {
 interface ClientsTableProps {
   clients: Client[]
   onRowClick: (id: string) => void
+}
+
+function getInitials(name: string): string {
+  return name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
 }
 
 function formatDate(dateString: string): string {
@@ -52,26 +63,31 @@ export function ClientsTable({ clients, onRowClick }: ClientsTableProps) {
               className="border-b cursor-pointer hover:bg-muted/50 transition-colors"
             >
               <td className="py-4">
-                {client.nickname ? (
-                  <div>
-                    <span
-                      className="font-medium truncate max-w-[200px] block"
-                      title={client.nickname}
-                    >
-                      {client.nickname}
-                    </span>
-                    <span
-                      className="text-sm text-muted-foreground truncate max-w-[200px] block"
-                      title={client.name}
-                    >
+                <div className="flex items-center gap-3">
+                  <Avatar className="h-8 w-8 text-xs">
+                    <AvatarFallback>{getInitials(client.nickname ?? client.name)}</AvatarFallback>
+                  </Avatar>
+                  {client.nickname ? (
+                    <div>
+                      <span
+                        className="font-medium truncate max-w-[200px] block"
+                        title={client.nickname}
+                      >
+                        {client.nickname}
+                      </span>
+                      <span
+                        className="text-sm text-muted-foreground truncate max-w-[200px] block"
+                        title={client.name}
+                      >
+                        {client.name}
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="font-medium truncate max-w-[200px] block" title={client.name}>
                       {client.name}
                     </span>
-                  </div>
-                ) : (
-                  <span className="font-medium truncate max-w-[200px] block" title={client.name}>
-                    {client.name}
-                  </span>
-                )}
+                  )}
+                </div>
               </td>
               <td className="py-4">
                 <span
