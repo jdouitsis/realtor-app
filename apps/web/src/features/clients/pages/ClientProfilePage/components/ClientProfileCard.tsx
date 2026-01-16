@@ -1,6 +1,6 @@
-import { Calendar, CircleDot, Mail } from 'lucide-react'
+import { Calendar, CircleDot, Loader2, Mail, Send } from 'lucide-react'
 
-import { Avatar, AvatarFallback } from '@/components/ui'
+import { Avatar, AvatarFallback, Button } from '@/components/ui'
 
 import { StatusBadge } from '../../ClientsListPage/components/StatusBadge'
 import { StatusChangeButton } from './StatusChangeButton'
@@ -20,6 +20,8 @@ interface ClientProfileCardProps {
   client: Client
   onStatusChange: (newStatus: 'active' | 'inactive') => void
   isUpdating: boolean
+  onResendInvite: () => void
+  isResending: boolean
 }
 
 function formatMemberSince(dateString: string): string {
@@ -44,7 +46,13 @@ function getNextStatus(current: ClientStatus): 'active' | 'inactive' {
   return current === 'active' ? 'inactive' : 'active'
 }
 
-export function ClientProfileCard({ client, onStatusChange, isUpdating }: ClientProfileCardProps) {
+export function ClientProfileCard({
+  client,
+  onStatusChange,
+  isUpdating,
+  onResendInvite,
+  isResending,
+}: ClientProfileCardProps) {
   const handleToggle = () => {
     if (client.status !== 'invited') {
       onStatusChange(getNextStatus(client.status))
@@ -91,6 +99,22 @@ export function ClientProfileCard({ client, onStatusChange, isUpdating }: Client
           </div>
         </div>
       </div>
+
+      {client.status === 'invited' && (
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={onResendInvite}
+          disabled={isResending}
+        >
+          {isResending ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Send className="mr-2 h-4 w-4" />
+          )}
+          Resend Invite
+        </Button>
+      )}
 
       <StatusChangeButton
         currentStatus={client.status}

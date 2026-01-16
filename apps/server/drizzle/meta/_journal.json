@@ -57,6 +57,13 @@
       "when": 1768540000000,
       "tag": "0007_partial_unique_realtor_clients",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1768543713034,
+      "tag": "0008_rapid_thor_girl",
+      "breakpoints": true
     }
   ]
 }

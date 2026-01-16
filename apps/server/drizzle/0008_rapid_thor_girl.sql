@@ -1,0 +1,1 @@
+ALTER TABLE "realtor_clients" ADD COLUMN "activated_at" timestamp with time zone;

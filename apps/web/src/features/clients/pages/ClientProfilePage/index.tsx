@@ -62,8 +62,22 @@ export function ClientProfilePage() {
     },
   })
 
+  const resendInvite = trpc.clients.resendInvite.useMutation({
+    onError: (err) => {
+      const parsed = parseError(err)
+      toast.error(parsed.userMessage)
+    },
+    onSuccess: () => {
+      toast.success('Invitation resent')
+    },
+  })
+
   const handleStatusChange = (newStatus: 'active' | 'inactive') => {
     updateStatus.mutate({ id, status: newStatus })
+  }
+
+  const handleResendInvite = () => {
+    resendInvite.mutate({ id, redirectUrl: '/forms' })
   }
 
   return (
@@ -83,6 +97,8 @@ export function ClientProfilePage() {
         onRefetch={() => void clientQuery.refetch()}
         onStatusChange={handleStatusChange}
         isUpdating={updateStatus.isPending}
+        onResendInvite={handleResendInvite}
+        isResending={resendInvite.isPending}
       />
     </div>
   )
@@ -104,6 +120,8 @@ interface ClientProfileContentProps {
   onRefetch: () => void
   onStatusChange: (newStatus: 'active' | 'inactive') => void
   isUpdating: boolean
+  onResendInvite: () => void
+  isResending: boolean
 }
 
 function ClientProfileContent({
@@ -113,6 +131,8 @@ function ClientProfileContent({
   onRefetch,
   onStatusChange,
   isUpdating,
+  onResendInvite,
+  isResending,
 }: ClientProfileContentProps) {
   if (isLoading) {
     return (
@@ -162,6 +182,8 @@ function ClientProfileContent({
           client={client}
           onStatusChange={onStatusChange}
           isUpdating={isUpdating}
+          onResendInvite={onResendInvite}
+          isResending={isResending}
         />
       </div>
 
