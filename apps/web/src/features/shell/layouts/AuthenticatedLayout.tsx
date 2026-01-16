@@ -24,7 +24,11 @@ export function AuthenticatedLayout() {
 
   return (
     <div className="flex h-screen">
-      <DesktopSidebar isCollapsed={isCollapsed} onToggle={toggleCollapsed} />
+      <DesktopSidebar
+        isCollapsed={isCollapsed}
+        isRealtor={user.isRealtor}
+        onToggle={toggleCollapsed}
+      />
 
       <div className="flex flex-1 flex-col overflow-hidden">
         <MobileHeader
@@ -48,15 +52,16 @@ export function AuthenticatedLayout() {
 
 interface DesktopSidebarProps {
   isCollapsed: boolean
+  isRealtor: boolean
   onToggle: () => void
 }
 
-function DesktopSidebar({ isCollapsed, onToggle }: DesktopSidebarProps) {
+function DesktopSidebar({ isCollapsed, isRealtor, onToggle }: DesktopSidebarProps) {
   const ToggleIcon = isCollapsed ? PanelLeftOpen : PanelLeftClose
 
   return (
     <div className="relative hidden md:block">
-      <Sidebar isCollapsed={isCollapsed} className="sticky top-0 z-40" />
+      <Sidebar isCollapsed={isCollapsed} isRealtor={isRealtor} className="sticky top-0 z-40" />
       <Button
         variant="outline"
         size="icon"
@@ -72,7 +77,7 @@ function DesktopSidebar({ isCollapsed, onToggle }: DesktopSidebarProps) {
 interface MobileHeaderProps {
   isOpen: boolean
   onOpenChange: (open: boolean) => void
-  user: { name: string; email: string }
+  user: { name: string; email: string; isRealtor: boolean }
   onNavigate: () => void
   onLogout: () => void
 }

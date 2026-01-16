@@ -10,6 +10,7 @@ interface MobileNavProps {
   user: {
     name: string
     email: string
+    isRealtor: boolean
   }
   onNavigate: () => void
   onLogout: () => void
@@ -33,6 +34,7 @@ export function MobileNav({ user, onNavigate, onLogout }: MobileNavProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
   const initials = getInitials(user.name)
   const isProfileActive = pathname === '/profile'
+  const visibleMenuItems = MenuItems.filter((item) => !item.realtorOnly || user.isRealtor)
 
   return (
     <nav className="flex flex-col gap-2">
@@ -56,7 +58,7 @@ export function MobileNav({ user, onNavigate, onLogout }: MobileNavProps) {
 
       <div className="my-2 border-t" />
 
-      {MenuItems.map((item) => {
+      {visibleMenuItems.map((item) => {
         const isActive = pathname.startsWith(item.to)
         return (
           <Link

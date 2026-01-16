@@ -7,9 +7,10 @@ export interface MenuItem {
   label: string
   icon: ComponentType<{ className?: string }>
   to: string
+  realtorOnly?: boolean
 }
 
 export const MenuItems: MenuItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard, to: '/dashboard' },
-  { label: 'Clients', icon: Users, to: '/clients' },
+  { label: 'Clients', icon: Users, to: '/clients', realtorOnly: true },
 ]

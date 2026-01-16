@@ -1,5 +1,6 @@
 import { createRouter } from '@tanstack/react-router'
 
+import { NotFoundPage } from '@/features/errors'
 import type { RouterContext } from '@/lib/router-context'
 
 import { routeTree } from './routeTree.gen'
@@ -7,6 +8,7 @@ import { routeTree } from './routeTree.gen'
 export const router = createRouter({
   routeTree,
   context: undefined! as RouterContext,
+  defaultNotFoundComponent: NotFoundPage,
 })
 
 // Cross-tab sync: when another tab changes auth_token, invalidate router

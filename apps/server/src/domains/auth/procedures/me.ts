@@ -8,6 +8,7 @@ export const userOutput = z.object({
   id: z.string(),
   email: z.string(),
   name: z.string(),
+  isRealtor: z.boolean(),
 })
 
 export const me = publicProcedure
@@ -27,5 +28,6 @@ export const me = publicProcedure
       id: result.user.id,
       email: result.user.email,
       name: result.user.name,
+      isRealtor: result.user.isRealtor,
     }
   })

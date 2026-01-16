@@ -8,6 +8,7 @@ import { MenuItems, sideBarTransition } from '../config'
 
 interface SidebarProps {
   isCollapsed: boolean
+  isRealtor: boolean
   className?: string
 }
 
@@ -15,7 +16,9 @@ interface SidebarProps {
  * Collapsible sidebar for authenticated layout.
  * Hidden on mobile, visible on md+ screens.
  */
-export function Sidebar({ isCollapsed, className }: SidebarProps) {
+export function Sidebar({ isCollapsed, isRealtor, className }: SidebarProps) {
+  const visibleMenuItems = MenuItems.filter((item) => !item.realtorOnly || isRealtor)
+
   return (
     <TooltipProvider delayDuration={0}>
       <aside
@@ -42,7 +45,7 @@ export function Sidebar({ isCollapsed, className }: SidebarProps) {
 
         {/* Navigation items */}
         <nav className="flex flex-1 flex-col gap-1 p-2">
-          {MenuItems.map((item) => (
+          {visibleMenuItems.map((item) => (
             <SidebarNavItem
               key={item.to}
               to={item.to}
