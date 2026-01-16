@@ -1,36 +1,36 @@
+import { CLIENT_STATUSES, type ClientStatus } from '@app/shared/clients'
+
 import { Button } from '@/components/ui'
 
-type Status = 'invited' | 'active' | 'inactive'
-
 interface StatusFilterProps {
-  selectedStatuses: Status[]
-  onToggle: (status: Status) => void
+  selectedStatuses: ClientStatus[]
+  onToggle: (status: ClientStatus) => void
 }
 
-const filterOptions: { value: Status; label: string }[] = [
-  { value: 'invited', label: 'Invited' },
-  { value: 'active', label: 'Active' },
-  { value: 'inactive', label: 'Inactive' },
-]
+const STATUS_LABELS: Record<ClientStatus, string> = {
+  invited: 'Invited',
+  active: 'Active',
+  inactive: 'Inactive',
+}
 
 export function StatusFilter({ selectedStatuses, onToggle }: StatusFilterProps) {
   return (
     <div className="flex gap-1">
-      {filterOptions.map((option) => {
-        const isSelected = selectedStatuses.includes(option.value)
+      {CLIENT_STATUSES.map((status) => {
+        const isSelected = selectedStatuses.includes(status)
         return (
           <Button
-            key={option.value}
+            key={status}
             variant="ghost"
             size="sm"
-            onClick={() => onToggle(option.value)}
+            onClick={() => onToggle(status)}
             className={
               isSelected
                 ? 'border border-input bg-background shadow-sm'
                 : 'border border-transparent'
             }
           >
-            {option.label}
+            {STATUS_LABELS[status]}
           </Button>
         )
       })}

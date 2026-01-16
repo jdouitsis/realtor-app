@@ -1,8 +1,7 @@
+import { type ClientStatus } from '@app/shared/clients'
 import { Loader2 } from 'lucide-react'
 
 import { Button } from '@/components/ui'
-
-type ClientStatus = 'invited' | 'active' | 'inactive'
 
 interface StatusChangeButtonProps {
   currentStatus: ClientStatus

@@ -1,3 +1,6 @@
+import { useNavigate } from '@tanstack/react-router'
+import { toast } from 'sonner'
+
 import {
   Dialog,
   DialogContent,
@@ -11,17 +14,24 @@ import { InviteClientForm } from './InviteClientForm'
 interface InviteClientDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSuccess: (clientId: string, email: string) => void
 }
 
-export function InviteClientDialog({ open, onOpenChange, onSuccess }: InviteClientDialogProps) {
+export function InviteClientDialog({ open, onOpenChange }: InviteClientDialogProps) {
+  const navigate = useNavigate()
+
   const handleCancel = () => {
     onOpenChange(false)
   }
 
   const handleSuccess = (clientId: string, email: string) => {
     onOpenChange(false)
-    onSuccess(clientId, email)
+    toast.success(`Invitation sent to ${email}`)
+    void navigate({ to: '/clients/$id', params: { id: clientId } })
+  }
+
+  const handleViewProfile = (clientId: string) => {
+    onOpenChange(false)
+    void navigate({ to: '/clients/$id', params: { id: clientId } })
   }
 
   return (
@@ -33,7 +43,13 @@ export function InviteClientDialog({ open, onOpenChange, onSuccess }: InviteClie
             Send a magic link invitation to your client so they can access the platform.
           </DialogDescription>
         </DialogHeader>
-        {open && <InviteClientForm onSuccess={handleSuccess} onCancel={handleCancel} />}
+        {open && (
+          <InviteClientForm
+            onSuccess={handleSuccess}
+            onViewProfile={handleViewProfile}
+            onCancel={handleCancel}
+          />
+        )}
       </DialogContent>
     </Dialog>
   )

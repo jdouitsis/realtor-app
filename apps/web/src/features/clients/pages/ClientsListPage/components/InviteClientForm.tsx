@@ -20,6 +20,7 @@ type InviteFormData = z.infer<typeof inviteFormSchema>
 
 interface InviteClientFormProps {
   onSuccess: (clientId: string, email: string) => void
+  onViewProfile: (clientId: string) => void
   onCancel: () => void
 }
 
@@ -28,7 +29,7 @@ interface DuplicateInfo {
   clientId: string
 }
 
-export function InviteClientForm({ onSuccess, onCancel }: InviteClientFormProps) {
+export function InviteClientForm({ onSuccess, onViewProfile, onCancel }: InviteClientFormProps) {
   const [duplicate, setDuplicate] = useState<DuplicateInfo | null>(null)
   const [serverError, setServerError] = useState<string | null>(null)
 
@@ -79,7 +80,7 @@ export function InviteClientForm({ onSuccess, onCancel }: InviteClientFormProps)
 
   const handleViewProfile = () => {
     if (duplicate) {
-      onSuccess(duplicate.clientId, duplicate.email)
+      onViewProfile(duplicate.clientId)
     }
   }
 

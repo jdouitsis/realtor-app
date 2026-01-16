@@ -8,9 +8,10 @@ This package provides a single source of truth for types that must stay in sync 
 
 ## Exports
 
-| Export Path              | Contents                       |
-| ------------------------ | ------------------------------ |
-| `@app/shared/errors` | `AppErrorCode` type and object |
+| Export Path           | Contents                                                      |
+| --------------------- | ------------------------------------------------------------- |
+| `@app/shared/clients` | `ClientStatus`, `CLIENT_STATUSES`, `DEFAULT_CLIENT_STATUSES`  |
+| `@app/shared/errors`  | `AppErrorCode` type and object                                |
 
 ## Adding a New Error Code
 

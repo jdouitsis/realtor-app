@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "exports": {
+    "./clients": {
+      "types": "./src/clients.ts",
+      "import": "./src/clients.ts"
+    },
     "./errors": {
       "types": "./src/errors.ts",
       "import": "./src/errors.ts"

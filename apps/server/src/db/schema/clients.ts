@@ -1,9 +1,10 @@
+import { CLIENT_STATUSES } from '@app/shared/clients'
 import { index, pgEnum, pgTable, timestamp, uuid } from 'drizzle-orm/pg-core'
 
 import { users } from './auth'
 
 // Enums
-export const clientStatusEnum = pgEnum('client_status', ['invited', 'active', 'inactive'])
+export const clientStatusEnum = pgEnum('client_status', CLIENT_STATUSES)
 
 // Junction table for realtor-client relationships
 // Note: Unique constraint on (realtor_id, client_id) WHERE deleted_at IS NULL

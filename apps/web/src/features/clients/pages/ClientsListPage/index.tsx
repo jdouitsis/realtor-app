@@ -1,7 +1,7 @@
+import { CLIENT_STATUSES, type ClientStatus, DEFAULT_CLIENT_STATUSES } from '@app/shared/clients'
 import { getRouteApi, useNavigate } from '@tanstack/react-router'
 import { Loader2, UserPlus, Users } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { toast } from 'sonner'
 
 import { Button } from '@/components/ui'
 import { parseError } from '@/lib/errors'
@@ -13,10 +13,6 @@ import { StatusFilter } from './components/StatusFilter'
 
 const routeApi = getRouteApi('/_authenticated/clients/')
 
-type Status = 'invited' | 'active' | 'inactive'
-
-const DEFAULT_STATUSES: Status[] = ['invited', 'active']
-
 export function ClientsListPage() {
   const [isInviteOpen, setIsInviteOpen] = useState(false)
 
@@ -24,7 +20,7 @@ export function ClientsListPage() {
   const routeNavigate = routeApi.useNavigate()
   const navigate = useNavigate()
 
-  const currentStatuses: Status[] = statuses ?? DEFAULT_STATUSES
+  const currentStatuses: ClientStatus[] = statuses ?? DEFAULT_CLIENT_STATUSES
 
   const clientsQuery = trpc.clients.list.useQuery({}, { staleTime: 30_000 })
 
@@ -34,11 +30,10 @@ export function ClientsListPage() {
     return clientsQuery.data.filter((c) => currentStatuses.includes(c.status))
   }, [clientsQuery.data, currentStatuses])
 
-  const handleStatusToggle = (status: Status) => {
-    const allStatuses: Status[] = ['invited', 'active', 'inactive']
-    const allSelected = allStatuses.every((s) => currentStatuses.includes(s))
+  const handleStatusToggle = (status: ClientStatus) => {
+    const allSelected = CLIENT_STATUSES.every((s) => currentStatuses.includes(s))
 
-    let newStatuses: Status[]
+    let newStatuses: ClientStatus[]
     if (allSelected) {
       // When all are selected, clicking one selects only that one
       newStatuses = [status]
@@ -57,11 +52,6 @@ export function ClientsListPage() {
 
   const handleRowClick = (id: string) => {
     void navigate({ to: '/clients/$id', params: { id } })
-  }
-
-  const handleInviteSuccess = (clientId: string, email: string) => {
-    toast.success(`Invitation sent to ${email}`)
-    void navigate({ to: '/clients/$id', params: { id: clientId } })
   }
 
   return (
@@ -85,11 +75,7 @@ export function ClientsListPage() {
         onRowClick={handleRowClick}
       />
 
-      <InviteClientDialog
-        open={isInviteOpen}
-        onOpenChange={setIsInviteOpen}
-        onSuccess={handleInviteSuccess}
-      />
+      <InviteClientDialog open={isInviteOpen} onOpenChange={setIsInviteOpen} />
     </div>
   )
 }

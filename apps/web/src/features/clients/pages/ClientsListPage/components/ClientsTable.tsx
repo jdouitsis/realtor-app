@@ -1,6 +1,7 @@
+import { type ClientStatus } from '@app/shared/clients'
 import { ChevronRight } from 'lucide-react'
 
-import { type ClientStatus, StatusBadge } from './StatusBadge'
+import { StatusBadge } from './StatusBadge'
 
 export interface Client {
   id: string

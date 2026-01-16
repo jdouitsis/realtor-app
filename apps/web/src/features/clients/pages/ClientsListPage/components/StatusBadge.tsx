@@ -1,6 +1,6 @@
-import { Badge } from '@/components/ui'
+import { type ClientStatus } from '@app/shared/clients'
 
-export type ClientStatus = 'invited' | 'active' | 'inactive'
+import { Badge } from '@/components/ui'
 
 interface StatusBadgeProps {
   status: ClientStatus

@@ -1,11 +1,10 @@
+import { type ClientStatus } from '@app/shared/clients'
 import { Calendar, CircleDot, Loader2, Mail, Send } from 'lucide-react'
 
 import { Avatar, AvatarFallback, Button } from '@/components/ui'
 
 import { StatusBadge } from '../../ClientsListPage/components/StatusBadge'
 import { StatusChangeButton } from './StatusChangeButton'
-
-type ClientStatus = 'invited' | 'active' | 'inactive'
 
 interface Client {
   id: string
