@@ -1,3 +1,4 @@
+import { clientInviteService } from '@server/domains/clients/services/invite'
 import { AppError, AppErrorCode } from '@server/lib/errors'
 import { createRateLimitMiddleware, publicProcedure } from '@server/trpc'
 import { match } from 'ts-pattern'
@@ -45,6 +46,14 @@ export const verifyMagicLink = publicProcedure
 
     // Consume the magic link (mark as used)
     await magicLinkService.consume(db, input.token)
+
+    // If magic link was created by a realtor (client invitation), activate the client
+    if (result.magicLink.createdBy) {
+      await clientInviteService.activate(db, {
+        realtorId: result.magicLink.createdBy,
+        clientId: result.user.id,
+      })
+    }
 
     // Create a new 30-day session
     const sessionToken = await sessionService.create(db, result.user.id, {
