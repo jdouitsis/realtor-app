@@ -9,6 +9,7 @@ export interface InviteClientOptions {
   realtorId: string
   email: string
   name: string
+  nickname?: string
   redirectUrl: string
   ipAddress?: string
 }
@@ -41,7 +42,7 @@ export const clientInviteService = {
    * @throws ALREADY_EXISTS if the realtor already has this client
    */
   async invite(db: Database, options: InviteClientOptions): Promise<InviteClientResult> {
-    const { realtorId, email, name, redirectUrl, ipAddress } = options
+    const { realtorId, email, name, nickname, redirectUrl, ipAddress } = options
 
     // 1. Check if relationship already exists
     const [existing] = await db
@@ -83,6 +84,7 @@ export const clientInviteService = {
         realtorId,
         clientId: clientUser.id,
         status: 'invited',
+        nickname,
       })
       .returning()
 

@@ -112,6 +112,7 @@ interface ClientProfileContentProps {
         name: string
         email: string
         status: 'invited' | 'active' | 'inactive'
+        nickname: string | null
         createdAt: string
       }
     | undefined

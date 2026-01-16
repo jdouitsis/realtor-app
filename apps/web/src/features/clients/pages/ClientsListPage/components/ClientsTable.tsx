@@ -9,6 +9,7 @@ export interface Client {
   name: string
   email: string
   status: ClientStatus
+  nickname: string | null
   createdAt: string
 }
 
@@ -51,9 +52,26 @@ export function ClientsTable({ clients, onRowClick }: ClientsTableProps) {
               className="border-b cursor-pointer hover:bg-muted/50 transition-colors"
             >
               <td className="py-4">
-                <span className="font-medium truncate max-w-[200px] block" title={client.name}>
-                  {client.name}
-                </span>
+                {client.nickname ? (
+                  <div>
+                    <span
+                      className="font-medium truncate max-w-[200px] block"
+                      title={client.nickname}
+                    >
+                      {client.nickname}
+                    </span>
+                    <span
+                      className="text-sm text-muted-foreground truncate max-w-[200px] block"
+                      title={client.name}
+                    >
+                      {client.name}
+                    </span>
+                  </div>
+                ) : (
+                  <span className="font-medium truncate max-w-[200px] block" title={client.name}>
+                    {client.name}
+                  </span>
+                )}
               </td>
               <td className="py-4">
                 <span

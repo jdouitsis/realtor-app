@@ -4,6 +4,7 @@ import { Calendar, CircleDot, Loader2, Mail, Send } from 'lucide-react'
 import { Avatar, AvatarFallback, Button } from '@/components/ui'
 
 import { StatusBadge } from '../../ClientsListPage/components/StatusBadge'
+import { NicknameEditor } from './NicknameEditor'
 import { StatusChangeButton } from './StatusChangeButton'
 
 interface Client {
@@ -12,6 +13,7 @@ interface Client {
   name: string
   email: string
   status: ClientStatus
+  nickname: string | null
   createdAt: string
 }
 
@@ -62,9 +64,9 @@ export function ClientProfileCard({
     <div className="rounded-xl bg-muted/50 p-6 space-y-6">
       <div className="flex flex-col items-center text-center">
         <Avatar className="h-24 w-24 text-2xl">
-          <AvatarFallback>{getInitials(client.name)}</AvatarFallback>
+          <AvatarFallback>{getInitials(client.nickname ?? client.name)}</AvatarFallback>
         </Avatar>
-        <h1 className="mt-4 text-xl font-semibold">{client.name}</h1>
+        <NicknameEditor clientId={client.id} nickname={client.nickname} name={client.name} />
       </div>
 
       <div className="space-y-4">

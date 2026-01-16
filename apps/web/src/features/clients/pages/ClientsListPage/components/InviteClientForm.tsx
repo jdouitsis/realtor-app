@@ -14,6 +14,7 @@ import { DuplicateClientAlert } from './DuplicateClientAlert'
 const inviteFormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Please enter a valid email'),
   name: z.string().min(1, 'Name is required'),
+  nickname: z.string().max(100).optional(),
 })
 
 type InviteFormData = z.infer<typeof inviteFormSchema>
@@ -44,7 +45,7 @@ export function InviteClientForm({ onSuccess, onViewProfile, onCancel }: InviteC
     formState: { errors },
   } = useForm<InviteFormData>({
     resolver: zodResolver(inviteFormSchema),
-    defaultValues: { email: '', name: '' },
+    defaultValues: { email: '', name: '', nickname: '' },
   })
 
   const onSubmit = async (data: InviteFormData) => {
@@ -59,6 +60,7 @@ export function InviteClientForm({ onSuccess, onViewProfile, onCancel }: InviteC
       const result = await invite.mutateAsync({
         email: data.email,
         name: data.name,
+        nickname: data.nickname || undefined,
         redirectUrl,
       })
 
@@ -97,7 +99,7 @@ export function InviteClientForm({ onSuccess, onViewProfile, onCancel }: InviteC
       )}
 
       <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">Full Name</Label>
         <Input
           id="name"
           type="text"
@@ -106,6 +108,18 @@ export function InviteClientForm({ onSuccess, onViewProfile, onCancel }: InviteC
           {...register('name')}
         />
         {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="nickname">Nickname (optional)</Label>
+        <Input
+          id="nickname"
+          type="text"
+          placeholder="Johnny"
+          aria-invalid={!!errors.nickname}
+          {...register('nickname')}
+        />
+        {errors.nickname && <p className="text-sm text-destructive">{errors.nickname.message}</p>}
       </div>
 
       <div className="space-y-2">

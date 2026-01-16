@@ -1,5 +1,5 @@
 import { CLIENT_STATUSES } from '@app/shared/clients'
-import { index, pgEnum, pgTable, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { index, pgEnum, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
 
 import { users } from './auth'
 
@@ -20,6 +20,7 @@ export const realtorClients = pgTable(
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     status: clientStatusEnum('status').notNull().default('invited'),
+    nickname: varchar('nickname', { length: 100 }),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     activatedAt: timestamp('activated_at', { withTimezone: true }),
     deletedAt: timestamp('deleted_at', { withTimezone: true }),

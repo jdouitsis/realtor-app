@@ -14,6 +14,7 @@ const getByIdOutput = z.object({
   name: z.string(),
   email: z.string(),
   status: z.enum(['invited', 'active', 'inactive']),
+  nickname: z.string().nullable(),
   createdAt: z.date(),
 })
 
@@ -34,6 +35,7 @@ export const getById = protectedProcedure
         name: users.name,
         email: users.email,
         status: realtorClients.status,
+        nickname: realtorClients.nickname,
         createdAt: realtorClients.createdAt,
       })
       .from(realtorClients)

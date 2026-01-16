@@ -37,7 +37,8 @@
       "WebFetch(domain:react.email)",
       "Bash(pnpm --filter @app/server db:generate:*)",
       "Bash(pnpm --filter @app/server db:migrate:*)",
-      "Bash(pnpm --filter @app/server test:*)"
+      "Bash(pnpm --filter @app/server test:*)",
+      "Bash(pnpm format:*)"
     ]
   }
 }

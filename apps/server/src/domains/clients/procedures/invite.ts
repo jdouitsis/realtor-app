@@ -6,6 +6,7 @@ import { clientInviteService } from '../services/invite'
 const inviteInput = z.object({
   email: z.string().email(),
   name: z.string().min(1),
+  nickname: z.string().max(100).optional(),
   redirectUrl: z.string(),
 })
 
@@ -21,6 +22,7 @@ const inviteOutput = z.object({
  * const { clientId } = await trpc.clients.invite.mutate({
  *   email: 'client@example.com',
  *   name: 'John Doe',
+ *   nickname: 'Johnny',
  *   redirectUrl: '/forms',
  * })
  */
@@ -32,6 +34,7 @@ export const invite = protectedProcedure
       realtorId: user.id,
       email: input.email,
       name: input.name,
+      nickname: input.nickname,
       redirectUrl: input.redirectUrl,
       ipAddress: req.ip ?? req.headers['x-forwarded-for']?.toString().split(',')[0],
     })

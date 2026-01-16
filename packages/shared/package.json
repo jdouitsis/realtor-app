@@ -6,15 +6,18 @@
   "exports": {
     "./clients": {
       "types": "./src/clients.ts",
-      "import": "./src/clients.ts"
+      "import": "./src/clients.ts",
+      "require": "./src/clients.ts"
     },
     "./errors": {
       "types": "./src/errors.ts",
-      "import": "./src/errors.ts"
+      "import": "./src/errors.ts",
+      "require": "./src/errors.ts"
     },
     "./types": {
       "types": "./src/types.ts",
-      "import": "./src/types.ts"
+      "import": "./src/types.ts",
+      "require": "./src/types.ts"
     }
   },
   "scripts": {

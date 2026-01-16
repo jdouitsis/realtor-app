@@ -3,6 +3,7 @@ import { getById } from './procedures/getById'
 import { invite } from './procedures/invite'
 import { list } from './procedures/list'
 import { resendInvite } from './procedures/resendInvite'
+import { updateNickname } from './procedures/updateNickname'
 import { updateStatus } from './procedures/updateStatus'
 
 export const clientsRouter = router({
@@ -10,5 +11,6 @@ export const clientsRouter = router({
   getById,
   invite,
   resendInvite,
+  updateNickname,
   updateStatus,
 })

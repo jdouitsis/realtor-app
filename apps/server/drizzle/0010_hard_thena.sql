@@ -1,0 +1,1 @@
+ALTER TABLE "realtor_clients" ADD COLUMN "nickname" varchar(100);
