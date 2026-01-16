@@ -17,7 +17,9 @@ import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedOtpRouteImport } from './routes/_authenticated/otp'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as PublicLoginIndexRouteImport } from './routes/_public/login/index'
+import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients/index'
 import { Route as PublicLoginMagicRouteImport } from './routes/_public/login/magic'
+import { Route as AuthenticatedClientsIdRouteImport } from './routes/_authenticated/clients/$id'
 
 const PublicRouteRoute = PublicRouteRouteImport.update({
   id: '/_public',
@@ -57,10 +59,21 @@ const PublicLoginIndexRoute = PublicLoginIndexRouteImport.update({
   path: '/login/',
   getParentRoute: () => PublicRouteRoute,
 } as any)
+const AuthenticatedClientsIndexRoute =
+  AuthenticatedClientsIndexRouteImport.update({
+    id: '/clients/',
+    path: '/clients/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const PublicLoginMagicRoute = PublicLoginMagicRouteImport.update({
   id: '/login/magic',
   path: '/login/magic',
   getParentRoute: () => PublicRouteRoute,
+} as any)
+const AuthenticatedClientsIdRoute = AuthenticatedClientsIdRouteImport.update({
+  id: '/clients/$id',
+  path: '/clients/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -69,7 +82,9 @@ export interface FileRoutesByFullPath {
   '/otp': typeof AuthenticatedOtpRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/register': typeof PublicRegisterRoute
+  '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/login/magic': typeof PublicLoginMagicRoute
+  '/clients': typeof AuthenticatedClientsIndexRoute
   '/login': typeof PublicLoginIndexRoute
 }
 export interface FileRoutesByTo {
@@ -78,7 +93,9 @@ export interface FileRoutesByTo {
   '/otp': typeof AuthenticatedOtpRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/register': typeof PublicRegisterRoute
+  '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/login/magic': typeof PublicLoginMagicRoute
+  '/clients': typeof AuthenticatedClientsIndexRoute
   '/login': typeof PublicLoginIndexRoute
 }
 export interface FileRoutesById {
@@ -90,7 +107,9 @@ export interface FileRoutesById {
   '/_authenticated/otp': typeof AuthenticatedOtpRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_public/register': typeof PublicRegisterRoute
+  '/_authenticated/clients/$id': typeof AuthenticatedClientsIdRoute
   '/_public/login/magic': typeof PublicLoginMagicRoute
+  '/_authenticated/clients/': typeof AuthenticatedClientsIndexRoute
   '/_public/login/': typeof PublicLoginIndexRoute
 }
 export interface FileRouteTypes {
@@ -101,7 +120,9 @@ export interface FileRouteTypes {
     | '/otp'
     | '/profile'
     | '/register'
+    | '/clients/$id'
     | '/login/magic'
+    | '/clients'
     | '/login'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,7 +131,9 @@ export interface FileRouteTypes {
     | '/otp'
     | '/profile'
     | '/register'
+    | '/clients/$id'
     | '/login/magic'
+    | '/clients'
     | '/login'
   id:
     | '__root__'
@@ -121,7 +144,9 @@ export interface FileRouteTypes {
     | '/_authenticated/otp'
     | '/_authenticated/profile'
     | '/_public/register'
+    | '/_authenticated/clients/$id'
     | '/_public/login/magic'
+    | '/_authenticated/clients/'
     | '/_public/login/'
   fileRoutesById: FileRoutesById
 }
@@ -189,12 +214,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLoginIndexRouteImport
       parentRoute: typeof PublicRouteRoute
     }
+    '/_authenticated/clients/': {
+      id: '/_authenticated/clients/'
+      path: '/clients'
+      fullPath: '/clients'
+      preLoaderRoute: typeof AuthenticatedClientsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_public/login/magic': {
       id: '/_public/login/magic'
       path: '/login/magic'
       fullPath: '/login/magic'
       preLoaderRoute: typeof PublicLoginMagicRouteImport
       parentRoute: typeof PublicRouteRoute
+    }
+    '/_authenticated/clients/$id': {
+      id: '/_authenticated/clients/$id'
+      path: '/clients/$id'
+      fullPath: '/clients/$id'
+      preLoaderRoute: typeof AuthenticatedClientsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
@@ -203,12 +242,16 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedOtpRoute: typeof AuthenticatedOtpRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedClientsIdRoute: typeof AuthenticatedClientsIdRoute
+  AuthenticatedClientsIndexRoute: typeof AuthenticatedClientsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedOtpRoute: AuthenticatedOtpRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedClientsIdRoute: AuthenticatedClientsIdRoute,
+  AuthenticatedClientsIndexRoute: AuthenticatedClientsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

@@ -24,8 +24,8 @@ export function RegisterPage() {
     setIsLoading(true)
     setError(undefined)
     try {
-      const { email } = await auth.register(data.email, data.name)
-      setOtpEmail(email)
+      await auth.register(data.email, data.name)
+      setOtpEmail(data.email)
       setStep('otp')
     } catch (err) {
       setError(parseError(err).userMessage)

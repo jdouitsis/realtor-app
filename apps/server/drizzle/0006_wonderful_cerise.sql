@@ -1,1 +1,0 @@
-ALTER TABLE "realtor_clients" ADD CONSTRAINT "realtor_clients_realtor_id_client_id_unique" UNIQUE("realtor_id","client_id");

@@ -8,8 +8,10 @@ BEFORE reading any code files, you MUST read relevant documentation:
 
 1. [`docs/ADR/README.md`](docs/ADR/README.md) - Check for architecture decisions related to your task
 2. [`docs/SOP/README.md`](docs/SOP/README.md) - Check for standard operating procedures if performing a repo-level task
-3. [`docs/task-checklist.md`](docs/task-checklist.md) - Review before completing any task
-4. Walk up from the file in question to find the nearest README.md and read it
+3. [`docs/best-practices/README.md`](docs/best-practices/README.md) - Check for patterns when working with specific tools/frameworks
+4. [`docs/SOP/sop-epic-planning.md`](docs/SOP/sop-epic-planning.md) - **Required reading when planning epics** (includes dependency diagram requirement)
+5. [`docs/task-checklist.md`](docs/task-checklist.md) - Review before completing any task
+6. Walk up from the file in question to find the nearest README.md and read it
 
 Do NOT skip this step even if the question seems simple. This prevents wasting context on code before understanding the patterns and decisions already in place.
 
@@ -254,7 +256,9 @@ docs: add contributing guide
 | [`README.md`](README.md)                                             | Project overview, getting started, Railway deployment             |
 | [`docs/prod-requirements.md`](docs/prod-requirements.md)             | Future production improvements to address before release          |
 | [`docs/SOP/README.md`](docs/SOP/README.md)                           | Repo-level tasks: adding commands, setting up tools, git hooks    |
-| [`docs/ADR/README.md`](docs/ADR/README.md)                           | Architecture decisions and their rationale                        |
+| [`docs/ADR/README.md`](docs/ADR/README.md)                                     | Architecture decisions and their rationale               |
+| [`docs/best-practices/README.md`](docs/best-practices/README.md)               | Patterns and conventions for tools/frameworks            |
+| [`docs/epics/epic-client-management.md`](docs/epics/epic-client-management.md) | Client/Tenant management epic and feature specifications |
 | [`docs/task-checklist.md`](docs/task-checklist.md)                   | Review before completing any task                                 |
 | [`apps/web/README.md`](apps/web/README.md)                           | Understanding the web app structure, commands, and tech stack     |
 | [`apps/web/src/lib/README.md`](apps/web/src/lib/README.md)           | Error handling, tRPC client, QueryClient, storage utilities       |
