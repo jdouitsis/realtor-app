@@ -18,6 +18,7 @@ export const realtorClients = pgTable('realtor_clients', {
     .references(() => users.id, { onDelete: 'cascade' }),
   status: clientStatusEnum('status').notNull().default('invited'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  activatedAt: timestamp('activated_at', { withTimezone: true }),
   deletedAt: timestamp('deleted_at', { withTimezone: true }),
 })
 

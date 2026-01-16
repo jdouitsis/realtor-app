@@ -24,6 +24,7 @@ export function StatusChangeButton({
   return (
     <Button
       variant={currentStatus === 'active' ? 'outline' : 'default'}
+      className="w-full"
       onClick={onToggle}
       disabled={isLoading}
     >

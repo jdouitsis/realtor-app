@@ -112,7 +112,7 @@ export const clientInviteService = {
 
     await db
       .update(realtorClients)
-      .set({ status: 'active' })
+      .set({ status: 'active', activatedAt: new Date() })
       .where(
         and(
           eq(realtorClients.realtorId, realtorId),
