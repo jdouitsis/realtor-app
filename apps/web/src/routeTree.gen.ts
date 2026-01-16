@@ -16,6 +16,7 @@ import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedOtpRouteImport } from './routes/_authenticated/otp'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedClientsRouteRouteImport } from './routes/_authenticated/clients/route'
 import { Route as PublicLoginIndexRouteImport } from './routes/_public/login/index'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients/index'
 import { Route as PublicLoginMagicRouteImport } from './routes/_public/login/magic'
@@ -54,6 +55,12 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedClientsRouteRoute =
+  AuthenticatedClientsRouteRouteImport.update({
+    id: '/clients',
+    path: '/clients',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const PublicLoginIndexRoute = PublicLoginIndexRouteImport.update({
   id: '/login/',
   path: '/login/',
@@ -61,9 +68,9 @@ const PublicLoginIndexRoute = PublicLoginIndexRouteImport.update({
 } as any)
 const AuthenticatedClientsIndexRoute =
   AuthenticatedClientsIndexRouteImport.update({
-    id: '/clients/',
-    path: '/clients/',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedClientsRouteRoute,
   } as any)
 const PublicLoginMagicRoute = PublicLoginMagicRouteImport.update({
   id: '/login/magic',
@@ -71,20 +78,21 @@ const PublicLoginMagicRoute = PublicLoginMagicRouteImport.update({
   getParentRoute: () => PublicRouteRoute,
 } as any)
 const AuthenticatedClientsIdRoute = AuthenticatedClientsIdRouteImport.update({
-  id: '/clients/$id',
-  path: '/clients/$id',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AuthenticatedClientsRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/clients': typeof AuthenticatedClientsRouteRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/otp': typeof AuthenticatedOtpRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/register': typeof PublicRegisterRoute
   '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/login/magic': typeof PublicLoginMagicRoute
-  '/clients': typeof AuthenticatedClientsIndexRoute
+  '/clients/': typeof AuthenticatedClientsIndexRoute
   '/login': typeof PublicLoginIndexRoute
 }
 export interface FileRoutesByTo {
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_public': typeof PublicRouteRouteWithChildren
+  '/_authenticated/clients': typeof AuthenticatedClientsRouteRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/otp': typeof AuthenticatedOtpRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
@@ -116,13 +125,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/clients'
     | '/dashboard'
     | '/otp'
     | '/profile'
     | '/register'
     | '/clients/$id'
     | '/login/magic'
-    | '/clients'
+    | '/clients/'
     | '/login'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/_public'
+    | '/_authenticated/clients'
     | '/_authenticated/dashboard'
     | '/_authenticated/otp'
     | '/_authenticated/profile'
@@ -207,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/clients': {
+      id: '/_authenticated/clients'
+      path: '/clients'
+      fullPath: '/clients'
+      preLoaderRoute: typeof AuthenticatedClientsRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_public/login/': {
       id: '/_public/login/'
       path: '/login'
@@ -216,10 +234,10 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/clients/': {
       id: '/_authenticated/clients/'
-      path: '/clients'
-      fullPath: '/clients'
+      path: '/'
+      fullPath: '/clients/'
       preLoaderRoute: typeof AuthenticatedClientsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedClientsRouteRoute
     }
     '/_public/login/magic': {
       id: '/_public/login/magic'
@@ -230,28 +248,42 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/clients/$id': {
       id: '/_authenticated/clients/$id'
-      path: '/clients/$id'
+      path: '/$id'
       fullPath: '/clients/$id'
       preLoaderRoute: typeof AuthenticatedClientsIdRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedClientsRouteRoute
     }
   }
 }
 
-interface AuthenticatedRouteRouteChildren {
-  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedOtpRoute: typeof AuthenticatedOtpRoute
-  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+interface AuthenticatedClientsRouteRouteChildren {
   AuthenticatedClientsIdRoute: typeof AuthenticatedClientsIdRoute
   AuthenticatedClientsIndexRoute: typeof AuthenticatedClientsIndexRoute
 }
 
+const AuthenticatedClientsRouteRouteChildren: AuthenticatedClientsRouteRouteChildren =
+  {
+    AuthenticatedClientsIdRoute: AuthenticatedClientsIdRoute,
+    AuthenticatedClientsIndexRoute: AuthenticatedClientsIndexRoute,
+  }
+
+const AuthenticatedClientsRouteRouteWithChildren =
+  AuthenticatedClientsRouteRoute._addFileChildren(
+    AuthenticatedClientsRouteRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedClientsRouteRoute: typeof AuthenticatedClientsRouteRouteWithChildren
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedOtpRoute: typeof AuthenticatedOtpRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+}
+
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedClientsRouteRoute: AuthenticatedClientsRouteRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedOtpRoute: AuthenticatedOtpRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
-  AuthenticatedClientsIdRoute: AuthenticatedClientsIdRoute,
-  AuthenticatedClientsIndexRoute: AuthenticatedClientsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

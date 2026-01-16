@@ -38,7 +38,9 @@
       "Bash(pnpm --filter @app/server db:generate:*)",
       "Bash(pnpm --filter @app/server db:migrate:*)",
       "Bash(pnpm --filter @app/server test:*)",
-      "Bash(pnpm format:*)"
+      "Bash(pnpm format:*)",
+      "WebFetch(domain:tanstack.com)",
+      "Skill(commit)"
     ]
   }
 }
