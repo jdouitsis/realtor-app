@@ -1,3 +1,4 @@
+import { queryClient } from '@/lib/query'
 import { clearStorage, getStorage, setStorage } from '@/lib/storage'
 import { trpcClient } from '@/lib/trpc'
 
@@ -66,6 +67,7 @@ export function createAuth(router: RouterLike): Auth {
     async logout() {
       await trpcClient.auth.logout.mutate()
       clearStorage('auth_token')
+      await queryClient.invalidateQueries()
       void router.invalidate()
     },
   }
