@@ -1,9 +1,9 @@
 import { CLIENT_STATUSES, type ClientStatus, DEFAULT_CLIENT_STATUSES } from '@app/shared/clients'
 import { getRouteApi, useNavigate } from '@tanstack/react-router'
-import { Loader2, UserPlus, Users } from 'lucide-react'
+import { AlertCircle, Loader2, UserPlus, Users } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
-import { Button } from '@/components/ui'
+import { Button, Card } from '@/components/ui'
 import { parseError } from '@/lib/errors'
 import { trpc } from '@/lib/trpc'
 
@@ -99,22 +99,25 @@ function ClientsContent({
 }: ClientsContentProps) {
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
+      <Card className="flex items-center justify-center py-16">
         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-      </div>
+      </Card>
     )
   }
 
   if (error) {
     const parsed = parseError(error)
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <p className="text-destructive mb-2">Failed to load clients</p>
+      <Card className="flex flex-col items-center justify-center py-16 text-center">
+        <div className="rounded-full bg-destructive/10 p-3 mb-4">
+          <AlertCircle className="h-6 w-6 text-destructive" />
+        </div>
+        <p className="font-medium mb-1">Failed to load clients</p>
         <p className="text-sm text-muted-foreground mb-4">{parsed.userMessage}</p>
         <Button variant="outline" onClick={onRefetch}>
           Try again
         </Button>
-      </div>
+      </Card>
     )
   }
 
@@ -128,17 +131,19 @@ function ClientsContent({
 function EmptyState({ hasAnyClients }: { hasAnyClients: boolean }) {
   if (!hasAnyClients) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <Users className="h-12 w-12 text-muted-foreground mb-4" />
-        <p className="text-lg font-medium mb-1">No clients yet</p>
+      <Card className="flex flex-col items-center justify-center py-16 text-center">
+        <div className="rounded-full bg-muted p-4 mb-4">
+          <Users className="h-8 w-8 text-muted-foreground" />
+        </div>
+        <p className="text-lg font-semibold mb-1">No clients yet</p>
         <p className="text-sm text-muted-foreground">Invite your first client to get started</p>
-      </div>
+      </Card>
     )
   }
 
   return (
-    <div className="flex flex-col items-center justify-center py-12 text-center">
+    <Card className="flex flex-col items-center justify-center py-16 text-center">
       <p className="text-muted-foreground">No clients match the selected filters</p>
-    </div>
+    </Card>
   )
 }

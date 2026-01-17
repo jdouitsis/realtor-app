@@ -1,4 +1,6 @@
-import { Button, Card, CardContent } from '@/components/ui'
+import { Globe, Monitor, Smartphone } from 'lucide-react'
+
+import { Badge, Button, Card, CardContent } from '@/components/ui'
 
 interface SessionCardProps {
   id: string
@@ -36,6 +38,11 @@ function formatRelativeTime(date: string | Date): string {
   return `${diffDays} day${diffDays === 1 ? '' : 's'} ago`
 }
 
+function isMobileDevice(device: string | null, os: string | null): boolean {
+  const combined = `${device ?? ''} ${os ?? ''}`.toLowerCase()
+  return combined.includes('mobile') || combined.includes('android') || combined.includes('iphone')
+}
+
 export function SessionCard({
   id,
   device,
@@ -49,25 +56,34 @@ export function SessionCard({
   isRevoking,
 }: SessionCardProps) {
   const deviceInfo = [browser, os].filter(Boolean).join(' on ')
+  const isMobile = isMobileDevice(device, os)
 
   return (
-    <Card className={isCurrent ? 'border-primary' : ''}>
+    <Card className={isCurrent ? 'border-primary/50 bg-primary/5' : ''}>
       <CardContent className="p-4">
-        <div className="flex items-start justify-between">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
+        <div className="flex items-start gap-4">
+          <div className="rounded-lg bg-muted p-2.5 shrink-0">
+            {isMobile ? (
+              <Smartphone className="h-5 w-5 text-muted-foreground" />
+            ) : (
+              <Monitor className="h-5 w-5 text-muted-foreground" />
+            )}
+          </div>
+          <div className="flex-1 min-w-0 space-y-1">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="font-medium">{deviceInfo || 'Unknown device'}</span>
-              {isCurrent && (
-                <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded">
-                  This device
-                </span>
-              )}
+              {isCurrent && <Badge variant="success">Current session</Badge>}
             </div>
             {device && <p className="text-sm text-muted-foreground">{device}</p>}
-            {ipAddress && <p className="text-sm text-muted-foreground">IP: {ipAddress}</p>}
-            <p className="text-sm text-muted-foreground">
-              Last active: {formatRelativeTime(lastActiveAt)}
-            </p>
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              {ipAddress && (
+                <span className="flex items-center gap-1">
+                  <Globe className="h-3.5 w-3.5" />
+                  {ipAddress}
+                </span>
+              )}
+              <span>Active {formatRelativeTime(lastActiveAt)}</span>
+            </div>
             <p className="text-xs text-muted-foreground">Created: {formatDate(createdAt)}</p>
           </div>
           {!isCurrent && (
@@ -76,7 +92,7 @@ export function SessionCard({
               size="sm"
               onClick={() => onRevoke(id)}
               disabled={isRevoking}
-              className="text-destructive hover:text-destructive"
+              className="text-destructive hover:text-destructive shrink-0"
             >
               {isRevoking ? 'Revoking...' : 'Revoke'}
             </Button>

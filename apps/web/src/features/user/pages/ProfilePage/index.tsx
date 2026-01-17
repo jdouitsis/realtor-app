@@ -1,7 +1,7 @@
 import { getRouteApi } from '@tanstack/react-router'
-import { Loader2 } from 'lucide-react'
+import { AlertCircle, Loader2 } from 'lucide-react'
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui'
+import { Button, Card, Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui'
 import { parseError } from '@/lib/errors'
 import { trpc } from '@/lib/trpc'
 
@@ -33,9 +33,11 @@ export function ProfilePage() {
 
   if (profileQuery.isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
+      <div className="space-y-6">
         <PageHeader />
-        <Loader2 className="animate-spin m-auto" />
+        <Card className="flex items-center justify-center py-16">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        </Card>
       </div>
     )
   }
@@ -44,17 +46,24 @@ export function ProfilePage() {
     const parsed = parseError(profileQuery.error)
     console.error(parsed)
     return (
-      <>
+      <div className="space-y-6">
         <PageHeader />
-        <p className="text-destructive">Failed to load profile</p>
-        <p className="text-destructive">{parsed.userMessage}</p>
-        <p className="text-destructive">Request ID: {parsed.requestId}</p>
-      </>
+        <Card className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="rounded-full bg-destructive/10 p-3 mb-4">
+            <AlertCircle className="h-6 w-6 text-destructive" />
+          </div>
+          <p className="font-medium mb-1">Failed to load profile</p>
+          <p className="text-sm text-muted-foreground mb-4">{parsed.userMessage}</p>
+          <Button variant="outline" onClick={() => void profileQuery.refetch()}>
+            Try again
+          </Button>
+        </Card>
+      </div>
     )
   }
 
   return (
-    <>
+    <div className="space-y-6">
       <PageHeader />
       <Tabs value={currentTab} onValueChange={handleTabChange} className="w-full">
         <TabsList>
@@ -77,14 +86,15 @@ export function ProfilePage() {
           <DeleteAccountSection userEmail={profile.email} />
         </TabsContent>
       </Tabs>
-    </>
+    </div>
   )
 }
 
 function PageHeader() {
   return (
-    <div className="mb-6 w-full">
-      <h1 className="text-3xl font-bold">Profile</h1>
+    <div>
+      <h1 className="text-3xl font-bold tracking-tight">Profile</h1>
+      <p className="text-muted-foreground mt-1">Manage your account settings and preferences</p>
     </div>
   )
 }

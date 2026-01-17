@@ -3,7 +3,16 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from '@/components/ui'
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Checkbox,
+  Input,
+  Label,
+} from '@/components/ui'
 import { parseError } from '@/lib/errors'
 import { trpc } from '@/lib/trpc'
 
@@ -161,14 +170,12 @@ export function EmailChangeSection({
               {confirmError && <p className="text-sm text-destructive">{confirmError}</p>}
             </div>
             <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
+              <Checkbox
                 id="invalidateSessions"
                 checked={invalidateOtherSessions}
-                onChange={(e) => setInvalidateOtherSessions(e.target.checked)}
-                className="h-4 w-4"
+                onCheckedChange={(checked) => setInvalidateOtherSessions(checked === true)}
               />
-              <Label htmlFor="invalidateSessions" className="text-sm font-normal">
+              <Label htmlFor="invalidateSessions" className="text-sm font-normal cursor-pointer">
                 Log out of all other devices
               </Label>
             </div>

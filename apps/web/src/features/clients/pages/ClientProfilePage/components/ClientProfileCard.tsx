@@ -1,7 +1,7 @@
 import { type ClientStatus } from '@app/shared/clients'
-import { Calendar, CircleDot, Loader2, Mail, Send } from 'lucide-react'
+import { Calendar, Loader2, Mail, Send, UserRound } from 'lucide-react'
 
-import { Avatar, AvatarFallback, Button } from '@/components/ui'
+import { Avatar, AvatarFallback, Button, Card, CardContent } from '@/components/ui'
 
 import { StatusBadge } from '../../ClientsListPage/components/StatusBadge'
 import { NicknameEditor } from './NicknameEditor'
@@ -61,67 +61,93 @@ export function ClientProfileCard({
   }
 
   return (
-    <div className="rounded-xl bg-muted/50 p-6 space-y-6">
-      <div className="flex flex-col items-center text-center">
-        <Avatar className="h-24 w-24 text-2xl">
-          <AvatarFallback>{getInitials(client.nickname ?? client.name)}</AvatarFallback>
-        </Avatar>
-        <NicknameEditor clientId={client.id} nickname={client.nickname} name={client.name} />
-      </div>
-
-      <div className="space-y-4">
-        <h2 className="text-sm font-medium">Client details</h2>
-
-        <div className="space-y-3">
-          <div className="flex items-start gap-3">
-            <Mail className="mt-0.5 h-4 w-4 text-muted-foreground" />
-            <div>
-              <p className="text-xs text-muted-foreground">Email</p>
-              <p className="text-sm">{client.email}</p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <Calendar className="mt-0.5 h-4 w-4 text-muted-foreground" />
-            <div>
-              <p className="text-xs text-muted-foreground">Member since</p>
-              <p className="text-sm">{formatMemberSince(client.createdAt)}</p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <CircleDot className="mt-0.5 h-4 w-4 text-muted-foreground" />
-            <div>
-              <p className="text-xs text-muted-foreground">Status</p>
-              <div className="mt-1">
-                <StatusBadge status={client.status} />
-              </div>
-            </div>
+    <Card className="h-full">
+      <CardContent className="p-6">
+        {/* Avatar and Name Section */}
+        <div className="flex flex-col items-center text-center pb-6 border-b">
+          <Avatar className="h-24 w-24 text-2xl ring-4 ring-background shadow-lg">
+            <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+              {getInitials(client.name)}
+            </AvatarFallback>
+          </Avatar>
+          <h2 className="mt-4 text-xl font-semibold">{client.name}</h2>
+          <div className="mt-2">
+            <StatusBadge status={client.status} />
           </div>
         </div>
-      </div>
 
-      {client.status === 'invited' && (
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={onResendInvite}
-          disabled={isResending}
-        >
-          {isResending ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <Send className="mr-2 h-4 w-4" />
+        {/* Details Section */}
+        <div className="py-6 space-y-4">
+          <DetailRow icon={<Mail className="h-4 w-4" />} label="Email" value={client.email} />
+          <DetailRow
+            icon={<Calendar className="h-4 w-4" />}
+            label="Member since"
+            value={formatMemberSince(client.createdAt)}
+          />
+          <NicknameRow clientId={client.id} nickname={client.nickname} />
+        </div>
+
+        {/* Actions Section */}
+        <div className="space-y-3 pt-2">
+          {client.status === 'invited' && (
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={onResendInvite}
+              disabled={isResending}
+            >
+              {isResending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Send className="h-4 w-4" />
+              )}
+              Resend Invite
+            </Button>
           )}
-          Resend Invite
-        </Button>
-      )}
 
-      <StatusChangeButton
-        currentStatus={client.status}
-        onToggle={handleToggle}
-        isLoading={isUpdating}
-      />
+          <StatusChangeButton
+            currentStatus={client.status}
+            onToggle={handleToggle}
+            isLoading={isUpdating}
+          />
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+function DetailRow({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode
+  label: string
+  value: string
+}) {
+  return (
+    <div className="flex items-start gap-3">
+      <div className="rounded-md bg-muted p-2 text-muted-foreground">{icon}</div>
+      <div className="min-w-0 flex-1">
+        <p className="text-xs text-muted-foreground">{label}</p>
+        <p className="text-sm font-medium truncate" title={value}>
+          {value}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function NicknameRow({ clientId, nickname }: { clientId: string; nickname: string | null }) {
+  return (
+    <div className="flex items-start gap-3">
+      <div className="rounded-md bg-muted p-2 text-muted-foreground">
+        <UserRound className="h-4 w-4" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="text-xs text-muted-foreground">Nickname</p>
+        <NicknameEditor clientId={clientId} nickname={nickname} />
+      </div>
     </div>
   )
 }
