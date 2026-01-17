@@ -1,5 +1,6 @@
 import { getSessionToken } from '@server/domains/auth/lib/token'
 import { sessionService } from '@server/domains/auth/services/session'
+import { env } from '@server/env'
 import { AppError } from '@server/lib/errors'
 import { getRateLimitConfig, type RateLimitType } from '@server/lib/rate-limit'
 import { TRPCError } from '@trpc/server'
@@ -47,6 +48,9 @@ export function createRateLimitMiddleware(type: RateLimitType) {
       await limiter.consume(ip)
     } catch {
       ctx.log.warn({ ip, type }, 'Rate limit exceeded')
+      if (env.isDev) {
+        return next({ ctx })
+      }
       throw new TRPCError({
         code: 'TOO_MANY_REQUESTS',
         message: 'Too many requests. Please try again later.',
