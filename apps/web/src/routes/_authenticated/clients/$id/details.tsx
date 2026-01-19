@@ -37,10 +37,10 @@ function DetailsTab() {
 
   return (
     <div className="space-y-6">
-      {/* Contact Information */}
-      <div>
+      {/* Contact Information - Mobile only (shown in sidebar on desktop) */}
+      <div className="md:hidden">
         <h3 className="text-sm font-medium text-muted-foreground mb-3">Contact</h3>
-        <div className="rounded-lg border border-border/50 divide-y divide-border/50">
+        <div className="rounded-lg border border-border/50 bg-card divide-y divide-border/50">
           <DetailRow
             icon={<Mail className="h-4 w-4" strokeWidth={1.5} />}
             label="Email"
@@ -66,7 +66,7 @@ function DetailsTab() {
       {/* Family */}
       <div>
         <h3 className="text-sm font-medium text-muted-foreground mb-3">Family</h3>
-        <div className="rounded-lg border border-border/50 divide-y divide-border/50">
+        <div className="rounded-lg border border-border/50 bg-card divide-y divide-border/50">
           <DetailRow
             icon={<Heart className="h-4 w-4" strokeWidth={1.5} />}
             label="Spouse"
@@ -94,7 +94,7 @@ function DetailsTab() {
       {/* Preferences */}
       <div>
         <h3 className="text-sm font-medium text-muted-foreground mb-3">Preferences</h3>
-        <div className="rounded-lg border border-border/50 divide-y divide-border/50">
+        <div className="rounded-lg border border-border/50 bg-card divide-y divide-border/50">
           <DetailRow
             icon={<Coffee className="h-4 w-4" strokeWidth={1.5} />}
             label="Preferred Drink"

@@ -153,8 +153,8 @@ function ClientProfileLayout() {
       </nav>
 
       <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-        {/* Sidebar - hidden on mobile, visible on md+ */}
-        <aside className="hidden md:block md:w-64 flex-shrink-0">
+        {/* Sidebar - avatar always visible, details hidden on mobile */}
+        <aside className="w-full md:w-64 flex-shrink-0">
           <ClientProfileCard
             client={client}
             onStatusChange={handleStatusChange}
@@ -210,13 +210,13 @@ function LoadingSkeleton() {
     <div className="space-y-6">
       <Skeleton className="h-5 w-32" />
       <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-        <aside className="hidden md:block md:w-64 flex-shrink-0 space-y-6">
+        <aside className="w-full md:w-64 flex-shrink-0 space-y-6">
           <div className="flex flex-col items-center space-y-4">
             <Skeleton className="h-20 w-20 rounded-full" />
             <Skeleton className="h-5 w-32" />
             <Skeleton className="h-5 w-16" />
           </div>
-          <div className="space-y-1 rounded-lg border border-border/50">
+          <div className="hidden md:block space-y-1 rounded-lg border border-border/50">
             <Skeleton className="h-14 w-full" />
             <Skeleton className="h-14 w-full" />
             <Skeleton className="h-14 w-full" />

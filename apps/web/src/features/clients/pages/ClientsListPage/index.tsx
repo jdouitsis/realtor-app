@@ -134,7 +134,7 @@ function LoadingSkeleton() {
   return (
     <div className="rounded-lg border border-border/50 overflow-hidden">
       {/* Header row skeleton */}
-      <div className="border-b border-border/50 bg-muted/30 px-4 py-3">
+      <div className="border-b border-border/50 bg-zinc-200/70 px-4 py-3">
         <div className="flex items-center gap-4">
           <Skeleton className="h-4 w-24" />
           <Skeleton className="h-4 w-16 mx-auto" />
@@ -142,19 +142,21 @@ function LoadingSkeleton() {
         </div>
       </div>
       {/* Row skeletons */}
-      {Array.from({ length: 5 }).map((_, i) => (
-        <div
-          key={i}
-          className="flex items-center gap-3 px-4 py-4 border-b border-border/50 last:border-b-0"
-        >
-          <Skeleton className="h-9 w-9 rounded-full" />
-          <div className="flex-1 space-y-2">
-            <Skeleton className="h-4 w-32" />
+      <div className="bg-card">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div
+            key={i}
+            className="flex items-center gap-3 px-4 py-4 border-b border-border/50 last:border-b-0"
+          >
+            <Skeleton className="h-9 w-9 rounded-full" />
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-4 w-32" />
+            </div>
+            <Skeleton className="h-5 w-16 rounded-full" />
+            <Skeleton className="h-4 w-20 hidden sm:block" />
           </div>
-          <Skeleton className="h-5 w-16 rounded-full" />
-          <Skeleton className="h-4 w-20 hidden sm:block" />
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }

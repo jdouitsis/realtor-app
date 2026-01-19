@@ -48,14 +48,14 @@ export function ClientsTable({ clients, onRowClick }: ClientsTableProps) {
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-border/50 bg-muted/30 text-left text-sm text-muted-foreground">
+            <tr className="border-b border-border/50 bg-zinc-200/70 text-left text-sm text-muted-foreground">
               <th className="px-4 py-3 font-medium">Name</th>
               <th className="px-4 py-3 font-medium text-center">Status</th>
               <th className="px-4 py-3 font-medium hidden sm:table-cell">Added</th>
               <th className="px-4 py-3 font-medium w-10"></th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-border/50">
+          <tbody className="divide-y divide-border/50 bg-card">
             {clients.map((client) => (
               <tr
                 key={client.id}

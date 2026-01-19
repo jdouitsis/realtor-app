@@ -98,8 +98,8 @@ export function ClientProfileCard({
         </div>
       </div>
 
-      {/* Details with colored icons */}
-      <div className="rounded-lg border border-border/50 bg-card/50 divide-y divide-border/50">
+      {/* Details with colored icons - hidden on mobile (shown in Details tab) */}
+      <div className="hidden md:block rounded-lg border border-border/50 bg-card/50 divide-y divide-border/50">
         <DetailRow
           icon={<Mail className="h-4 w-4" strokeWidth={1.5} />}
           label="Email"
@@ -115,8 +115,8 @@ export function ClientProfileCard({
         <NicknameRow clientId={client.id} nickname={client.nickname} />
       </div>
 
-      {/* Actions */}
-      <div className="space-y-2">
+      {/* Actions - hidden on mobile (shown in Details tab) */}
+      <div className="hidden md:block space-y-2">
         {client.status === 'invited' && (
           <Button
             variant="outline"
