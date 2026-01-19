@@ -1,9 +1,9 @@
 import { CLIENT_STATUSES, type ClientStatus, DEFAULT_CLIENT_STATUSES } from '@app/shared/clients'
 import { getRouteApi, useNavigate } from '@tanstack/react-router'
-import { AlertCircle, Loader2, UserPlus, Users } from 'lucide-react'
+import { AlertCircle, UserPlus, Users } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
-import { Button, Card } from '@/components/ui'
+import { Button, Skeleton } from '@/components/ui'
 import { parseError } from '@/lib/errors'
 import { trpc } from '@/lib/trpc'
 
@@ -56,16 +56,22 @@ export function ClientsListPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h1 className="text-3xl font-bold tracking-tighter">Clients</h1>
-        <Button onClick={() => setIsInviteOpen(true)}>
-          <UserPlus className="h-4 w-4" />
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-lg font-semibold tracking-tight">Clients</h1>
+          <p className="text-sm text-muted-foreground">Manage and view your client relationships</p>
+        </div>
+        <Button size="sm" onClick={() => setIsInviteOpen(true)}>
+          <UserPlus className="h-4 w-4" strokeWidth={1.5} />
           Invite Client
         </Button>
       </div>
 
+      {/* Filters */}
       <StatusFilter selectedStatuses={currentStatuses} onToggle={handleStatusToggle} />
 
+      {/* Content */}
       <ClientsContent
         clients={filteredClients}
         isLoading={clientsQuery.isLoading}
@@ -98,26 +104,22 @@ function ClientsContent({
   onRowClick,
 }: ClientsContentProps) {
   if (isLoading) {
-    return (
-      <Card className="flex items-center justify-center py-16">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-      </Card>
-    )
+    return <LoadingSkeleton />
   }
 
   if (error) {
     const parsed = parseError(error)
     return (
-      <Card className="flex flex-col items-center justify-center py-16 text-center">
-        <div className="rounded-full bg-destructive/10 p-3 mb-4">
-          <AlertCircle className="h-6 w-6 text-destructive" />
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <div className="rounded-full bg-destructive/10 p-4 mb-4">
+          <AlertCircle className="h-6 w-6 text-destructive" strokeWidth={1.5} />
         </div>
-        <p className="font-medium mb-1">Failed to load clients</p>
-        <p className="text-sm text-muted-foreground mb-4">{parsed.userMessage}</p>
-        <Button variant="outline" onClick={onRefetch}>
+        <h2 className="text-lg font-semibold tracking-tight mb-1">Failed to load clients</h2>
+        <p className="text-sm text-muted-foreground mb-6">{parsed.userMessage}</p>
+        <Button variant="outline" size="sm" onClick={onRefetch}>
           Try again
         </Button>
-      </Card>
+      </div>
     )
   }
 
@@ -128,22 +130,53 @@ function ClientsContent({
   return <ClientsTable clients={clients} onRowClick={onRowClick} />
 }
 
+function LoadingSkeleton() {
+  return (
+    <div className="rounded-lg border border-border/50 overflow-hidden">
+      {/* Header row skeleton */}
+      <div className="border-b border-border/50 bg-muted/30 px-4 py-3">
+        <div className="flex items-center gap-4">
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-4 w-16 mx-auto" />
+          <Skeleton className="h-4 w-20 hidden sm:block" />
+        </div>
+      </div>
+      {/* Row skeletons */}
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div
+          key={i}
+          className="flex items-center gap-3 px-4 py-4 border-b border-border/50 last:border-b-0"
+        >
+          <Skeleton className="h-9 w-9 rounded-full" />
+          <div className="flex-1 space-y-2">
+            <Skeleton className="h-4 w-32" />
+          </div>
+          <Skeleton className="h-5 w-16 rounded-full" />
+          <Skeleton className="h-4 w-20 hidden sm:block" />
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function EmptyState({ hasAnyClients }: { hasAnyClients: boolean }) {
   if (!hasAnyClients) {
     return (
-      <Card className="flex flex-col items-center justify-center py-16 text-center">
-        <div className="rounded-full bg-muted p-4 mb-4">
-          <Users className="h-8 w-8 text-muted-foreground" />
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <div className="rounded-full bg-muted/50 p-4 mb-4">
+          <Users className="h-6 w-6 text-muted-foreground" strokeWidth={1.5} />
         </div>
-        <p className="text-lg font-semibold mb-1">No clients yet</p>
-        <p className="text-sm text-muted-foreground">Invite your first client to get started</p>
-      </Card>
+        <h2 className="text-lg font-semibold tracking-tight mb-1">No clients yet</h2>
+        <p className="text-sm text-muted-foreground max-w-xs">
+          Invite your first client to get started
+        </p>
+      </div>
     )
   }
 
   return (
-    <Card className="flex flex-col items-center justify-center py-16 text-center">
-      <p className="text-muted-foreground">No clients match the selected filters</p>
-    </Card>
+    <div className="flex flex-col items-center justify-center py-16 text-center rounded-lg border border-border/50">
+      <p className="text-sm text-muted-foreground">No clients match the selected filters</p>
+    </div>
   )
 }

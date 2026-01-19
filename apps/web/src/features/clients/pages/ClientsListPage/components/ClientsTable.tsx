@@ -1,7 +1,7 @@
 import { type ClientStatus } from '@app/shared/clients'
 import { ChevronRight } from 'lucide-react'
 
-import { Avatar, AvatarFallback, Card } from '@/components/ui'
+import { Avatar, AvatarFallback } from '@/components/ui'
 
 import { StatusBadge } from './StatusBadge'
 
@@ -44,33 +44,33 @@ function formatDate(dateString: string): string {
 
 export function ClientsTable({ clients, onRowClick }: ClientsTableProps) {
   return (
-    <Card className="overflow-hidden">
+    <div className="rounded-lg border border-border/50 overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b bg-muted/30 text-left text-sm text-muted-foreground">
+            <tr className="border-b border-border/50 bg-muted/30 text-left text-sm text-muted-foreground">
               <th className="px-4 py-3 font-medium">Name</th>
               <th className="px-4 py-3 font-medium text-center">Status</th>
-              <th className="px-4 py-3 font-medium hidden sm:table-cell">Created</th>
+              <th className="px-4 py-3 font-medium hidden sm:table-cell">Added</th>
               <th className="px-4 py-3 font-medium w-10"></th>
             </tr>
           </thead>
-          <tbody className="divide-y">
+          <tbody className="divide-y divide-border/50">
             {clients.map((client) => (
               <tr
                 key={client.id}
                 onClick={() => onRowClick(client.id)}
-                className="group cursor-pointer transition-colors hover:bg-muted/50"
+                className="group cursor-pointer transition-colors hover:bg-muted/30"
               >
                 <td className="px-4 py-4">
                   <div className="flex items-center gap-3">
-                    <Avatar className="h-9 w-9 text-xs ring-2 ring-background shadow-sm">
+                    <Avatar className="h-9 w-9 text-xs">
                       <AvatarFallback className="bg-primary/10 text-primary font-medium">
                         {getInitials(client.nickname ?? client.name)}
                       </AvatarFallback>
                     </Avatar>
                     <span
-                      className="font-medium truncate max-w-[200px] block"
+                      className="font-medium truncate max-w-[200px] block text-sm"
                       title={client.nickname ? `${client.nickname} (${client.name})` : client.name}
                     >
                       {client.nickname ? (
@@ -91,13 +91,16 @@ export function ClientsTable({ clients, onRowClick }: ClientsTableProps) {
                   {formatDate(client.createdAt)}
                 </td>
                 <td className="px-4 py-4">
-                  <ChevronRight className="h-4 w-4 text-muted-foreground/50 transition-all group-hover:text-muted-foreground group-hover:translate-x-0.5" />
+                  <ChevronRight
+                    className="h-4 w-4 text-muted-foreground/50 transition-all group-hover:text-muted-foreground group-hover:translate-x-0.5"
+                    strokeWidth={1.5}
+                  />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-    </Card>
+    </div>
   )
 }
