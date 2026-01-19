@@ -254,10 +254,11 @@ docs: add contributing guide
 | README                                                               | When to Use                                                       |
 | -------------------------------------------------------------------- | ----------------------------------------------------------------- |
 | [`README.md`](README.md)                                             | Project overview, getting started, Railway deployment             |
+| [`docs/design-system.md`](docs/design-system.md)                     | UI patterns, colors, typography, component usage                  |
 | [`docs/prod-requirements.md`](docs/prod-requirements.md)             | Future production improvements to address before release          |
 | [`docs/SOP/README.md`](docs/SOP/README.md)                           | Repo-level tasks: adding commands, setting up tools, git hooks    |
-| [`docs/ADR/README.md`](docs/ADR/README.md)                                     | Architecture decisions and their rationale               |
-| [`docs/best-practices/README.md`](docs/best-practices/README.md)               | Patterns and conventions for tools/frameworks            |
+| [`docs/ADR/README.md`](docs/ADR/README.md)                           | Architecture decisions and their rationale                        |
+| [`docs/best-practices/README.md`](docs/best-practices/README.md)     | Patterns and conventions for tools/frameworks                     |
 | [`docs/epics/epic-client-management.md`](docs/epics/epic-client-management.md) | Client/Tenant management epic and feature specifications |
 | [`docs/task-checklist.md`](docs/task-checklist.md)                   | Review before completing any task                                 |
 | [`apps/web/README.md`](apps/web/README.md)                           | Understanding the web app structure, commands, and tech stack     |
