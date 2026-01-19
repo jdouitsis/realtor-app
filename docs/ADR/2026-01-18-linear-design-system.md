@@ -65,6 +65,159 @@ Where `--gradient-start: 250 100% 65%` and `--gradient-end: 270 100% 55%`.
 - `Combobox` — Searchable select (Command + Popover)
 - `FileUpload` — Drag/drop with preview and progress
 
+### Page-Level Patterns
+
+Established patterns from the `/clients` and `/clients/$id/*` pages that should be followed across the application.
+
+#### Page Headers
+
+```tsx
+<h1 className="text-lg font-semibold tracking-tight">Page Title</h1>
+<p className="text-sm text-muted-foreground">Descriptive subtitle</p>
+```
+
+#### Section Headers
+
+```tsx
+<h3 className="text-sm font-medium text-muted-foreground mb-3">Section Title</h3>
+```
+
+#### Subtle Borders
+
+Use 50% opacity borders for a softer appearance:
+
+```tsx
+// Container with dividers
+<div className="rounded-lg border border-border/50 divide-y divide-border/50">
+  {/* rows */}
+</div>
+
+// Table headers and rows
+<tr className="border-b border-border/50 bg-muted/30">
+```
+
+#### Hover States
+
+Soft background change on interactive rows:
+
+```tsx
+<div className="hover:bg-muted/30 transition-colors">
+```
+
+#### Icon Styling
+
+Standard icon sizing with thinner stroke:
+
+```tsx
+<Icon className="h-4 w-4" strokeWidth={1.5} />
+```
+
+#### Colorful Icon Backgrounds
+
+Semantic colors with 10% opacity background:
+
+| Color   | Background           | Text              | Usage                    |
+| ------- | -------------------- | ----------------- | ------------------------ |
+| Blue    | `bg-blue-500/10`     | `text-blue-500`   | Email, links             |
+| Emerald | `bg-emerald-500/10`  | `text-emerald-500`| Success, active status   |
+| Amber   | `bg-amber-500/10`    | `text-amber-500`  | Pending, invited status  |
+| Violet  | `bg-violet-500/10`   | `text-violet-500` | User, profile            |
+| Pink    | `bg-pink-500/10`     | `text-pink-500`   | Relationships            |
+| Orange  | `bg-orange-500/10`   | `text-orange-500` | Preferences              |
+| Zinc    | `bg-zinc-500/10`     | `text-zinc-500`   | Inactive, muted          |
+
+#### Status Filter Chips
+
+Color-coded pill buttons with checkbox indicators for multi-select filters:
+
+```tsx
+// Selected state
+className="bg-emerald-500/15 text-emerald-600 border-emerald-500/30"
+
+// Unselected state
+className="bg-transparent border-border/60 text-muted-foreground"
+```
+
+#### Tab Navigation
+
+Underline indicator pattern for navigation tabs:
+
+```tsx
+<Link className={cn(
+  'relative px-3 py-2.5 text-sm font-medium transition-colors',
+  'hover:text-foreground',
+  isActive ? 'text-foreground' : 'text-muted-foreground'
+)}>
+  <Icon className="h-4 w-4" strokeWidth={1.5} />
+  {label}
+  {isActive && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />}
+</Link>
+```
+
+#### Breadcrumb Navigation
+
+Simple slash-separated breadcrumbs:
+
+```tsx
+<nav className="flex items-center gap-2 text-sm">
+  <Link className="text-muted-foreground hover:text-foreground transition-colors">
+    Parent
+  </Link>
+  <span className="text-muted-foreground/50">/</span>
+  <span className="text-foreground font-medium truncate">Current</span>
+</nav>
+```
+
+#### Empty & Error States
+
+Centered layout with icon in rounded container:
+
+```tsx
+<div className="flex flex-col items-center justify-center py-16 text-center">
+  <div className="rounded-full bg-muted/50 p-4 mb-4">
+    <Icon className="h-6 w-6 text-muted-foreground" strokeWidth={1.5} />
+  </div>
+  <h2 className="text-lg font-semibold tracking-tight mb-1">Title</h2>
+  <p className="text-sm text-muted-foreground max-w-xs">Description</p>
+</div>
+```
+
+For error states, use `bg-destructive/10` and `text-destructive`.
+
+#### Skeleton Loading
+
+Match the structure of actual content:
+
+```tsx
+<div className="rounded-lg border border-border/50 overflow-hidden">
+  <div className="border-b border-border/50 bg-muted/30 px-4 py-3">
+    <Skeleton className="h-4 w-24" />
+  </div>
+  {Array.from({ length: 5 }).map((_, i) => (
+    <div key={i} className="flex items-center gap-3 px-4 py-4 border-b border-border/50">
+      <Skeleton className="h-9 w-9 rounded-full" />
+      <Skeleton className="h-4 w-32" />
+    </div>
+  ))}
+</div>
+```
+
+#### Detail Rows
+
+Two-line layout with icon, label, and value:
+
+```tsx
+<div className="flex items-center gap-3 px-4 py-4 hover:bg-muted/30 transition-colors">
+  <span className="p-2 rounded-lg bg-blue-500/10 text-blue-500">
+    <Icon className="h-4 w-4" strokeWidth={1.5} />
+  </span>
+  <div className="flex-1 min-w-0">
+    <span className="block text-xs text-muted-foreground">{label}</span>
+    <p className="text-sm font-medium truncate">{value}</p>
+  </div>
+</div>
+```
+
 ## Alternatives Considered
 
 ### Material Design

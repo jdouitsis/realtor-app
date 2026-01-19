@@ -4,21 +4,28 @@ Complex components built by composing shadcn/ui primitives. These components han
 
 ## Components
 
-| Component    | Description                                        | Dependencies                     |
-| ------------ | -------------------------------------------------- | -------------------------------- |
-| `DataTable`  | TanStack Table wrapper with sorting, filtering     | `@tanstack/react-table`          |
-| `StatCard`   | Metric display with trend indicator                | Card, lucide-react               |
-| `EmptyState` | Illustrated placeholder for empty data             | Button, lucide-react             |
-| `DatePicker` | Calendar + Popover composition                     | Calendar, Popover, Button        |
-| `Combobox`   | Searchable select (Command + Popover)              | Command, Popover, Button         |
-| `FileUpload` | Drag/drop file upload with preview                 | `react-dropzone`, Button, Progress |
+| Component    | Description                                    | Dependencies                       |
+| ------------ | ---------------------------------------------- | ---------------------------------- |
+| `DataTable`  | TanStack Table wrapper with sorting, filtering | `@tanstack/react-table`            |
+| `StatCard`   | Metric display with trend indicator            | Card, lucide-react                 |
+| `EmptyState` | Illustrated placeholder for empty data         | Button, lucide-react               |
+| `DatePicker` | Calendar + Popover composition                 | Calendar, Popover, Button          |
+| `Combobox`   | Searchable select (Command + Popover)          | Command, Popover, Button           |
+| `FileUpload` | Drag/drop file upload with preview             | `react-dropzone`, Button, Progress |
 
 ## Usage
 
 Import from the composed directory:
 
 ```tsx
-import { DataTable, StatCard, EmptyState, DatePicker, Combobox, FileUpload } from '@/components/composed'
+import {
+  DataTable,
+  StatCard,
+  EmptyState,
+  DatePicker,
+  Combobox,
+  FileUpload,
+} from '@/components/composed'
 ```
 
 ## Patterns
@@ -50,12 +57,11 @@ const columns: ColumnDef<User>[] = [
 ```tsx
 import { StatCard } from '@/components/composed'
 import { Users } from 'lucide-react'
-
-<StatCard
+;<StatCard
   title="Total Clients"
   value={42}
   icon={Users}
-  trend={{ value: 12.5, label: "from last month" }}
+  trend={{ value: 12.5, label: 'from last month' }}
 />
 ```
 
@@ -64,12 +70,11 @@ import { Users } from 'lucide-react'
 ```tsx
 import { EmptyState } from '@/components/composed'
 import { Users } from 'lucide-react'
-
-<EmptyState
+;<EmptyState
   icon={Users}
   title="No clients yet"
   description="Get started by adding your first client."
-  action={{ label: "Add Client", onClick: openModal }}
+  action={{ label: 'Add Client', onClick: openModal }}
 />
 ```
 
@@ -77,23 +82,17 @@ import { Users } from 'lucide-react'
 
 ```tsx
 import { DatePicker } from '@/components/composed'
-
-<DatePicker
-  value={selectedDate}
-  onChange={setSelectedDate}
-  placeholder="Pick a date"
-/>
+;<DatePicker value={selectedDate} onChange={setSelectedDate} placeholder="Pick a date" />
 ```
 
 ### Combobox
 
 ```tsx
 import { Combobox } from '@/components/composed'
-
-<Combobox
+;<Combobox
   options={[
-    { value: "active", label: "Active" },
-    { value: "inactive", label: "Inactive" },
+    { value: 'active', label: 'Active' },
+    { value: 'inactive', label: 'Inactive' },
   ]}
   value={status}
   onChange={setStatus}
@@ -105,8 +104,7 @@ import { Combobox } from '@/components/composed'
 
 ```tsx
 import { FileUpload } from '@/components/composed'
-
-<FileUpload
+;<FileUpload
   onUpload={(files) => handleUpload(files)}
   accept={{ 'image/*': ['.png', '.jpg', '.jpeg'] }}
   maxFiles={5}

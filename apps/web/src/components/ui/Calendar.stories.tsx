@@ -60,16 +60,10 @@ export const RangeSelection: Story = {
 
 export const WithDisabledDates: Story = {
   render: () => (
-    <Calendar
-      mode="single"
-      disabled={(date) => date < new Date()}
-      className="rounded-md border"
-    />
+    <Calendar mode="single" disabled={(date) => date < new Date()} className="rounded-md border" />
   ),
 }
 
 export const TwoMonths: Story = {
-  render: () => (
-    <Calendar mode="single" numberOfMonths={2} className="rounded-md border" />
-  ),
+  render: () => <Calendar mode="single" numberOfMonths={2} className="rounded-md border" />,
 }

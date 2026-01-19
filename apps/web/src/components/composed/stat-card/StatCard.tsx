@@ -26,7 +26,13 @@ interface StatCardProps {
  * />
  */
 export function StatCard({ title, value, icon: Icon, trend, className }: StatCardProps) {
-  const trendDirection = trend ? (trend.value > 0 ? 'up' : trend.value < 0 ? 'down' : 'neutral') : null
+  const trendDirection = trend
+    ? trend.value > 0
+      ? 'up'
+      : trend.value < 0
+      ? 'down'
+      : 'neutral'
+    : null
 
   return (
     <Card className={cn('', className)}>

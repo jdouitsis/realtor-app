@@ -1,6 +1,6 @@
 import { Upload, X } from 'lucide-react'
 import * as React from 'react'
-import { type DropzoneOptions,useDropzone } from 'react-dropzone'
+import { type DropzoneOptions, useDropzone } from 'react-dropzone'
 
 import { Button, Progress } from '@/components/ui'
 import { cn } from '@/lib/utils'
