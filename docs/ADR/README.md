@@ -6,6 +6,7 @@ This directory contains Architecture Decision Records (ADRs) documenting signifi
 
 | Date       | Decision                                                               | Summary                                                                      |
 | ---------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 2026-01-18 | [Linear Design System](./2026-01-18-linear-design-system.md)           | Linear-inspired design system with custom colors, typography, and components |
 | 2026-01-16 | [Route Not Found Handling](./2026-01-16-route-not-found-handling.md)   | Use `notFound()` in loaders with `defaultNotFoundComponent` on router        |
 | 2026-01-10 | [React Email Templates](./2026-01-10-react-email-templates.md)         | Use React Email for type-safe, previewable email templates                   |
 | 2025-01-10 | [Magic Link Auth](./2025-01-10-magic-link-auth.md)                     | Single-use magic links for passwordless login and admin-generated invites    |

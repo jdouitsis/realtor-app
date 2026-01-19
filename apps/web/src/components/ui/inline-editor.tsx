@@ -1,12 +1,15 @@
 import { Pencil, Plus } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
+import { cn } from '@/lib/utils'
+
 interface InlineEditorProps {
   value: string | null
   onSave: (value: string | null) => void
   placeholder?: string
   emptyText?: string
   maxLength?: number
+  className?: string
 }
 
 /**
@@ -27,6 +30,7 @@ export function InlineEditor({
   placeholder = 'Enter value...',
   emptyText = 'Add value',
   maxLength = 100,
+  className,
 }: InlineEditorProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [inputValue, setInputValue] = useState(value ?? '')
@@ -72,7 +76,11 @@ export function InlineEditor({
         onChange={(e) => setInputValue(e.target.value)}
         onBlur={handleSave}
         onKeyDown={handleKeyDown}
-        className="text-sm font-medium leading-5 bg-transparent border-none outline-none p-0 m-0 w-full"
+        className={cn(
+          'text-sm font-medium leading-5 bg-transparent border-none outline-none p-0 m-0 w-full',
+          'transition-all duration-150',
+          className
+        )}
         style={{ boxShadow: '0 1px 0 0 hsl(var(--primary))' }}
         placeholder={placeholder}
         maxLength={maxLength}
@@ -85,10 +93,14 @@ export function InlineEditor({
       <button
         type="button"
         onClick={handleClick}
-        className="group inline-flex items-center gap-1.5 cursor-pointer text-left"
+        className={cn(
+          'group inline-flex items-center gap-1.5 cursor-pointer text-left',
+          'transition-colors duration-150',
+          className
+        )}
       >
         <span className="text-sm font-medium leading-5">{value}</span>
-        <Pencil className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+        <Pencil className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-150 shrink-0" />
       </button>
     )
   }
@@ -97,7 +109,11 @@ export function InlineEditor({
     <button
       type="button"
       onClick={handleClick}
-      className="group inline-flex items-center gap-1.5 cursor-pointer text-muted-foreground hover:text-foreground transition-colors"
+      className={cn(
+        'group inline-flex items-center gap-1.5 cursor-pointer text-muted-foreground hover:text-foreground',
+        'transition-colors duration-150',
+        className
+      )}
     >
       <Plus className="h-3.5 w-3.5" />
       <span className="text-sm font-medium leading-5">{emptyText}</span>

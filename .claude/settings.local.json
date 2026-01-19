@@ -40,7 +40,11 @@
       "Bash(pnpm --filter @app/server test:*)",
       "Bash(pnpm format:*)",
       "WebFetch(domain:tanstack.com)",
-      "Skill(commit)"
+      "Skill(commit)",
+      "Bash(ls:*)",
+      "Bash(xargs:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(pnpm eslint:*)"
     ]
   }
 }

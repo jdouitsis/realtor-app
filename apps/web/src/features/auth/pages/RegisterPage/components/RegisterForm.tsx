@@ -44,7 +44,7 @@ export function RegisterForm({ onSubmit, isLoading = false, error }: RegisterFor
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Create Account</CardTitle>
+        <CardTitle className="text-2xl tracking-tighter">Create Account</CardTitle>
         <CardDescription>Enter your details to create a new account</CardDescription>
       </CardHeader>
       <CardContent>

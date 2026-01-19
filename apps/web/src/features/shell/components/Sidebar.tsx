@@ -26,11 +26,14 @@ export function Sidebar({ isCollapsed, isRealtor, className }: SidebarProps) {
           width: isCollapsed ? 64 : 200,
           transition: sideBarTransition,
         }}
-        className={cn('flex h-screen min-w-0 flex-col border-r bg-background', className)}
+        className={cn(
+          'flex h-screen min-w-0 flex-col border-r border-border bg-background',
+          className
+        )}
       >
         {/* Logo */}
-        <div className="flex h-14 items-center justify-between border-b px-3">
-          <Link to="/dashboard" className="flex items-center px-3 text-xl font-bold">
+        <div className="flex h-14 items-center justify-between border-b border-border px-3">
+          <Link to="/dashboard" className="flex items-center px-3 text-xl font-bold tracking-tighter">
             <span
               style={{
                 width: isCollapsed ? 13 : 70,
@@ -72,10 +75,10 @@ function SidebarNavItem({ to, icon: Icon, label, isCollapsed }: SidebarNavItemPr
   const isActive = pathname.startsWith(to)
 
   const className = cn(
-    'flex h-10 w-full items-center rounded-md px-3 text-sm',
+    'flex h-10 w-full items-center rounded-md px-3 text-sm transition-colors duration-150',
     isActive
-      ? 'bg-accent font-medium text-accent-foreground'
-      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+      ? 'bg-primary/10 font-medium text-primary'
+      : 'text-muted-foreground hover:bg-accent hover:text-foreground'
   )
 
   return (

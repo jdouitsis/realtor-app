@@ -21,7 +21,7 @@ function HeroSection() {
   return (
     <main className="flex-1">
       <section className="container mx-auto px-4 py-24 text-center">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
           Find Your Perfect Home
           <span className="block text-primary">With Ease</span>
         </h1>
