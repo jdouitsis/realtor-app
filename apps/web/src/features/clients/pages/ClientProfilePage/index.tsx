@@ -3,9 +3,8 @@ import {
   AlertCircle,
   ArrowLeft,
   CalendarDays,
-  CheckCircle,
-  ClipboardList,
-  History,
+  CheckCircle2,
+  FileText,
   Home,
   Mail,
   MoreHorizontal,
@@ -16,13 +15,10 @@ import { toast } from 'sonner'
 
 import {
   Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
   Skeleton,
 } from '@/components/ui'
@@ -44,7 +40,6 @@ export function ClientProfilePage() {
     {
       staleTime: 30_000,
       retry: (failureCount, error) => {
-        // Don't retry on 404
         if (error.data?.code === 'NOT_FOUND') return false
         return failureCount < 3
       },
@@ -95,15 +90,20 @@ export function ClientProfilePage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Back Navigation */}
-      <Link
-        to="/clients"
-        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-150 group"
-      >
-        <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
-        Back to Clients
-      </Link>
+    <div className="space-y-8">
+      {/* Navigation */}
+      <nav className="flex items-center gap-2 text-sm">
+        <Link
+          to="/clients"
+          className="text-muted-foreground hover:text-foreground transition-colors"
+        >
+          Clients
+        </Link>
+        <span className="text-muted-foreground/50">/</span>
+        <span className="text-foreground font-medium truncate">
+          {clientQuery.data?.nickname || clientQuery.data?.name || 'Profile'}
+        </span>
+      </nav>
 
       <ClientProfileContent
         client={clientQuery.data}
@@ -160,32 +160,35 @@ function ClientProfileContent({
 
     if (isNotFound) {
       return (
-        <Card className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="rounded-full bg-muted p-4 mb-4">
-            <UserX className="h-8 w-8 text-muted-foreground" />
+        <div className="flex flex-col items-center justify-center py-24 text-center">
+          <div className="rounded-full bg-muted/50 p-4 mb-4">
+            <UserX className="h-6 w-6 text-muted-foreground" strokeWidth={1.5} />
           </div>
           <h2 className="text-lg font-semibold tracking-tight mb-1">Client not found</h2>
-          <p className="text-sm text-muted-foreground mb-6 max-w-sm">
-            This client doesn't exist or you don't have access to view it.
+          <p className="text-sm text-muted-foreground mb-6 max-w-xs">
+            This client doesn't exist or has been removed.
           </p>
-          <Button variant="outline" asChild>
-            <Link to="/clients">Back to Clients</Link>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/clients">
+              <ArrowLeft className="h-4 w-4" strokeWidth={1.5} />
+              Back to clients
+            </Link>
           </Button>
-        </Card>
+        </div>
       )
     }
 
     return (
-      <Card className="flex flex-col items-center justify-center py-20 text-center">
+      <div className="flex flex-col items-center justify-center py-24 text-center">
         <div className="rounded-full bg-destructive/10 p-4 mb-4">
-          <AlertCircle className="h-8 w-8 text-destructive" />
+          <AlertCircle className="h-6 w-6 text-destructive" strokeWidth={1.5} />
         </div>
-        <h2 className="text-lg font-semibold tracking-tight mb-1">Failed to load client</h2>
+        <h2 className="text-lg font-semibold tracking-tight mb-1">Something went wrong</h2>
         <p className="text-sm text-muted-foreground mb-6">{parsed.userMessage}</p>
-        <Button variant="outline" onClick={onRefetch}>
+        <Button variant="outline" size="sm" onClick={onRefetch}>
           Try again
         </Button>
-      </Card>
+      </div>
     )
   }
 
@@ -194,9 +197,9 @@ function ClientProfileContent({
   }
 
   return (
-    <div className="flex flex-col lg:flex-row lg:items-stretch gap-6">
-      {/* Left Column - Profile Card */}
-      <div className="lg:w-80 flex-shrink-0">
+    <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+      {/* Sidebar */}
+      <aside className="lg:w-64 flex-shrink-0">
         <ClientProfileCard
           client={client}
           onStatusChange={onStatusChange}
@@ -204,250 +207,207 @@ function ClientProfileContent({
           onResendInvite={onResendInvite}
           isResending={isResending}
         />
-      </div>
+      </aside>
 
-      {/* Right Column - Stats and Activity */}
-      <div className="flex-1 flex flex-col gap-6">
-        {/* Stats Grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <StatCard
-            icon={<Home className="h-5 w-5" />}
-            title="Open Deals"
-            description="Active property transactions"
-            count={0}
-            accentColor="violet"
-          />
-          <StatCard
-            icon={<ClipboardList className="h-5 w-5" />}
-            title="Pending Forms"
-            description="Awaiting signature"
-            count={0}
-            accentColor="blue"
-          />
-          <StatCard
-            icon={<CalendarDays className="h-5 w-5" />}
-            title="Important Dates"
-            description="Upcoming deadlines"
-            count={0}
-            accentColor="amber"
-          />
-        </div>
+      {/* Main Content */}
+      <main className="flex-1 space-y-8">
+        {/* Stats Tiles */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-medium text-muted-foreground">Overview</h3>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>Export data</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-destructive">Archive client</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
 
-        {/* Activity Timeline */}
-        <LatestActivity createdAt={client.createdAt} className="flex-1" />
-      </div>
+          <div className="grid gap-px sm:grid-cols-3 rounded-lg border border-border/50 bg-border/50 overflow-hidden">
+            <StatTile
+              icon={<Home className="h-4 w-4" strokeWidth={1.5} />}
+              value={0}
+              label="Open deals"
+              shortcut="D"
+            />
+            <StatTile
+              icon={<FileText className="h-4 w-4" strokeWidth={1.5} />}
+              value={0}
+              label="Pending forms"
+              shortcut="F"
+            />
+            <StatTile
+              icon={<CalendarDays className="h-4 w-4" strokeWidth={1.5} />}
+              value={0}
+              label="Important dates"
+              shortcut="I"
+            />
+          </div>
+        </section>
+
+        {/* Activity */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-medium text-muted-foreground">Activity</h3>
+            <Button variant="ghost" size="sm" className="text-xs text-muted-foreground h-7">
+              View all
+            </Button>
+          </div>
+
+          <ActivityTimeline createdAt={client.createdAt} />
+        </section>
+      </main>
     </div>
   )
 }
 
 function LoadingSkeleton() {
   return (
-    <div className="flex flex-col lg:flex-row lg:items-stretch gap-6">
-      <div className="lg:w-80 flex-shrink-0">
-        <Card className="h-full">
-          <div className="h-24 bg-muted/50" />
-          <CardContent className="pt-0 px-6 pb-6">
-            <div className="flex justify-center -mt-12 mb-4">
-              <Skeleton className="h-24 w-24 rounded-full" />
-            </div>
-            <div className="text-center pb-6 border-b">
-              <Skeleton className="h-6 w-32 mx-auto mb-2" />
-              <Skeleton className="h-5 w-16 mx-auto" />
-            </div>
-            <div className="py-6 space-y-4">
-              <Skeleton className="h-12 w-full" />
-              <Skeleton className="h-12 w-full" />
-              <Skeleton className="h-12 w-full" />
-            </div>
-            <Skeleton className="h-10 w-full" />
-          </CardContent>
-        </Card>
-      </div>
-      <div className="flex-1 flex flex-col gap-6">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <Skeleton className="h-32" />
-          <Skeleton className="h-32" />
-          <Skeleton className="h-32" />
+    <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+      <aside className="lg:w-64 flex-shrink-0 space-y-6">
+        <div className="flex flex-col items-center space-y-4">
+          <Skeleton className="h-20 w-20 rounded-full" />
+          <Skeleton className="h-5 w-32" />
+          <Skeleton className="h-5 w-16" />
         </div>
-        <Skeleton className="h-64 flex-1" />
+        <div className="space-y-1 rounded-lg border border-border/50">
+          <Skeleton className="h-14 w-full" />
+          <Skeleton className="h-14 w-full" />
+          <Skeleton className="h-14 w-full" />
+        </div>
+      </aside>
+      <main className="flex-1 space-y-8">
+        <div>
+          <Skeleton className="h-4 w-20 mb-4" />
+          <Skeleton className="h-24 w-full rounded-lg" />
+        </div>
+        <div>
+          <Skeleton className="h-4 w-16 mb-4" />
+          <div className="space-y-4">
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-3/4" />
+          </div>
+        </div>
+      </main>
+    </div>
+  )
+}
+
+function StatTile({
+  icon,
+  value,
+  label,
+  shortcut,
+}: {
+  icon: React.ReactNode
+  value: number
+  label: string
+  shortcut?: string
+}) {
+  return (
+    <button
+      type="button"
+      className={cn(
+        'relative flex flex-col items-start p-4 bg-card text-left',
+        'hover:bg-muted/50 transition-colors',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset'
+      )}
+    >
+      <div className="flex items-center gap-2 text-muted-foreground mb-3">
+        {icon}
+        <span className="text-xs">{label}</span>
+      </div>
+      <span className="text-2xl font-semibold tracking-tight tabular-nums">
+        {value}
+      </span>
+      {shortcut && (
+        <kbd className="absolute top-3 right-3 hidden sm:inline-flex h-5 px-1.5 items-center justify-center rounded border border-border/50 bg-muted/50 text-[10px] font-medium text-muted-foreground">
+          {shortcut}
+        </kbd>
+      )}
+    </button>
+  )
+}
+
+function ActivityTimeline({ createdAt }: { createdAt: string }) {
+  const activities = [
+    {
+      icon: <CheckCircle2 className="h-3.5 w-3.5" strokeWidth={1.5} />,
+      iconColor: 'text-emerald-500',
+      description: 'Account activated',
+      timestamp: new Date(),
+    },
+    {
+      icon: <Mail className="h-3.5 w-3.5" strokeWidth={1.5} />,
+      iconColor: 'text-blue-500',
+      description: 'Invitation sent',
+      timestamp: new Date(createdAt),
+    },
+    {
+      icon: <UserPlus className="h-3.5 w-3.5" strokeWidth={1.5} />,
+      iconColor: 'text-violet-500',
+      description: 'Client created',
+      timestamp: new Date(createdAt),
+    },
+  ]
+
+  return (
+    <div className="relative">
+      {/* Continuous timeline line */}
+      <div className="absolute left-[11px] top-3 bottom-3 w-px bg-border" />
+
+      <div className="space-y-0">
+        {activities.map((activity) => (
+          <ActivityItem key={activity.description} {...activity} />
+        ))}
       </div>
     </div>
   )
 }
 
-function StatCard({
-  icon,
-  title,
-  description,
-  count,
-  accentColor,
-}: {
-  icon: React.ReactNode
-  title: string
-  description: string
-  count: number
-  accentColor: 'violet' | 'blue' | 'amber' | 'emerald'
-}) {
-  const colorClasses = {
-    violet: {
-      bg: 'bg-violet-500/10 dark:bg-violet-500/20',
-      text: 'text-violet-600 dark:text-violet-400',
-      gradient: 'from-violet-500/30',
-    },
-    blue: {
-      bg: 'bg-blue-500/10 dark:bg-blue-500/20',
-      text: 'text-blue-600 dark:text-blue-400',
-      gradient: 'from-blue-500/30',
-    },
-    amber: {
-      bg: 'bg-amber-500/10 dark:bg-amber-500/20',
-      text: 'text-amber-600 dark:text-amber-400',
-      gradient: 'from-amber-500/30',
-    },
-    emerald: {
-      bg: 'bg-emerald-500/10 dark:bg-emerald-500/20',
-      text: 'text-emerald-600 dark:text-emerald-400',
-      gradient: 'from-emerald-500/30',
-    },
-  }
-
-  const colors = colorClasses[accentColor]
-
-  return (
-    <Card className="relative overflow-hidden group hover:shadow-md transition-shadow duration-200">
-      <CardContent className="p-5">
-        <div className="flex items-start justify-between">
-          <div className={cn('rounded-xl p-3', colors.bg)}>
-            <div className={colors.text}>{icon}</div>
-          </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>View all</DropdownMenuItem>
-              <DropdownMenuItem>Add new</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        <div className="mt-4">
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-bold tracking-tighter">{count}</span>
-            {count === 0 && (
-              <span className="text-xs text-muted-foreground font-medium">No items</span>
-            )}
-          </div>
-          <h3 className="font-semibold mt-1 tracking-tight">{title}</h3>
-          <p className="text-sm text-muted-foreground">{description}</p>
-        </div>
-        {/* Accent gradient line */}
-        <div
-          className={cn(
-            'absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r to-transparent',
-            colors.gradient
-          )}
-        />
-      </CardContent>
-    </Card>
-  )
-}
-
-function LatestActivity({ createdAt, className }: { createdAt: string; className?: string }) {
-  const activities = [
-    {
-      icon: <CheckCircle className="h-4 w-4" />,
-      iconBg: 'bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400',
-      description: 'Client activated their account',
-      date: new Date().toISOString(),
-    },
-    {
-      icon: <Mail className="h-4 w-4" />,
-      iconBg: 'bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400',
-      description: 'Invitation email sent',
-      date: createdAt,
-    },
-    {
-      icon: <UserPlus className="h-4 w-4" />,
-      iconBg: 'bg-violet-500/10 text-violet-600 dark:bg-violet-500/20 dark:text-violet-400',
-      description: 'Client added to your list',
-      date: createdAt,
-    },
-  ]
-
-  return (
-    <Card className={className}>
-      <CardHeader className="pb-4">
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2 text-base font-semibold tracking-tight">
-            <div className="rounded-lg bg-muted p-2">
-              <History className="h-4 w-4 text-muted-foreground" />
-            </div>
-            Latest Activity
-          </CardTitle>
-          <Button variant="ghost" size="sm" className="text-muted-foreground">
-            View all
-          </Button>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="relative">
-          {/* Timeline line with gradient fade */}
-          <div className="absolute left-4 top-2 bottom-2 w-px bg-gradient-to-b from-border via-border to-transparent" />
-
-          <div className="space-y-6">
-            {activities.map((activity, index) => (
-              <ActivityItem key={activity.description} {...activity} isFirst={index === 0} />
-            ))}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
-
 function ActivityItem({
   icon,
-  iconBg,
+  iconColor,
   description,
-  date,
-  isFirst,
+  timestamp,
 }: {
   icon: React.ReactNode
-  iconBg: string
+  iconColor: string
   description: string
-  date: string
-  isFirst?: boolean
+  timestamp: Date
 }) {
-  const formattedDate = new Date(date).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  })
-
-  const timeAgo = getRelativeTime(new Date(date))
+  const relativeTime = getRelativeTime(timestamp)
 
   return (
-    <div className="flex items-start gap-4 relative group">
+    <div
+      className={cn(
+        'group relative flex items-start gap-4 py-3 px-2 -mx-2 rounded-md',
+        'hover:bg-muted/30 transition-colors cursor-default'
+      )}
+    >
+      {/* Icon */}
       <div
         className={cn(
-          'relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-transform group-hover:scale-110',
-          iconBg,
-          isFirst && 'ring-2 ring-background ring-offset-2 ring-offset-background'
+          'relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-card border border-border/50',
+          iconColor
         )}
       >
         {icon}
       </div>
-      <div className="flex-1 pt-1">
-        <p className="text-sm font-medium">{description}</p>
-        <p className="text-xs text-muted-foreground mt-0.5">
-          {timeAgo} · {formattedDate}
-        </p>
+
+      {/* Content */}
+      <div className="flex-1 flex items-center justify-between gap-4 min-w-0">
+        <p className="text-sm">{description}</p>
+        <time className="text-xs text-muted-foreground shrink-0" title={timestamp.toLocaleString()}>
+          {relativeTime}
+        </time>
       </div>
     </div>
   )
@@ -456,11 +416,15 @@ function ActivityItem({
 function getRelativeTime(date: Date): string {
   const now = new Date()
   const diffMs = now.getTime() - date.getTime()
+  const diffMins = Math.floor(diffMs / (1000 * 60))
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
 
-  if (diffDays === 0) return 'Today'
+  if (diffMins < 1) return 'Just now'
+  if (diffMins < 60) return `${diffMins}m ago`
+  if (diffHours < 24) return `${diffHours}h ago`
   if (diffDays === 1) return 'Yesterday'
-  if (diffDays < 7) return `${diffDays} days ago`
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`
-  return `${Math.floor(diffDays / 30)} months ago`
+  if (diffDays < 7) return `${diffDays}d ago`
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
