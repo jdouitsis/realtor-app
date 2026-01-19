@@ -20,7 +20,12 @@ import { Route as AuthenticatedClientsRouteRouteImport } from './routes/_authent
 import { Route as PublicLoginIndexRouteImport } from './routes/_public/login/index'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients/index'
 import { Route as PublicLoginMagicRouteImport } from './routes/_public/login/magic'
-import { Route as AuthenticatedClientsIdRouteImport } from './routes/_authenticated/clients/$id'
+import { Route as AuthenticatedClientsIdRouteRouteImport } from './routes/_authenticated/clients/$id/route'
+import { Route as AuthenticatedClientsIdIndexRouteImport } from './routes/_authenticated/clients/$id/index'
+import { Route as AuthenticatedClientsIdRequestsRouteImport } from './routes/_authenticated/clients/$id/requests'
+import { Route as AuthenticatedClientsIdDetailsRouteImport } from './routes/_authenticated/clients/$id/details'
+import { Route as AuthenticatedClientsIdDealRouteImport } from './routes/_authenticated/clients/$id/deal'
+import { Route as AuthenticatedClientsIdActivityRouteImport } from './routes/_authenticated/clients/$id/activity'
 
 const PublicRouteRoute = PublicRouteRouteImport.update({
   id: '/_public',
@@ -77,11 +82,42 @@ const PublicLoginMagicRoute = PublicLoginMagicRouteImport.update({
   path: '/login/magic',
   getParentRoute: () => PublicRouteRoute,
 } as any)
-const AuthenticatedClientsIdRoute = AuthenticatedClientsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AuthenticatedClientsRouteRoute,
-} as any)
+const AuthenticatedClientsIdRouteRoute =
+  AuthenticatedClientsIdRouteRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedClientsRouteRoute,
+  } as any)
+const AuthenticatedClientsIdIndexRoute =
+  AuthenticatedClientsIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedClientsIdRouteRoute,
+  } as any)
+const AuthenticatedClientsIdRequestsRoute =
+  AuthenticatedClientsIdRequestsRouteImport.update({
+    id: '/requests',
+    path: '/requests',
+    getParentRoute: () => AuthenticatedClientsIdRouteRoute,
+  } as any)
+const AuthenticatedClientsIdDetailsRoute =
+  AuthenticatedClientsIdDetailsRouteImport.update({
+    id: '/details',
+    path: '/details',
+    getParentRoute: () => AuthenticatedClientsIdRouteRoute,
+  } as any)
+const AuthenticatedClientsIdDealRoute =
+  AuthenticatedClientsIdDealRouteImport.update({
+    id: '/deal',
+    path: '/deal',
+    getParentRoute: () => AuthenticatedClientsIdRouteRoute,
+  } as any)
+const AuthenticatedClientsIdActivityRoute =
+  AuthenticatedClientsIdActivityRouteImport.update({
+    id: '/activity',
+    path: '/activity',
+    getParentRoute: () => AuthenticatedClientsIdRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -90,10 +126,15 @@ export interface FileRoutesByFullPath {
   '/otp': typeof AuthenticatedOtpRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/register': typeof PublicRegisterRoute
-  '/clients/$id': typeof AuthenticatedClientsIdRoute
+  '/clients/$id': typeof AuthenticatedClientsIdRouteRouteWithChildren
   '/login/magic': typeof PublicLoginMagicRoute
   '/clients/': typeof AuthenticatedClientsIndexRoute
   '/login': typeof PublicLoginIndexRoute
+  '/clients/$id/activity': typeof AuthenticatedClientsIdActivityRoute
+  '/clients/$id/deal': typeof AuthenticatedClientsIdDealRoute
+  '/clients/$id/details': typeof AuthenticatedClientsIdDetailsRoute
+  '/clients/$id/requests': typeof AuthenticatedClientsIdRequestsRoute
+  '/clients/$id/': typeof AuthenticatedClientsIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -101,10 +142,14 @@ export interface FileRoutesByTo {
   '/otp': typeof AuthenticatedOtpRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/register': typeof PublicRegisterRoute
-  '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/login/magic': typeof PublicLoginMagicRoute
   '/clients': typeof AuthenticatedClientsIndexRoute
   '/login': typeof PublicLoginIndexRoute
+  '/clients/$id/activity': typeof AuthenticatedClientsIdActivityRoute
+  '/clients/$id/deal': typeof AuthenticatedClientsIdDealRoute
+  '/clients/$id/details': typeof AuthenticatedClientsIdDetailsRoute
+  '/clients/$id/requests': typeof AuthenticatedClientsIdRequestsRoute
+  '/clients/$id': typeof AuthenticatedClientsIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,10 +161,15 @@ export interface FileRoutesById {
   '/_authenticated/otp': typeof AuthenticatedOtpRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_public/register': typeof PublicRegisterRoute
-  '/_authenticated/clients/$id': typeof AuthenticatedClientsIdRoute
+  '/_authenticated/clients/$id': typeof AuthenticatedClientsIdRouteRouteWithChildren
   '/_public/login/magic': typeof PublicLoginMagicRoute
   '/_authenticated/clients/': typeof AuthenticatedClientsIndexRoute
   '/_public/login/': typeof PublicLoginIndexRoute
+  '/_authenticated/clients/$id/activity': typeof AuthenticatedClientsIdActivityRoute
+  '/_authenticated/clients/$id/deal': typeof AuthenticatedClientsIdDealRoute
+  '/_authenticated/clients/$id/details': typeof AuthenticatedClientsIdDetailsRoute
+  '/_authenticated/clients/$id/requests': typeof AuthenticatedClientsIdRequestsRoute
+  '/_authenticated/clients/$id/': typeof AuthenticatedClientsIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -134,6 +184,11 @@ export interface FileRouteTypes {
     | '/login/magic'
     | '/clients/'
     | '/login'
+    | '/clients/$id/activity'
+    | '/clients/$id/deal'
+    | '/clients/$id/details'
+    | '/clients/$id/requests'
+    | '/clients/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -141,10 +196,14 @@ export interface FileRouteTypes {
     | '/otp'
     | '/profile'
     | '/register'
-    | '/clients/$id'
     | '/login/magic'
     | '/clients'
     | '/login'
+    | '/clients/$id/activity'
+    | '/clients/$id/deal'
+    | '/clients/$id/details'
+    | '/clients/$id/requests'
+    | '/clients/$id'
   id:
     | '__root__'
     | '/'
@@ -159,6 +218,11 @@ export interface FileRouteTypes {
     | '/_public/login/magic'
     | '/_authenticated/clients/'
     | '/_public/login/'
+    | '/_authenticated/clients/$id/activity'
+    | '/_authenticated/clients/$id/deal'
+    | '/_authenticated/clients/$id/details'
+    | '/_authenticated/clients/$id/requests'
+    | '/_authenticated/clients/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -250,20 +314,78 @@ declare module '@tanstack/react-router' {
       id: '/_authenticated/clients/$id'
       path: '/$id'
       fullPath: '/clients/$id'
-      preLoaderRoute: typeof AuthenticatedClientsIdRouteImport
+      preLoaderRoute: typeof AuthenticatedClientsIdRouteRouteImport
       parentRoute: typeof AuthenticatedClientsRouteRoute
+    }
+    '/_authenticated/clients/$id/': {
+      id: '/_authenticated/clients/$id/'
+      path: '/'
+      fullPath: '/clients/$id/'
+      preLoaderRoute: typeof AuthenticatedClientsIdIndexRouteImport
+      parentRoute: typeof AuthenticatedClientsIdRouteRoute
+    }
+    '/_authenticated/clients/$id/requests': {
+      id: '/_authenticated/clients/$id/requests'
+      path: '/requests'
+      fullPath: '/clients/$id/requests'
+      preLoaderRoute: typeof AuthenticatedClientsIdRequestsRouteImport
+      parentRoute: typeof AuthenticatedClientsIdRouteRoute
+    }
+    '/_authenticated/clients/$id/details': {
+      id: '/_authenticated/clients/$id/details'
+      path: '/details'
+      fullPath: '/clients/$id/details'
+      preLoaderRoute: typeof AuthenticatedClientsIdDetailsRouteImport
+      parentRoute: typeof AuthenticatedClientsIdRouteRoute
+    }
+    '/_authenticated/clients/$id/deal': {
+      id: '/_authenticated/clients/$id/deal'
+      path: '/deal'
+      fullPath: '/clients/$id/deal'
+      preLoaderRoute: typeof AuthenticatedClientsIdDealRouteImport
+      parentRoute: typeof AuthenticatedClientsIdRouteRoute
+    }
+    '/_authenticated/clients/$id/activity': {
+      id: '/_authenticated/clients/$id/activity'
+      path: '/activity'
+      fullPath: '/clients/$id/activity'
+      preLoaderRoute: typeof AuthenticatedClientsIdActivityRouteImport
+      parentRoute: typeof AuthenticatedClientsIdRouteRoute
     }
   }
 }
 
+interface AuthenticatedClientsIdRouteRouteChildren {
+  AuthenticatedClientsIdActivityRoute: typeof AuthenticatedClientsIdActivityRoute
+  AuthenticatedClientsIdDealRoute: typeof AuthenticatedClientsIdDealRoute
+  AuthenticatedClientsIdDetailsRoute: typeof AuthenticatedClientsIdDetailsRoute
+  AuthenticatedClientsIdRequestsRoute: typeof AuthenticatedClientsIdRequestsRoute
+  AuthenticatedClientsIdIndexRoute: typeof AuthenticatedClientsIdIndexRoute
+}
+
+const AuthenticatedClientsIdRouteRouteChildren: AuthenticatedClientsIdRouteRouteChildren =
+  {
+    AuthenticatedClientsIdActivityRoute: AuthenticatedClientsIdActivityRoute,
+    AuthenticatedClientsIdDealRoute: AuthenticatedClientsIdDealRoute,
+    AuthenticatedClientsIdDetailsRoute: AuthenticatedClientsIdDetailsRoute,
+    AuthenticatedClientsIdRequestsRoute: AuthenticatedClientsIdRequestsRoute,
+    AuthenticatedClientsIdIndexRoute: AuthenticatedClientsIdIndexRoute,
+  }
+
+const AuthenticatedClientsIdRouteRouteWithChildren =
+  AuthenticatedClientsIdRouteRoute._addFileChildren(
+    AuthenticatedClientsIdRouteRouteChildren,
+  )
+
 interface AuthenticatedClientsRouteRouteChildren {
-  AuthenticatedClientsIdRoute: typeof AuthenticatedClientsIdRoute
+  AuthenticatedClientsIdRouteRoute: typeof AuthenticatedClientsIdRouteRouteWithChildren
   AuthenticatedClientsIndexRoute: typeof AuthenticatedClientsIndexRoute
 }
 
 const AuthenticatedClientsRouteRouteChildren: AuthenticatedClientsRouteRouteChildren =
   {
-    AuthenticatedClientsIdRoute: AuthenticatedClientsIdRoute,
+    AuthenticatedClientsIdRouteRoute:
+      AuthenticatedClientsIdRouteRouteWithChildren,
     AuthenticatedClientsIndexRoute: AuthenticatedClientsIndexRoute,
   }
 
