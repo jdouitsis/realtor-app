@@ -33,7 +33,10 @@ export function Sidebar({ isCollapsed, isRealtor, className }: SidebarProps) {
       >
         {/* Logo */}
         <div className="flex h-14 items-center justify-between border-b border-border px-3">
-          <Link to="/dashboard" className="flex items-center px-3 text-xl font-bold tracking-tighter">
+          <Link
+            to="/dashboard"
+            className="flex items-center px-3 text-xl font-bold tracking-tighter"
+          >
             <span
               style={{
                 width: isCollapsed ? 13 : 70,

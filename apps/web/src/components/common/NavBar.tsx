@@ -44,10 +44,10 @@ export function NavBar({ user }: HeaderProps) {
   const closeMobileMenu = () => setMobileMenuOpen(false)
 
   return (
-    <header className="sticky top-0 border-b bg-background px-4 md:px-6">
+    <header className="sticky top-0 border-b border-violet-600/20 bg-gradient-to-r from-violet-600 to-indigo-600 px-4 md:px-6">
       <div className="mx-auto flex h-16 max-w-full items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link to="/" className="text-xl font-bold">
+          <Link to="/" className="text-xl font-bold text-white">
             Realtor App
           </Link>
         </div>
@@ -60,7 +60,12 @@ export function NavBar({ user }: HeaderProps) {
         {/* Mobile hamburger menu */}
         <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
           <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon" aria-label="Open menu">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Open menu"
+              className="text-white hover:bg-white/10"
+            >
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
@@ -84,15 +89,17 @@ export function NavBar({ user }: HeaderProps) {
 function AuthenticatedNav({ user }: { user: User }) {
   return (
     <>
-      <span className="hidden text-sm text-muted-foreground md:inline">
+      <span className="hidden text-sm text-white/80 md:inline">
         Welcome{user.name ? `, ${user.name}` : ''}!
       </span>
       <Link
         to="/profile"
-        className="rounded-full focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        className="rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-violet-600"
       >
-        <Avatar className="h-9 w-9 cursor-pointer">
-          <AvatarFallback>{getInitials(user.name || 'U')}</AvatarFallback>
+        <Avatar className="h-9 w-9 cursor-pointer ring-2 ring-white/30">
+          <AvatarFallback className="bg-white/20 text-white">
+            {getInitials(user.name || 'U')}
+          </AvatarFallback>
         </Avatar>
       </Link>
     </>
@@ -102,10 +109,10 @@ function AuthenticatedNav({ user }: { user: User }) {
 function UnauthenticatedNav() {
   return (
     <>
-      <Button variant="ghost" asChild>
+      <Button variant="ghost" asChild className="text-white hover:bg-white/10 hover:text-white">
         <Link to="/login">Login</Link>
       </Button>
-      <Button asChild>
+      <Button asChild className="bg-white text-violet-600 hover:bg-white/90">
         <Link to="/register">Get Started</Link>
       </Button>
     </>
