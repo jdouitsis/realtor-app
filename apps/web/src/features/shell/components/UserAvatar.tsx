@@ -51,7 +51,12 @@ export function UserAvatar({ user, onLogout, variant = 'default' }: UserAvatarPr
           className={cn('relative h-9 w-9 rounded-full', isLight && 'hover:bg-white/10')}
         >
           <Avatar className={cn('h-9 w-9', isLight && 'ring-2 ring-white/30')}>
-            <AvatarFallback className={cn(isLight && 'bg-white/20 text-white')}>
+            <AvatarFallback
+              className={cn(
+                'bg-blue-100 text-blue-700 font-medium',
+                isLight && 'bg-white/20 text-white'
+              )}
+            >
               {initials}
             </AvatarFallback>
           </Avatar>

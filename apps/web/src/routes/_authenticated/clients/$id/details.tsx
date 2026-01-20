@@ -67,20 +67,17 @@ function DetailsTab() {
           <DetailRow
             icon={<Heart className="h-4 w-4 text-foreground" strokeWidth={2} />}
             label="Spouse"
-            value="Not set"
-            placeholder
+            value="Veronica"
           />
           <DetailRow
             icon={<Baby className="h-4 w-4 text-foreground" strokeWidth={2} />}
             label="Children"
-            value="Not set"
-            placeholder
+            value="Emma (12), Jack (8)"
           />
           <DetailRow
             icon={<Users className="h-4 w-4 text-foreground" strokeWidth={2} />}
             label="Other Family Members"
-            value="Not set"
-            placeholder
+            value="Mother-in-law Susan"
           />
         </div>
       </div>
@@ -92,14 +89,12 @@ function DetailsTab() {
           <DetailRow
             icon={<Coffee className="h-4 w-4 text-foreground" strokeWidth={2} />}
             label="Preferred Drink"
-            value="Not set"
-            placeholder
+            value="Black coffee"
           />
           <DetailRow
             icon={<UtensilsCrossed className="h-4 w-4 text-foreground" strokeWidth={2} />}
             label="Preferred Food"
-            value="Not set"
-            placeholder
+            value="Italian cuisine"
           />
         </div>
       </div>
