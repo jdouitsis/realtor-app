@@ -1,3 +1,5 @@
+'use no memo'
+
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -64,6 +66,7 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
+  // eslint-disable-next-line react-hooks/incompatible-library -- Opted out via 'use no memo' directive
   const table = useReactTable({
     data,
     columns,

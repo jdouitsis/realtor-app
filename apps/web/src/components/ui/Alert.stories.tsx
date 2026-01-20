@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { AlertCircle, Info, Terminal } from 'lucide-react'
+import { AlertCircle, Info as InfoIcon, Terminal } from 'lucide-react'
 
 import { Alert, AlertDescription, AlertTitle } from './alert'
 
@@ -42,7 +42,7 @@ export const Destructive: Story = {
 export const Info: Story = {
   render: () => (
     <Alert>
-      <Info className="h-4 w-4" />
+      <InfoIcon className="h-4 w-4" />
       <AlertTitle>Information</AlertTitle>
       <AlertDescription>This is an informational message for the user.</AlertDescription>
     </Alert>

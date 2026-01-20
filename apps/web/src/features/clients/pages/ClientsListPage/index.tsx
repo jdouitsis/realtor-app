@@ -145,7 +145,8 @@ function LoadingSkeleton() {
       <div className="bg-card">
         {Array.from({ length: 5 }).map((_, i) => (
           <div
-            key={i}
+            // eslint-disable-next-line react-x/no-array-index-key -- Static skeleton rows never reorder
+            key={`skeleton-row-${i}`}
             className="flex items-center gap-3 px-4 py-4 border-b border-border/50 last:border-b-0"
           >
             <Skeleton className="h-9 w-9 rounded-full" />

@@ -251,19 +251,19 @@ docs: add contributing guide
 
 > **Maintenance:** When any README is added, removed, or its purpose changes, update this section.
 
-| README                                                               | When to Use                                                       |
-| -------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| [`README.md`](README.md)                                             | Project overview, getting started, Railway deployment             |
-| [`docs/architecture/design-system.md`](docs/architecture/design-system.md) | UI patterns, colors, typography, component usage            |
-| [`docs/prod-requirements.md`](docs/prod-requirements.md)             | Future production improvements to address before release          |
-| [`docs/SOP/README.md`](docs/SOP/README.md)                           | Repo-level tasks: adding commands, setting up tools, git hooks    |
-| [`docs/ADR/README.md`](docs/ADR/README.md)                           | Architecture decisions and their rationale                        |
-| [`docs/best-practices/README.md`](docs/best-practices/README.md)     | Patterns and conventions for tools/frameworks                     |
-| [`docs/epics/epic-client-management.md`](docs/epics/epic-client-management.md) | Client/Tenant management epic and feature specifications |
-| [`docs/task-checklist.md`](docs/task-checklist.md)                   | Review before completing any task                                 |
-| [`apps/web/README.md`](apps/web/README.md)                           | Understanding the web app structure, commands, and tech stack     |
-| [`apps/web/src/lib/README.md`](apps/web/src/lib/README.md)           | Error handling, tRPC client, QueryClient, storage utilities       |
-| [`apps/web/src/features/README.md`](apps/web/src/features/README.md) | Creating features, pages, components; naming conventions; exports |
-| [`apps/web/src/features/shell/README.md`](apps/web/src/features/shell/README.md) | Authenticated layout, sidebar, mobile nav, menu configuration |
-| [`apps/server/README.md`](apps/server/README.md)                     | Server architecture, tRPC setup, domain structure                 |
-| [`packages/shared/README.md`](packages/shared/README.md)             | Shared types between server and client; adding new error codes    |
+| README                                                                           | When to Use                                                       |
+| -------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [`README.md`](README.md)                                                         | Project overview, getting started, Railway deployment             |
+| [`docs/architecture/design-system.md`](docs/architecture/design-system.md)       | UI patterns, colors, typography, component usage                  |
+| [`docs/prod-requirements.md`](docs/prod-requirements.md)                         | Future production improvements to address before release          |
+| [`docs/SOP/README.md`](docs/SOP/README.md)                                       | Repo-level tasks: adding commands, setting up tools, git hooks    |
+| [`docs/ADR/README.md`](docs/ADR/README.md)                                       | Architecture decisions and their rationale                        |
+| [`docs/best-practices/README.md`](docs/best-practices/README.md)                 | Patterns and conventions for tools/frameworks                     |
+| [`docs/epics/epic-client-management.md`](docs/epics/epic-client-management.md)   | Client/Tenant management epic and feature specifications          |
+| [`docs/task-checklist.md`](docs/task-checklist.md)                               | Review before completing any task                                 |
+| [`apps/web/README.md`](apps/web/README.md)                                       | Understanding the web app structure, commands, and tech stack     |
+| [`apps/web/src/lib/README.md`](apps/web/src/lib/README.md)                       | Error handling, tRPC client, QueryClient, storage utilities       |
+| [`apps/web/src/features/README.md`](apps/web/src/features/README.md)             | Creating features, pages, components; naming conventions; exports |
+| [`apps/web/src/features/shell/README.md`](apps/web/src/features/shell/README.md) | Authenticated layout, sidebar, mobile nav, menu configuration     |
+| [`apps/server/README.md`](apps/server/README.md)                                 | Server architecture, tRPC setup, domain structure                 |
+| [`packages/shared/README.md`](packages/shared/README.md)                         | Shared types between server and client; adding new error codes    |

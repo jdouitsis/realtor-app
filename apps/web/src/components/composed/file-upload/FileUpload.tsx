@@ -15,6 +15,7 @@ interface FileUploadProps {
 }
 
 interface UploadedFile {
+  id: string
   file: File
   progress: number
   preview?: string
@@ -43,6 +44,7 @@ export function FileUpload({
   const onDrop = React.useCallback(
     (acceptedFiles: File[]) => {
       const newFiles = acceptedFiles.map((file) => ({
+        id: crypto.randomUUID(),
         file,
         progress: 0,
         preview: file.type.startsWith('image/') ? URL.createObjectURL(file) : undefined,
@@ -61,14 +63,13 @@ export function FileUpload({
     disabled,
   })
 
-  const removeFile = (index: number) => {
+  const removeFile = (id: string) => {
     setFiles((prev) => {
-      const newFiles = [...prev]
-      if (newFiles[index].preview) {
-        URL.revokeObjectURL(newFiles[index].preview)
+      const fileToRemove = prev.find((f) => f.id === id)
+      if (fileToRemove?.preview) {
+        URL.revokeObjectURL(fileToRemove.preview)
       }
-      newFiles.splice(index, 1)
-      return newFiles
+      return prev.filter((f) => f.id !== id)
     })
   }
 
@@ -107,11 +108,8 @@ export function FileUpload({
 
       {files.length > 0 && (
         <div className="space-y-2">
-          {files.map((file, index) => (
-            <div
-              key={`${file.file.name}-${index}`}
-              className="flex items-center gap-3 rounded-md border p-3"
-            >
+          {files.map((file) => (
+            <div key={file.id} className="flex items-center gap-3 rounded-md border p-3">
               {file.preview && (
                 <img
                   src={file.preview}
@@ -132,7 +130,7 @@ export function FileUpload({
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8"
-                onClick={() => removeFile(index)}
+                onClick={() => removeFile(file.id)}
               >
                 <X className="h-4 w-4" />
               </Button>
