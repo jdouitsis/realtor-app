@@ -1,6 +1,8 @@
+import { getQueryKey } from '@trpc/react-query'
+
 import { queryClient } from '@/lib/query'
 import { clearStorage, getStorage, setStorage } from '@/lib/storage'
-import { trpcClient } from '@/lib/trpc'
+import { trpc, trpcClient } from '@/lib/trpc'
 
 export interface AuthOptions {
   type?: 'otp' | 'magic'
@@ -57,7 +59,8 @@ export function createAuth(router: RouterLike): Auth {
     async verifyOtp(email, code) {
       const res = await trpcClient.auth.verifyOtp.mutate({ email, code })
       setStorage('auth_token', res.token)
-      await queryClient.invalidateQueries()
+      // Remove cached auth.me data so root route fetches fresh user
+      queryClient.removeQueries({ queryKey: getQueryKey(trpc.auth.me) })
       await router.invalidate()
     },
 
@@ -68,7 +71,8 @@ export function createAuth(router: RouterLike): Auth {
     async logout() {
       await trpcClient.auth.logout.mutate()
       clearStorage('auth_token')
-      await queryClient.invalidateQueries()
+      // Remove cached auth.me data so root route fetches fresh (null) user
+      queryClient.removeQueries({ queryKey: getQueryKey(trpc.auth.me) })
       void router.invalidate()
     },
   }
