@@ -44,10 +44,10 @@ export function NavBar({ user }: HeaderProps) {
   const closeMobileMenu = () => setMobileMenuOpen(false)
 
   return (
-    <header className="sticky top-0 border-b border-blue-600/20 bg-gradient-to-r from-blue-600 to-sky-600 px-4 md:px-6">
-      <div className="mx-auto flex h-16 max-w-full items-center justify-between">
+    <header className="sticky top-0 z-40 border-b bg-card px-4 md:px-6">
+      <div className="mx-auto flex h-14 max-w-full items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link to="/" className="text-xl font-bold text-white">
+          <Link to="/" className="text-xl font-bold">
             Realtor App
           </Link>
         </div>
@@ -60,12 +60,7 @@ export function NavBar({ user }: HeaderProps) {
         {/* Mobile hamburger menu */}
         <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
           <SheetTrigger asChild className="md:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Open menu"
-              className="text-white hover:bg-white/10"
-            >
+            <Button variant="ghost" size="icon" aria-label="Open menu">
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
@@ -89,17 +84,15 @@ export function NavBar({ user }: HeaderProps) {
 function AuthenticatedNav({ user }: { user: User }) {
   return (
     <>
-      <span className="hidden text-sm text-white/80 md:inline">
+      <span className="hidden text-sm text-muted-foreground md:inline">
         Welcome{user.name ? `, ${user.name}` : ''}!
       </span>
       <Link
         to="/profile"
-        className="rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+        className="rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
       >
-        <Avatar className="h-9 w-9 cursor-pointer ring-2 ring-white/30">
-          <AvatarFallback className="bg-white/20 text-white">
-            {getInitials(user.name || 'U')}
-          </AvatarFallback>
+        <Avatar className="h-9 w-9 cursor-pointer">
+          <AvatarFallback>{getInitials(user.name || 'U')}</AvatarFallback>
         </Avatar>
       </Link>
     </>
@@ -109,10 +102,10 @@ function AuthenticatedNav({ user }: { user: User }) {
 function UnauthenticatedNav() {
   return (
     <>
-      <Button variant="ghost" asChild className="text-white hover:bg-white/10 hover:text-white">
+      <Button variant="ghost" asChild>
         <Link to="/login">Login</Link>
       </Button>
-      <Button asChild className="bg-white text-blue-600 hover:bg-white/90">
+      <Button asChild>
         <Link to="/register">Get Started</Link>
       </Button>
     </>

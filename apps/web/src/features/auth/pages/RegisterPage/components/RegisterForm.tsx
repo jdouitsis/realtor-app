@@ -42,7 +42,7 @@ export function RegisterForm({ onSubmit, isLoading = false, error }: RegisterFor
   }
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md border-border/50 shadow-md">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl tracking-tighter">Create Account</CardTitle>
         <CardDescription>Enter your details to create a new account</CardDescription>

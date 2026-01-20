@@ -41,7 +41,7 @@ export function LoginForm({ onSubmit, isLoading = false, error }: LoginFormProps
   }
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md border-border/50 shadow-md">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl tracking-tighter">Login</CardTitle>
         <CardDescription>Enter your email to receive a verification code</CardDescription>

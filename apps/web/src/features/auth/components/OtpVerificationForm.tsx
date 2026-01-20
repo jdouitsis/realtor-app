@@ -79,7 +79,7 @@ export function OtpVerificationForm({
   }
 
   return (
-    <Card className={cn('w-full max-w-md', className)}>
+    <Card className={cn('w-full max-w-md border-border/50 shadow-md', className)}>
       <CardHeader className="text-center">
         <CardTitle className="text-2xl tracking-tighter">Check your email</CardTitle>
         <CardDescription>
