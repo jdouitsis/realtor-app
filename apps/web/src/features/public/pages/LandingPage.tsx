@@ -38,7 +38,6 @@ export function LandingPage() {
       <SolutionOverview />
       <FeaturesSection />
       <BeforeAfterSection />
-      <SocialProofSection />
       <CtaSection />
       <Footer />
     </div>
@@ -414,70 +413,6 @@ function ScenarioCard({
           </li>
         ))}
       </ul>
-    </div>
-  )
-}
-
-function SocialProofSection() {
-  return (
-    <section className="border-t py-16 md:py-20">
-      <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="mb-4 text-2xl font-semibold md:text-3xl">
-            Trusted by Realtors Across Canada
-          </h2>
-          <p className="text-muted-foreground">
-            Join agents who've reclaimed hours every week by eliminating repetitive data entry.
-          </p>
-        </div>
-        <div className="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-3">
-          <StatCard value="2,500+" label="Documents Managed" />
-          <StatCard value="10+" label="Hours Saved Per Agent Weekly" />
-          <StatCard value="0" label="Missed Expirations" />
-        </div>
-        <div className="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
-          <TestimonialCard
-            quote="I used to spend Sunday nights re-entering client info. Now I spend it with my family."
-            author="Coming Soon"
-            role="GTA Realtor"
-          />
-          <TestimonialCard
-            quote="The third time a repeat client came back, I had their offer ready in 5 minutes. They were stunned."
-            author="Coming Soon"
-            role="Vancouver Agent"
-          />
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function StatCard({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="rounded-lg border border-border/50 bg-card p-6 text-center">
-      <div className="text-3xl font-bold text-primary">{value}</div>
-      <div className="mt-1 text-sm text-muted-foreground">{label}</div>
-    </div>
-  )
-}
-
-function TestimonialCard({ quote, author, role }: { quote: string; author: string; role: string }) {
-  return (
-    <div className="rounded-lg border border-border/50 bg-card p-6">
-      <p className="mb-4 text-muted-foreground">"{quote}"</p>
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-sm font-medium text-muted-foreground">
-          {author
-            .split(' ')
-            .map((n) => n[0])
-            .join('')
-            .slice(0, 2)}
-        </div>
-        <div>
-          <p className="text-sm font-medium">{author}</p>
-          <p className="text-xs text-muted-foreground">{role}</p>
-        </div>
-      </div>
     </div>
   )
 }
