@@ -276,13 +276,39 @@ Always use Lucide icons with consistent sizing:
 <Icon className="h-4 w-4" strokeWidth={1.5} />
 ```
 
-### Icon with Colored Background
+### Icon with Colored Background (Data Rows Only)
+
+Use semantic colored icons **only for data rows** where the icon represents the type of data (email, phone, date, etc.). These help users quickly scan and identify information types.
 
 ```tsx
+// In a data row showing an email address
 <span className="p-2 rounded-lg bg-semantic-info/10 text-semantic-info">
   <Mail className="h-4 w-4" strokeWidth={1.5} />
 </span>
 ```
+
+**Do NOT use colored icons for section headers.** See below.
+
+### Icon with Neutral Background (Section Headers)
+
+Section headers should use **neutral/black icons** to avoid visual noise. The section title provides context, so the icon doesn't need color to convey meaning.
+
+```tsx
+// In a section header (e.g., "Profile Information", "Email Address")
+<span className="p-2 rounded-lg bg-muted text-foreground">
+  <User className="h-4 w-4" strokeWidth={1.5} />
+</span>
+```
+
+**When to use which:**
+
+| Context                          | Icon Style                                  |
+| -------------------------------- | ------------------------------------------- |
+| Section/card headers             | Neutral: `bg-muted text-foreground`         |
+| Data rows (email, phone, etc.)   | Semantic: `bg-semantic-info/10 text-semantic-info` |
+| Status indicators                | Status: `bg-status-active/10 text-status-active-text` |
+| Empty states                     | Muted: `bg-muted/50 text-muted-foreground`  |
+| Error states                     | Destructive: `bg-destructive/10 text-destructive` |
 
 ### Buttons
 
@@ -342,11 +368,54 @@ Two-line layout with icon, label, and value:
 
 ### Card/Container
 
+Section containers should always have a **white/card background** (`bg-card`), not colored backgrounds. Only small icon containers inside rows should have semantic colors.
+
 ```tsx
-<div className="rounded-lg border border-border/50 bg-card/50 divide-y divide-border/50">
-  {/* rows */}
+// Section container - always use bg-card for white background
+<div className="rounded-lg border border-border/50 bg-card shadow-md">
+  {/* header */}
+  <div className="flex items-center gap-3 px-4 py-4 border-b border-border/50">
+    <span className="p-2 rounded-lg bg-muted text-foreground">
+      <Icon className="h-4 w-4" strokeWidth={1.5} />
+    </span>
+    <h3 className="text-sm font-medium">Section Title</h3>
+  </div>
+  {/* content */}
+  <div className="p-4">
+    {/* ... */}
+  </div>
 </div>
 ```
+
+**Important:** Never apply semantic background colors (like `bg-semantic-info/10`) to section containers. These are only for small icon wrappers.
+
+### Form Inputs Inside Cards
+
+When placing form inputs inside a card/section with `bg-card`, use `bg-transparent` on inputs so they blend with the container background:
+
+```tsx
+<div className="rounded-lg border border-border/50 bg-card shadow-md p-4">
+  <Input className="bg-transparent" placeholder="Enter value..." />
+</div>
+```
+
+This prevents inputs from appearing as a different shade than the card background.
+
+### Highlighting Active/Current Items
+
+When displaying a list where one item is "current" or "active" (e.g., current session, selected item), use a left border accent:
+
+```tsx
+// Current/active item in a list
+<div className={cn(
+  "flex items-center gap-3 px-4 py-4",
+  isCurrent && "bg-primary/5 border-l-2 border-l-primary"
+)}>
+  {/* content */}
+</div>
+```
+
+This provides a subtle but clear visual indicator without overwhelming the design.
 
 ### Gradient Header
 
@@ -637,17 +706,33 @@ Match the structure of actual content:
 
 Use this checklist when creating or refactoring a page:
 
+**Layout & Typography:**
 - [ ] Page title uses `text-lg font-semibold tracking-tight`
 - [ ] Subtitles use `text-sm text-muted-foreground`
-- [ ] Containers use `border-border/50` (50% opacity borders)
 - [ ] Icons are `h-4 w-4` with `strokeWidth={1.5}`
+
+**Section Containers:**
+- [ ] Section containers use `bg-card` for white background
+- [ ] Containers use `border-border/50` (50% opacity borders)
+- [ ] Tables and cards use `shadow-md` with `border-border/50`
+
+**Icons (important distinction):**
+- [ ] Section header icons use `bg-muted text-foreground` (neutral/black)
+- [ ] Data row icons use `bg-semantic-*/10 text-semantic-*` (colored)
+- [ ] Never apply semantic colors to section containers, only to small icon wrappers
+
+**Forms:**
+- [ ] Form inputs inside cards use `bg-transparent` to blend with background
+
+**Interactive Elements:**
 - [ ] Hover states use `hover:bg-muted/30 transition-colors`
+- [ ] Active/current items use `bg-primary/5 border-l-2 border-l-primary`
 - [ ] Status indicators use `<Badge status="...">` prop
-- [ ] Icon backgrounds use `semantic-*` tokens with `/10` opacity
+- [ ] Emphasized action buttons use `shadow-md`
+
+**States:**
 - [ ] Empty states are centered with `py-16`
 - [ ] Loading skeletons match content structure (no shadow)
-- [ ] Tables and profile cards use `shadow-md` with `border-border/50`
-- [ ] Emphasized action buttons use `shadow-md`
 - [ ] Responsive: sidebar hidden on mobile (`hidden md:block`)
 - [ ] Dark mode: check all states render correctly
 

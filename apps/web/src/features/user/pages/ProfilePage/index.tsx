@@ -1,7 +1,7 @@
 import { getRouteApi } from '@tanstack/react-router'
-import { AlertCircle, Loader2 } from 'lucide-react'
+import { AlertCircle, Settings, Shield, User } from 'lucide-react'
 
-import { Button, Card, Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui'
+import { Button, Skeleton, Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui'
 import { parseError } from '@/lib/errors'
 import { trpc } from '@/lib/trpc'
 
@@ -35,9 +35,7 @@ export function ProfilePage() {
     return (
       <div className="space-y-6">
         <PageHeader />
-        <Card className="flex items-center justify-center py-16">
-          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-        </Card>
+        <ProfileLoadingSkeleton />
       </div>
     )
   }
@@ -48,16 +46,16 @@ export function ProfilePage() {
     return (
       <div className="space-y-6">
         <PageHeader />
-        <Card className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="rounded-full bg-destructive/10 p-3 mb-4">
-            <AlertCircle className="h-6 w-6 text-destructive" />
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="rounded-full bg-destructive/10 p-4 mb-4">
+            <AlertCircle className="h-6 w-6 text-destructive" strokeWidth={1.5} />
           </div>
-          <p className="font-medium mb-1">Failed to load profile</p>
-          <p className="text-sm text-muted-foreground mb-4">{parsed.userMessage}</p>
-          <Button variant="outline" onClick={() => void profileQuery.refetch()}>
+          <h3 className="text-lg font-semibold tracking-tight mb-1">Failed to load profile</h3>
+          <p className="text-sm text-muted-foreground mb-6">{parsed.userMessage}</p>
+          <Button variant="outline" size="sm" onClick={() => void profileQuery.refetch()}>
             Try again
           </Button>
-        </Card>
+        </div>
       </div>
     )
   }
@@ -67,9 +65,18 @@ export function ProfilePage() {
       <PageHeader />
       <Tabs value={currentTab} onValueChange={handleTabChange} className="w-full">
         <TabsList>
-          <TabsTrigger value="general">General</TabsTrigger>
-          <TabsTrigger value="sessions">Sessions</TabsTrigger>
-          <TabsTrigger value="danger">Danger</TabsTrigger>
+          <TabsTrigger value="general" className="gap-2">
+            <User className="h-4 w-4" strokeWidth={1.5} />
+            General
+          </TabsTrigger>
+          <TabsTrigger value="sessions" className="gap-2">
+            <Shield className="h-4 w-4" strokeWidth={1.5} />
+            Sessions
+          </TabsTrigger>
+          <TabsTrigger value="danger" className="gap-2">
+            <Settings className="h-4 w-4" strokeWidth={1.5} />
+            Danger
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="general" className="space-y-6 mt-6">
           <ProfileForm initialName={profile.name} onSuccess={handleProfileUpdate} />
@@ -93,8 +100,51 @@ export function ProfilePage() {
 function PageHeader() {
   return (
     <div>
-      <h1 className="text-3xl font-bold tracking-tight">Profile</h1>
-      <p className="text-muted-foreground mt-1">Manage your account settings and preferences</p>
+      <h1 className="text-lg font-semibold tracking-tight">Profile</h1>
+      <p className="text-sm text-muted-foreground">Manage your account settings and preferences</p>
+    </div>
+  )
+}
+
+function ProfileLoadingSkeleton() {
+  return (
+    <div className="space-y-6">
+      {/* Tabs skeleton */}
+      <div className="flex gap-2">
+        <Skeleton className="h-9 w-24 rounded-md" />
+        <Skeleton className="h-9 w-24 rounded-md" />
+        <Skeleton className="h-9 w-20 rounded-md" />
+      </div>
+      {/* Content skeleton - matches ProfileForm structure */}
+      <div className="rounded-lg border border-border/50 overflow-hidden">
+        <div className="border-b border-border/50 px-4 py-4">
+          <Skeleton className="h-5 w-40" />
+        </div>
+        <div className="px-4 py-4 space-y-4">
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-10 w-full rounded-md" />
+          </div>
+          <Skeleton className="h-9 w-28 rounded-md" />
+        </div>
+      </div>
+      {/* Second card skeleton - matches EmailChangeSection structure */}
+      <div className="rounded-lg border border-border/50 overflow-hidden">
+        <div className="border-b border-border/50 px-4 py-4">
+          <Skeleton className="h-5 w-32" />
+        </div>
+        <div className="px-4 py-4 space-y-4">
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-48" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-32" />
+            <Skeleton className="h-10 w-full rounded-md" />
+          </div>
+          <Skeleton className="h-9 w-28 rounded-md" />
+        </div>
+      </div>
     </div>
   )
 }

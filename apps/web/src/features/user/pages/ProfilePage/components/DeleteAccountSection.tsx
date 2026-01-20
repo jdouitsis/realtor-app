@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { AlertTriangle, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from '@/components/ui'
+import { Button, Input, Label } from '@/components/ui'
 import { parseError } from '@/lib/errors'
 import { clearStorage } from '@/lib/storage'
 import { trpc } from '@/lib/trpc'
@@ -45,30 +46,37 @@ export function DeleteAccountSection({ userEmail }: DeleteAccountSectionProps) {
 
   if (!showConfirmation) {
     return (
-      <Card className="border-destructive/50">
-        <CardHeader>
-          <CardTitle className="text-destructive">Danger Zone</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-muted-foreground">
+      <div className="rounded-lg border border-destructive/50 shadow-md overflow-hidden bg-card">
+        <div className="flex items-center gap-3 px-4 py-4 border-b border-destructive/30">
+          <span className="p-2 rounded-lg bg-destructive/10 text-destructive">
+            <AlertTriangle className="h-4 w-4" strokeWidth={1.5} />
+          </span>
+          <h3 className="text-sm font-medium text-destructive">Danger Zone</h3>
+        </div>
+        <div className="px-4 py-4 space-y-4">
+          <p className="text-sm text-muted-foreground">
             Once you delete your account, there is no going back. All your data will be permanently
             removed.
           </p>
-          <Button variant="destructive" onClick={() => setShowConfirmation(true)}>
+          <Button variant="destructive" size="sm" onClick={() => setShowConfirmation(true)}>
+            <Trash2 className="h-4 w-4" strokeWidth={1.5} />
             Delete Account
           </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     )
   }
 
   return (
-    <Card className="border-destructive">
-      <CardHeader>
-        <CardTitle className="text-destructive">Delete Your Account</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="bg-destructive/10 border border-destructive/20 rounded-md p-4">
+    <div className="rounded-lg border border-destructive shadow-md overflow-hidden bg-card">
+      <div className="flex items-center gap-3 px-4 py-4 border-b border-destructive/30">
+        <span className="p-2 rounded-lg bg-destructive/10 text-destructive">
+          <Trash2 className="h-4 w-4" strokeWidth={1.5} />
+        </span>
+        <h3 className="text-sm font-medium text-destructive">Delete Your Account</h3>
+      </div>
+      <div className="px-4 py-4 space-y-4">
+        <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
           <p className="text-sm font-medium text-destructive">
             Warning: This action is irreversible
           </p>
@@ -79,13 +87,14 @@ export function DeleteAccountSection({ userEmail }: DeleteAccountSectionProps) {
         </div>
         <form onSubmit={form.handleSubmit(handleDelete)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="confirmEmail">
-              Type <strong>{userEmail}</strong> to confirm
+            <Label htmlFor="confirmEmail" className="text-xs text-muted-foreground">
+              Type <strong className="text-foreground">{userEmail}</strong> to confirm
             </Label>
             <Input
               id="confirmEmail"
               type="email"
               placeholder="Enter your email to confirm"
+              className="bg-transparent"
               {...form.register('confirmEmail')}
             />
             {form.formState.errors.confirmEmail && (
@@ -96,12 +105,18 @@ export function DeleteAccountSection({ userEmail }: DeleteAccountSectionProps) {
             {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
           <div className="flex gap-2">
-            <Button type="submit" variant="destructive" disabled={deleteAccount.isPending}>
+            <Button
+              type="submit"
+              variant="destructive"
+              size="sm"
+              disabled={deleteAccount.isPending}
+            >
               {deleteAccount.isPending ? 'Deleting...' : 'Permanently Delete Account'}
             </Button>
             <Button
               type="button"
               variant="outline"
+              size="sm"
               onClick={() => {
                 setShowConfirmation(false)
                 form.reset()
@@ -111,7 +126,7 @@ export function DeleteAccountSection({ userEmail }: DeleteAccountSectionProps) {
             </Button>
           </div>
         </form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }

@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Check, User } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from '@/components/ui'
+import { Button, Input, Label } from '@/components/ui'
 import { trpc } from '@/lib/trpc'
 
 const profileSchema = z.object({
@@ -42,19 +43,25 @@ export function ProfileForm({ initialName, onSuccess }: ProfileFormProps) {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Profile Information</CardTitle>
-      </CardHeader>
-      <CardContent>
+    <div className="rounded-lg border border-border/50 shadow-md overflow-hidden bg-card">
+      <div className="flex items-center gap-3 px-4 py-4 border-b border-border/50">
+        <span className="p-2 rounded-lg bg-muted text-foreground">
+          <User className="h-4 w-4" strokeWidth={1.5} />
+        </span>
+        <h3 className="text-sm font-medium">Profile Information</h3>
+      </div>
+      <div className="px-4 py-4">
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Display Name</Label>
+            <Label htmlFor="name" className="text-xs text-muted-foreground">
+              Display Name
+            </Label>
             <Input
               id="name"
               type="text"
               placeholder="Enter your name"
               aria-invalid={!!errors.name}
+              className="bg-transparent"
               {...register('name')}
             />
             {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
@@ -62,14 +69,19 @@ export function ProfileForm({ initialName, onSuccess }: ProfileFormProps) {
               <p className="text-sm text-destructive">{updateName.error.message}</p>
             )}
           </div>
-          <Button type="submit" disabled={updateName.isPending || !isDirty}>
-            {updateName.isPending ? 'Saving...' : 'Save Changes'}
-          </Button>
-          {updateName.isSuccess && (
-            <p className="text-sm text-green-600">Name updated successfully</p>
-          )}
+          <div className="flex items-center gap-3">
+            <Button type="submit" size="sm" disabled={updateName.isPending || !isDirty}>
+              {updateName.isPending ? 'Saving...' : 'Save Changes'}
+            </Button>
+            {updateName.isSuccess && (
+              <span className="flex items-center gap-1 text-sm text-semantic-success">
+                <Check className="h-4 w-4" strokeWidth={1.5} />
+                Name updated
+              </span>
+            )}
+          </div>
         </form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
