@@ -1,4 +1,5 @@
-import { CheckCircle2, Mail, UserPlus } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
+import { ArrowRight, CheckCircle2, Mail, UserPlus } from 'lucide-react'
 
 import { trpc } from '@/lib/trpc'
 import { cn } from '@/lib/utils'
@@ -17,6 +18,7 @@ export function ActivityTab({ clientId }: ActivityTabProps) {
   return (
     <div className="space-y-6">
       <ActivityTimeline createdAt={clientQuery.data.createdAt} />
+      <ViewMoreLink to="/activity" clientId={clientId} label="View all activity" />
     </div>
   )
 }
@@ -112,4 +114,27 @@ function getRelativeTime(date: Date): string {
   if (diffDays < 7) return `${diffDays}d ago`
   if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+}
+
+function ViewMoreLink({
+  to,
+  clientId,
+  label,
+}: {
+  to: '/activity' | '/deals' | '/forms' | '/artifacts'
+  clientId: string
+  label: string
+}) {
+  return (
+    <div className="pt-2 border-t border-border/50">
+      <Link
+        to={to}
+        search={{ clientId }}
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
+        {label}
+        <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} />
+      </Link>
+    </div>
+  )
 }

@@ -1,4 +1,6 @@
+import { Link } from '@tanstack/react-router'
 import {
+  ArrowRight,
   Baby,
   Calendar,
   Coffee,
@@ -96,6 +98,7 @@ export function DetailsTab({ clientId }: DetailsTabProps) {
           />
         </div>
       </div>
+      <ViewMoreLink clientId={clientId} />
     </div>
   )
 }
@@ -125,6 +128,21 @@ function DetailRow({
           {value}
         </p>
       </div>
+    </div>
+  )
+}
+
+function ViewMoreLink({ clientId }: { clientId: string }) {
+  return (
+    <div className="pt-2 border-t border-border/50">
+      <Link
+        to="/artifacts"
+        search={{ clientId }}
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
+        View all artifacts
+        <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} />
+      </Link>
     </div>
   )
 }

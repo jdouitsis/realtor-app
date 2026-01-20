@@ -31,7 +31,7 @@ interface Tab {
 
 const TABS: Tab[] = [
   { label: 'Activity', path: '/clients/$id/activity', icon: History },
-  { label: 'Deal', path: '/clients/$id/deal', icon: Briefcase },
+  { label: 'Deals', path: '/clients/$id/deals', icon: Briefcase },
   { label: 'Forms', path: '/clients/$id/forms', icon: ClipboardList },
   { label: 'Artifacts', path: '/clients/$id/artifacts', icon: User },
 ]

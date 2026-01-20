@@ -1,6 +1,11 @@
-import { Briefcase } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
+import { ArrowRight, Briefcase } from 'lucide-react'
 
-export function DealTab() {
+interface DealTabProps {
+  clientId: string
+}
+
+export function DealTab({ clientId }: DealTabProps) {
   return (
     <div className="space-y-6">
       {/* Empty State */}
@@ -13,6 +18,22 @@ export function DealTab() {
           This client doesn't have an active deal yet. Start one when you're ready.
         </p>
       </div>
+      <ViewMoreLink clientId={clientId} />
+    </div>
+  )
+}
+
+function ViewMoreLink({ clientId }: { clientId: string }) {
+  return (
+    <div className="pt-2 border-t border-border/50">
+      <Link
+        to="/deals"
+        search={{ clientId }}
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
+        View all deals
+        <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} />
+      </Link>
     </div>
   )
 }

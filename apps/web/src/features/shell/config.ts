@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users } from 'lucide-react'
+import { Briefcase, ClipboardList, FolderOpen, History, LayoutDashboard, Users } from 'lucide-react'
 import type { ComponentType } from 'react'
 
 import type { FileRouteTypes } from '@/routeTree.gen'
@@ -15,4 +15,8 @@ export interface MenuItem {
 export const MenuItems: MenuItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard, to: '/dashboard' },
   { label: 'Clients', icon: Users, to: '/clients', realtorOnly: true },
+  { label: 'Activity', icon: History, to: '/activity', realtorOnly: true },
+  { label: 'Deals', icon: Briefcase, to: '/deals', realtorOnly: true },
+  { label: 'Forms', icon: ClipboardList, to: '/forms', realtorOnly: true },
+  { label: 'Artifacts', icon: FolderOpen, to: '/artifacts', realtorOnly: true },
 ]

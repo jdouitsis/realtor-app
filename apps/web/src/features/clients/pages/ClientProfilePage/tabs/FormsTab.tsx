@@ -1,6 +1,11 @@
-import { ClipboardList } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
+import { ArrowRight, ClipboardList } from 'lucide-react'
 
-export function FormsTab() {
+interface FormsTabProps {
+  clientId: string
+}
+
+export function FormsTab({ clientId }: FormsTabProps) {
   return (
     <div className="space-y-6">
       {/* Empty State */}
@@ -13,6 +18,22 @@ export function FormsTab() {
           There are no forms for this client.
         </p>
       </div>
+      <ViewMoreLink clientId={clientId} />
+    </div>
+  )
+}
+
+function ViewMoreLink({ clientId }: { clientId: string }) {
+  return (
+    <div className="pt-2 border-t border-border/50">
+      <Link
+        to="/forms"
+        search={{ clientId }}
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
+        View all forms
+        <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} />
+      </Link>
     </div>
   )
 }

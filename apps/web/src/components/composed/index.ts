@@ -1,4 +1,5 @@
 export * from './combobox'
+export * from './coming-soon-page'
 export * from './data-table'
 export * from './date-picker'
 export * from './empty-state'
