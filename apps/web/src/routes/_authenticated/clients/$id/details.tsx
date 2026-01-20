@@ -40,24 +40,21 @@ function DetailsTab() {
       {/* Contact Information - Mobile only (shown in sidebar on desktop) */}
       <div className="md:hidden">
         <h3 className="text-sm font-medium text-muted-foreground mb-3">Contact</h3>
-        <div className="rounded-lg border border-border/50 bg-card divide-y divide-border/50">
+        <div className="rounded-lg border border-border/50 bg-card shadow-md divide-y divide-border/50">
           <DetailRow
-            icon={<Mail className="h-4 w-4" strokeWidth={1.5} />}
+            icon={<Mail className="h-4 w-4 text-blue-700" strokeWidth={2} />}
             label="Email"
             value={client.email}
-            iconClassName="bg-blue-500/10 text-blue-500"
           />
           <DetailRow
-            icon={<Calendar className="h-4 w-4" strokeWidth={1.5} />}
+            icon={<Calendar className="h-4 w-4 text-blue-700" strokeWidth={2} />}
             label="Joined"
             value={formatMemberSince(client.createdAt)}
-            iconClassName="bg-amber-500/10 text-amber-500"
           />
           <DetailRow
-            icon={<UserRound className="h-4 w-4" strokeWidth={1.5} />}
+            icon={<UserRound className="h-4 w-4 text-blue-700" strokeWidth={2} />}
             label="Nickname"
             value={client.nickname || 'Not set'}
-            iconClassName="bg-violet-500/10 text-violet-500"
             placeholder={!client.nickname}
           />
         </div>
@@ -66,26 +63,23 @@ function DetailsTab() {
       {/* Family */}
       <div>
         <h3 className="text-sm font-medium text-muted-foreground mb-3">Family</h3>
-        <div className="rounded-lg border border-border/50 bg-card divide-y divide-border/50">
+        <div className="rounded-lg border border-border/50 bg-card shadow-md divide-y divide-border/50">
           <DetailRow
-            icon={<Heart className="h-4 w-4" strokeWidth={1.5} />}
+            icon={<Heart className="h-4 w-4 text-blue-700" strokeWidth={2} />}
             label="Spouse"
             value="Not set"
-            iconClassName="bg-pink-500/10 text-pink-500"
             placeholder
           />
           <DetailRow
-            icon={<Baby className="h-4 w-4" strokeWidth={1.5} />}
+            icon={<Baby className="h-4 w-4 text-blue-700" strokeWidth={2} />}
             label="Children"
             value="Not set"
-            iconClassName="bg-sky-500/10 text-sky-500"
             placeholder
           />
           <DetailRow
-            icon={<Users className="h-4 w-4" strokeWidth={1.5} />}
+            icon={<Users className="h-4 w-4 text-blue-700" strokeWidth={2} />}
             label="Other Family Members"
             value="Not set"
-            iconClassName="bg-violet-500/10 text-violet-500"
             placeholder
           />
         </div>
@@ -94,19 +88,17 @@ function DetailsTab() {
       {/* Preferences */}
       <div>
         <h3 className="text-sm font-medium text-muted-foreground mb-3">Preferences</h3>
-        <div className="rounded-lg border border-border/50 bg-card divide-y divide-border/50">
+        <div className="rounded-lg border border-border/50 bg-card shadow-md divide-y divide-border/50">
           <DetailRow
-            icon={<Coffee className="h-4 w-4" strokeWidth={1.5} />}
+            icon={<Coffee className="h-4 w-4 text-blue-700" strokeWidth={2} />}
             label="Preferred Drink"
             value="Not set"
-            iconClassName="bg-orange-500/10 text-orange-500"
             placeholder
           />
           <DetailRow
-            icon={<UtensilsCrossed className="h-4 w-4" strokeWidth={1.5} />}
+            icon={<UtensilsCrossed className="h-4 w-4 text-blue-700" strokeWidth={2} />}
             label="Preferred Food"
             value="Not set"
-            iconClassName="bg-rose-500/10 text-rose-500"
             placeholder
           />
         </div>
@@ -119,18 +111,16 @@ function DetailRow({
   icon,
   label,
   value,
-  iconClassName,
   placeholder,
 }: {
   icon: React.ReactNode
   label: string
   value: string
-  iconClassName?: string
   placeholder?: boolean
 }) {
   return (
-    <div className="flex items-center gap-3 px-4 py-4 hover:bg-muted/30 transition-colors">
-      <span className={`p-2 rounded-lg ${iconClassName || 'text-muted-foreground'}`}>{icon}</span>
+    <div className="flex items-center gap-3 px-4 py-4 transition-colors">
+      <span className="p-2 rounded-lg">{icon}</span>
       <div className="flex-1 min-w-0">
         <span className="block text-xs text-muted-foreground">{label}</span>
         <p

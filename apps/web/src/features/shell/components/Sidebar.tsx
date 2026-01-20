@@ -26,10 +26,7 @@ export function Sidebar({ isCollapsed, isRealtor, className }: SidebarProps) {
           width: isCollapsed ? 64 : 200,
           transition: sideBarTransition,
         }}
-        className={cn(
-          'flex h-screen min-w-0 flex-col border-r border-border bg-background',
-          className
-        )}
+        className={cn('flex h-screen min-w-0 flex-col border-r border-border bg-card', className)}
       >
         {/* Logo */}
         <div className="flex h-14 items-center justify-between border-b border-border px-3">

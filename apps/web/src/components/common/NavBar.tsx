@@ -44,7 +44,7 @@ export function NavBar({ user }: HeaderProps) {
   const closeMobileMenu = () => setMobileMenuOpen(false)
 
   return (
-    <header className="sticky top-0 border-b border-violet-600/20 bg-gradient-to-r from-violet-600 to-indigo-600 px-4 md:px-6">
+    <header className="sticky top-0 border-b border-blue-600/20 bg-gradient-to-r from-blue-600 to-sky-600 px-4 md:px-6">
       <div className="mx-auto flex h-16 max-w-full items-center justify-between">
         <div className="flex items-center gap-6">
           <Link to="/" className="text-xl font-bold text-white">
@@ -94,7 +94,7 @@ function AuthenticatedNav({ user }: { user: User }) {
       </span>
       <Link
         to="/profile"
-        className="rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-violet-600"
+        className="rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
       >
         <Avatar className="h-9 w-9 cursor-pointer ring-2 ring-white/30">
           <AvatarFallback className="bg-white/20 text-white">
@@ -112,7 +112,7 @@ function UnauthenticatedNav() {
       <Button variant="ghost" asChild className="text-white hover:bg-white/10 hover:text-white">
         <Link to="/login">Login</Link>
       </Button>
-      <Button asChild className="bg-white text-violet-600 hover:bg-white/90">
+      <Button asChild className="bg-white text-blue-600 hover:bg-white/90">
         <Link to="/register">Get Started</Link>
       </Button>
     </>

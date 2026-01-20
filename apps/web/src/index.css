@@ -4,27 +4,27 @@
 
 @layer base {
   :root {
-    /* Linear-inspired light mode colors */
-    --background: 220 14% 96%;
+    /* Light mode colors */
+    --background: 210 40% 96%;
     --foreground: 240 10% 3.9%;
 
     /* Surface layers for depth */
-    --surface-1: 220 14% 97%;
-    --surface-2: 220 14% 95%;
-    --surface-3: 220 14% 93%;
+    --surface-1: 210 40% 97%;
+    --surface-2: 210 40% 95%;
+    --surface-3: 210 40% 93%;
 
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
 
-    /* Vibrant purple-blue accent (Linear signature) */
-    --primary: 250 100% 60%;
+    /* Blue accent */
+    --primary: 210 100% 50%;
     --primary-foreground: 0 0% 100%;
 
     /* Gradient for primary buttons */
-    --gradient-start: 250 100% 65%;
-    --gradient-end: 270 100% 55%;
+    --gradient-start: 210 100% 55%;
+    --gradient-end: 200 100% 45%;
 
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -38,10 +38,10 @@
     /* Subtle borders */
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 250 100% 60%;
+    --ring: 210 100% 50%;
 
     /* Chart colors */
-    --chart-1: 250 100% 60%;
+    --chart-1: 210 100% 50%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
@@ -66,13 +66,13 @@
     --popover: 0 0% 4%;
     --popover-foreground: 0 0% 98%;
 
-    /* Brighter purple-blue for dark mode */
-    --primary: 250 100% 65%;
+    /* Brighter blue for dark mode */
+    --primary: 210 100% 55%;
     --primary-foreground: 0 0% 100%;
 
     /* Gradient for primary buttons (dark mode) */
-    --gradient-start: 250 100% 68%;
-    --gradient-end: 270 100% 58%;
+    --gradient-start: 210 100% 58%;
+    --gradient-end: 200 100% 48%;
 
     --secondary: 0 0% 10%;
     --secondary-foreground: 0 0% 98%;
@@ -86,10 +86,10 @@
     /* Very subtle borders in dark mode */
     --border: 0 0% 12%;
     --input: 0 0% 12%;
-    --ring: 250 100% 65%;
+    --ring: 210 100% 55%;
 
     /* Chart colors for dark mode */
-    --chart-1: 250 100% 70%;
+    --chart-1: 210 100% 60%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;

@@ -44,7 +44,7 @@ function formatDate(dateString: string): string {
 
 export function ClientsTable({ clients, onRowClick }: ClientsTableProps) {
   return (
-    <div className="rounded-lg border border-border/50 overflow-hidden">
+    <div className="rounded-lg border border-border/50 overflow-hidden shadow-md">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>

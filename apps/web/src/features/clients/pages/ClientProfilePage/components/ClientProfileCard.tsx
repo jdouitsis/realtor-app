@@ -79,12 +79,12 @@ export function ClientProfileCard({
   return (
     <div className="space-y-6">
       {/* Profile Header with gradient accent */}
-      <div className="relative rounded-xl bg-gradient-to-br from-violet-500/10 via-purple-500/5 to-indigo-500/10 p-6 text-center">
+      <div className="relative rounded-xl bg-gradient-to-br from-blue-500/10 via-sky-500/5 to-cyan-500/10 p-6 text-center shadow-md">
         {/* Decorative gradient orb */}
-        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-violet-500/20 to-transparent rounded-full blur-2xl" />
+        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500/20 to-transparent rounded-full blur-2xl" />
 
         <Avatar className="h-20 w-20 mx-auto text-xl ring-4 ring-background shadow-lg">
-          <AvatarFallback className="bg-gradient-to-br from-violet-500 to-indigo-600 text-white font-semibold">
+          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-sky-600 text-white font-semibold">
             {getInitials(client.name)}
           </AvatarFallback>
         </Avatar>
@@ -99,18 +99,16 @@ export function ClientProfileCard({
       </div>
 
       {/* Details with colored icons - hidden on mobile (shown in Details tab) */}
-      <div className="hidden md:block rounded-lg border border-border/50 bg-card/50 divide-y divide-border/50">
+      <div className="hidden md:block rounded-lg border border-border/50 bg-card shadow-md divide-y divide-border/50">
         <DetailRow
-          icon={<Mail className="h-4 w-4" strokeWidth={1.5} />}
+          icon={<Mail className="h-4 w-4 text-blue-700" strokeWidth={2} />}
           label="Email"
           value={client.email}
-          iconClassName="bg-blue-500/15 text-blue-500"
         />
         <DetailRow
-          icon={<Calendar className="h-4 w-4" strokeWidth={1.5} />}
+          icon={<Calendar className="h-4 w-4 text-blue-700" strokeWidth={2} />}
           label="Joined"
           value={formatMemberSince(client.createdAt)}
-          iconClassName="bg-amber-500/15 text-amber-500"
         />
         <NicknameRow clientId={client.id} nickname={client.nickname} />
       </div>
@@ -121,7 +119,7 @@ export function ClientProfileCard({
           <Button
             variant="outline"
             size="sm"
-            className="w-full h-9 text-sm font-medium border-blue-500/30 text-blue-500 hover:bg-blue-500/10 hover:text-blue-400"
+            className="w-full h-9 text-sm font-medium border-blue-500/30 text-blue-500 hover:bg-blue-500/10 hover:text-blue-400 shadow-md"
             onClick={onResendInvite}
             disabled={isResending}
           >
@@ -148,16 +146,14 @@ function DetailRow({
   icon,
   label,
   value,
-  iconClassName,
 }: {
   icon: React.ReactNode
   label: string
   value: string
-  iconClassName?: string
 }) {
   return (
-    <div className="flex items-center gap-3 px-4 py-3 hover:bg-muted/30 transition-colors">
-      <span className={cn('p-2 rounded-lg', iconClassName || 'text-muted-foreground')}>{icon}</span>
+    <div className="flex items-center gap-3 px-4 py-3 transition-colors">
+      <span className="p-2 rounded-lg">{icon}</span>
       <div className="flex-1 min-w-0">
         <span className="text-xs text-muted-foreground">{label}</span>
         <p className="text-sm font-medium truncate" title={value}>
@@ -170,9 +166,9 @@ function DetailRow({
 
 function NicknameRow({ clientId, nickname }: { clientId: string; nickname: string | null }) {
   return (
-    <div className="flex items-center gap-3 px-4 py-3 hover:bg-muted/30 transition-colors">
-      <span className="p-2 rounded-lg bg-violet-500/15 text-violet-500">
-        <UserRound className="h-4 w-4" strokeWidth={1.5} />
+    <div className="flex items-center gap-3 px-4 py-3 transition-colors">
+      <span className="p-2 rounded-lg">
+        <UserRound className="h-4 w-4 text-blue-700" strokeWidth={2} />
       </span>
       <div className="flex-1 min-w-0">
         <span className="block text-xs text-muted-foreground">Nickname</span>

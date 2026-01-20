@@ -84,7 +84,7 @@ interface MobileHeaderProps {
 
 function MobileHeader({ isOpen, onOpenChange, user, onNavigate, onLogout }: MobileHeaderProps) {
   return (
-    <header className="z-40 flex h-14 shrink-0 items-center justify-between border-b bg-background px-4 md:hidden">
+    <header className="z-40 flex h-14 shrink-0 items-center justify-between border-b bg-card px-4 md:hidden">
       <Link to="/dashboard" className="text-xl font-bold">
         Realtor App
       </Link>
@@ -112,7 +112,7 @@ interface DesktopHeaderProps {
 
 function DesktopHeader({ user, onLogout }: DesktopHeaderProps) {
   return (
-    <header className="z-40 hidden h-14 shrink-0 items-center border-b bg-background px-6 md:flex">
+    <header className="z-40 hidden h-14 shrink-0 items-center border-b bg-card px-6 md:flex">
       <div className="flex-1" />
       <UserAvatar user={user} onLogout={onLogout} />
     </header>

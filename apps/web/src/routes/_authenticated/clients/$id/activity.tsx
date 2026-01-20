@@ -26,20 +26,20 @@ function ActivityTab() {
 function ActivityTimeline({ createdAt }: { createdAt: string }) {
   const activities = [
     {
-      icon: <CheckCircle2 className="h-3.5 w-3.5" strokeWidth={1.5} />,
-      iconColor: 'text-emerald-500',
+      icon: <CheckCircle2 className="h-3.5 w-3.5" strokeWidth={2} />,
+      iconColor: 'text-blue-700',
       description: 'Account activated',
       timestamp: new Date(),
     },
     {
-      icon: <Mail className="h-3.5 w-3.5" strokeWidth={1.5} />,
-      iconColor: 'text-blue-500',
+      icon: <Mail className="h-3.5 w-3.5" strokeWidth={2} />,
+      iconColor: 'text-blue-700',
       description: 'Invitation sent',
       timestamp: new Date(createdAt),
     },
     {
-      icon: <UserPlus className="h-3.5 w-3.5" strokeWidth={1.5} />,
-      iconColor: 'text-violet-500',
+      icon: <UserPlus className="h-3.5 w-3.5" strokeWidth={2} />,
+      iconColor: 'text-blue-700',
       description: 'Client created',
       timestamp: new Date(createdAt),
     },
