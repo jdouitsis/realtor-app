@@ -1,8 +1,6 @@
-import { getQueryKey } from '@trpc/react-query'
-
 import { queryClient } from '@/lib/query'
 import { clearStorage, getStorage, setStorage } from '@/lib/storage'
-import { trpc, trpcClient } from '@/lib/trpc'
+import { trpcClient } from '@/lib/trpc'
 
 export interface AuthOptions {
   type?: 'otp' | 'magic'
