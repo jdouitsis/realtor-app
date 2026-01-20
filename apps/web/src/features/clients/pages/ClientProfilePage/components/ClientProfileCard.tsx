@@ -1,5 +1,5 @@
 import { type ClientStatus } from '@app/shared/clients'
-import { Calendar, Loader2, Mail, Send, UserRound } from 'lucide-react'
+import { Calendar, CircleDot, Loader2, Mail, Send, User, UserRound } from 'lucide-react'
 
 import { Avatar, AvatarFallback, Badge, Button } from '@/components/ui'
 import { cn } from '@/lib/utils'
@@ -78,39 +78,53 @@ export function ClientProfileCard({
 
   return (
     <div className="space-y-6">
-      {/* Profile Header with gradient accent */}
-      <div className="relative rounded-xl bg-gradient-to-br from-blue-500/10 via-sky-500/5 to-cyan-500/10 p-6 text-center shadow-md">
-        {/* Decorative gradient orb */}
-        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500/20 to-transparent rounded-full blur-2xl" />
-
-        <Avatar className="h-20 w-20 mx-auto text-xl ring-4 ring-background shadow-lg">
-          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-sky-600 text-white font-semibold">
-            {getInitials(client.name)}
-          </AvatarFallback>
-        </Avatar>
-
-        <div className="mt-4 space-y-2">
-          <h2 className="text-xl font-semibold tracking-tight text-foreground">{client.name}</h2>
-
-          <Badge variant="outline" className={cn('text-xs font-medium border', status.className)}>
-            {status.label}
-          </Badge>
+      {/* Profile card - hidden on mobile (shown in Details tab) */}
+      <div className="hidden md:block rounded-lg border border-border/50 bg-card shadow-md overflow-hidden">
+        {/* Avatar header */}
+        <div className="flex justify-center py-6 bg-blue-100">
+          <Avatar className="h-16 w-16 text-xl">
+            <AvatarFallback className="bg-blue-200 text-blue-700 font-semibold">
+              {getInitials(client.name)}
+            </AvatarFallback>
+          </Avatar>
         </div>
-      </div>
 
-      {/* Details with colored icons - hidden on mobile (shown in Details tab) */}
-      <div className="hidden md:block rounded-lg border border-border/50 bg-card shadow-md divide-y divide-border/50">
-        <DetailRow
-          icon={<Mail className="h-4 w-4 text-foreground" strokeWidth={2} />}
-          label="Email"
-          value={client.email}
-        />
-        <DetailRow
-          icon={<Calendar className="h-4 w-4 text-foreground" strokeWidth={2} />}
-          label="Joined"
-          value={formatMemberSince(client.createdAt)}
-        />
-        <NicknameRow clientId={client.id} nickname={client.nickname} />
+        {/* Details */}
+        <div className="divide-y divide-border/50">
+          <DetailRow
+            icon={<User className="h-4 w-4 text-foreground" strokeWidth={2} />}
+            label="Name"
+            value={client.name}
+          />
+          <NicknameRow clientId={client.id} nickname={client.nickname} />
+          {/* Status row */}
+          <div className="flex items-center gap-3 px-4 py-3">
+            <span className="p-2 rounded-lg">
+              <CircleDot className="h-4 w-4 text-foreground" strokeWidth={2} />
+            </span>
+            <div className="flex-1 min-w-0">
+              <span className="text-xs text-muted-foreground">Status</span>
+              <div className="mt-0.5">
+                <Badge
+                  variant="outline"
+                  className={cn('text-xs font-medium border', status.className)}
+                >
+                  {status.label}
+                </Badge>
+              </div>
+            </div>
+          </div>
+          <DetailRow
+            icon={<Mail className="h-4 w-4 text-foreground" strokeWidth={2} />}
+            label="Email"
+            value={client.email}
+          />
+          <DetailRow
+            icon={<Calendar className="h-4 w-4 text-foreground" strokeWidth={2} />}
+            label="Joined"
+            value={formatMemberSince(client.createdAt)}
+          />
+        </div>
       </div>
 
       {/* Actions - hidden on mobile (shown in Details tab) */}

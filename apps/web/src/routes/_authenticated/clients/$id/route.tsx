@@ -1,4 +1,5 @@
 import { createFileRoute, Link, Outlet, useLocation } from '@tanstack/react-router'
+import type { LucideIcon } from 'lucide-react'
 import {
   AlertCircle,
   ArrowLeft,
@@ -15,10 +16,24 @@ import { ClientProfileCard } from '@/features/clients/pages/ClientProfilePage/co
 import { parseError } from '@/lib/errors'
 import { trpc } from '@/lib/trpc'
 import { cn } from '@/lib/utils'
+import type { FileRouteTypes } from '@/routeTree.gen'
 
 export const Route = createFileRoute('/_authenticated/clients/$id')({
   component: ClientProfileLayout,
 })
+
+interface Tab {
+  label: string
+  to: FileRouteTypes['to']
+  icon: LucideIcon
+}
+
+const TABS: Tab[] = [
+  { label: 'Activity', to: '/clients/$id/activity', icon: History },
+  { label: 'Deal', to: '/clients/$id/deal', icon: Briefcase },
+  { label: 'Pending', to: '/clients/$id/requests', icon: ClipboardList },
+  { label: 'Details', to: '/clients/$id/details', icon: User },
+]
 
 function ClientProfileLayout() {
   const { id } = Route.useParams()
@@ -127,13 +142,6 @@ function ClientProfileLayout() {
     return null
   }
 
-  const tabs = [
-    { label: 'Activity', href: `/clients/${id}/activity`, icon: History },
-    { label: 'Deal', href: `/clients/${id}/deal`, icon: Briefcase },
-    { label: 'Pending', href: `/clients/${id}/requests`, icon: ClipboardList },
-    { label: 'Details', href: `/clients/${id}/details`, icon: User },
-  ]
-
   const currentPath = location.pathname
 
   return (
@@ -169,21 +177,21 @@ function ClientProfileLayout() {
           {/* Tabs Navigation */}
           <div className="border-b border-border mb-6 -mx-4 px-4 md:mx-0 md:px-0 overflow-x-auto">
             <nav className="flex gap-1 min-w-max">
-              {tabs.map((tab) => {
-                const isActive =
-                  tab.href === `/clients/${id}`
-                    ? currentPath === `/clients/${id}`
-                    : currentPath.startsWith(tab.href)
+              {TABS.map((tab) => {
+                const resolvedPath = tab.to.replace('$id', id)
+                const isActive = currentPath.startsWith(resolvedPath)
                 const Icon = tab.icon
 
                 return (
                   <Link
-                    key={tab.href}
-                    to={tab.href}
+                    key={tab.to}
+                    to={tab.to}
+                    params={{ id }}
                     className={cn(
                       'relative flex items-center gap-2 px-3 md:px-4 py-2.5 text-sm font-medium transition-colors whitespace-nowrap',
-                      'hover:text-foreground',
-                      isActive ? 'text-foreground' : 'text-muted-foreground'
+                      isActive
+                        ? 'text-blue-600 hover:text-blue-600'
+                        : 'text-muted-foreground hover:text-foreground'
                     )}
                   >
                     <Icon className="h-4 w-4 flex-shrink-0" strokeWidth={1.5} />
