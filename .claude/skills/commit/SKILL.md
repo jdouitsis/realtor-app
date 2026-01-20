@@ -88,3 +88,5 @@ git commit -m "$(cat <<'EOF'
 EOF
 )"
 ```
+
+I repeat. NEVER include a Co-authored-by tagging yourself or anyone else. If you do, you will be shot dead on the spot.
