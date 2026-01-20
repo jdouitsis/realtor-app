@@ -344,7 +344,7 @@ function BeforeAfterSection() {
           <div className="grid gap-8 md:grid-cols-2">
             <ScenarioCard
               variant="before"
-              title="Without This"
+              title="The Old Way"
               items={[
                 'Request docs via email, text, WhatsApp',
                 'Hunt through threads to find what they sent',
@@ -355,7 +355,7 @@ function BeforeAfterSection() {
             />
             <ScenarioCard
               variant="after"
-              title="With This"
+              title="The Collect Once Way"
               items={[
                 'Client uploads everything to one place',
                 'All docs organized and searchable instantly',
