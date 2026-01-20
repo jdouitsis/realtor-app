@@ -4,7 +4,7 @@
  * Key behaviors:
  * - UNAUTHORIZED errors: Clears auth token and calls router.invalidate()
  *   which triggers route guards to re-evaluate and redirect to /login
- * - REQUEST_NEW_OTP errors: Redirects to /otp for step-up verification
+ * - REQUEST_NEW_OTP errors: Opens step-up OTP modal for in-place verification
  * - All errors: Logged with request ID for debugging
  *
  * @see ../router.ts for cross-tab sync (storage event listener)
@@ -13,6 +13,7 @@
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query'
 import { TRPCClientError } from '@trpc/client'
 
+import { showStepUpModal } from '@/lib/step-up-modal'
 import { clearStorage } from '@/lib/storage'
 
 import { router } from '../router'
@@ -35,13 +36,11 @@ function getErrorInfo(error: unknown) {
   }
 }
 
-/** Handles REQUEST_NEW_OTP errors by redirecting to step-up verification */
-function handleStepUpRedirect(error: unknown): boolean {
+/** Handles REQUEST_NEW_OTP errors by showing the step-up OTP modal */
+function handleStepUpModal(error: unknown): boolean {
   const parsed = parseError(error)
   if (parsed.appCode === 'REQUEST_NEW_OTP') {
-    const { pathname, searchStr } = router.state.location
-    const currentUrl = searchStr ? `${pathname}${searchStr}` : pathname
-    void router.navigate({ to: '/otp', search: { redirect: currentUrl } })
+    showStepUpModal()
     return true
   }
   return false
@@ -73,8 +72,8 @@ export const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error, query) => {
       // Handle step-up OTP redirect globally
-      if (handleStepUpRedirect(error)) {
-        console.log('Step-up OTP redirect')
+      if (handleStepUpModal(error)) {
+        console.log('Step-up OTP modal shown')
         return
       }
       const parsed = parseError(error)
@@ -90,8 +89,8 @@ export const queryClient = new QueryClient({
   mutationCache: new MutationCache({
     onError: (error) => {
       // Handle step-up OTP redirect globally
-      if (handleStepUpRedirect(error)) {
-        console.log('Step-up OTP redirect')
+      if (handleStepUpModal(error)) {
+        console.log('Step-up OTP modal shown')
         return
       }
 
