@@ -6,6 +6,7 @@ import { z } from 'zod'
 
 import { Button, Input, Label } from '@/components/ui'
 import { parseError } from '@/lib/errors'
+import { queryClient } from '@/lib/query'
 import { clearStorage } from '@/lib/storage'
 import { trpc } from '@/lib/trpc'
 import { router } from '@/router'
@@ -31,6 +32,7 @@ export function DeleteAccountSection({ userEmail }: DeleteAccountSectionProps) {
   const deleteAccount = trpc.user.deleteAccount.useMutation({
     onSuccess: () => {
       clearStorage('auth_token')
+      queryClient.removeQueries()
       form.reset()
       void router.invalidate()
     },

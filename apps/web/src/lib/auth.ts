@@ -60,7 +60,7 @@ export function createAuth(router: RouterLike): Auth {
       const res = await trpcClient.auth.verifyOtp.mutate({ email, code })
       setStorage('auth_token', res.token)
       // Remove cached auth.me data so root route fetches fresh user
-      queryClient.removeQueries({ queryKey: getQueryKey(trpc.auth.me) })
+      queryClient.removeQueries()
       await router.invalidate()
     },
 
@@ -72,7 +72,7 @@ export function createAuth(router: RouterLike): Auth {
       await trpcClient.auth.logout.mutate()
       clearStorage('auth_token')
       // Remove cached auth.me data so root route fetches fresh (null) user
-      queryClient.removeQueries({ queryKey: getQueryKey(trpc.auth.me) })
+      queryClient.removeQueries()
       void router.invalidate()
     },
   }

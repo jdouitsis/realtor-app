@@ -44,7 +44,9 @@
       "Bash(npx shadcn@latest add:*)",
       "Bash(pnpm eslint:*)",
       "Bash(pnpm tsr:*)",
-      "Bash(pnpm exec tsr:*)"
+      "Bash(pnpm exec tsr:*)",
+      "Bash(npx eslint . --fix)",
+      "Bash(pnpm build:*)"
     ]
   }
 }
