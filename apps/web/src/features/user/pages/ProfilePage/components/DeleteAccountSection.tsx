@@ -32,9 +32,9 @@ export function DeleteAccountSection({ userEmail }: DeleteAccountSectionProps) {
   const deleteAccount = trpc.user.deleteAccount.useMutation({
     onSuccess: () => {
       clearStorage('auth_token')
-      queryClient.removeQueries()
-      form.reset()
+      queryClient.clear()
       void router.invalidate()
+      void router.navigate({ to: '/login' })
     },
     onError: (err) => {
       // REQUEST_NEW_OTP errors are handled globally in query.ts
