@@ -33,7 +33,7 @@ const TABS: Tab[] = [
   { label: 'Activity', path: '/clients/$id/activity', icon: History },
   { label: 'Deal', path: '/clients/$id/deal', icon: Briefcase },
   { label: 'Forms', path: '/clients/$id/forms', icon: ClipboardList },
-  { label: 'Details', path: '/clients/$id/details', icon: User },
+  { label: 'Artifacts', path: '/clients/$id/artifacts', icon: User },
 ]
 
 export function ClientProfileLayout({ clientId }: ClientProfileLayoutProps) {

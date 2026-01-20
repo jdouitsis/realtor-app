@@ -27,8 +27,8 @@ import { Route as AuthenticatedProfileDangerRouteImport } from './routes/_authen
 import { Route as AuthenticatedClientsIdRouteRouteImport } from './routes/_authenticated/clients/$id/route'
 import { Route as AuthenticatedClientsIdIndexRouteImport } from './routes/_authenticated/clients/$id/index'
 import { Route as AuthenticatedClientsIdFormsRouteImport } from './routes/_authenticated/clients/$id/forms'
-import { Route as AuthenticatedClientsIdDetailsRouteImport } from './routes/_authenticated/clients/$id/details'
 import { Route as AuthenticatedClientsIdDealRouteImport } from './routes/_authenticated/clients/$id/deal'
+import { Route as AuthenticatedClientsIdArtifactsRouteImport } from './routes/_authenticated/clients/$id/artifacts'
 import { Route as AuthenticatedClientsIdActivityRouteImport } from './routes/_authenticated/clients/$id/activity'
 
 const PublicRouteRoute = PublicRouteRouteImport.update({
@@ -129,16 +129,16 @@ const AuthenticatedClientsIdFormsRoute =
     path: '/forms',
     getParentRoute: () => AuthenticatedClientsIdRouteRoute,
   } as any)
-const AuthenticatedClientsIdDetailsRoute =
-  AuthenticatedClientsIdDetailsRouteImport.update({
-    id: '/details',
-    path: '/details',
-    getParentRoute: () => AuthenticatedClientsIdRouteRoute,
-  } as any)
 const AuthenticatedClientsIdDealRoute =
   AuthenticatedClientsIdDealRouteImport.update({
     id: '/deal',
     path: '/deal',
+    getParentRoute: () => AuthenticatedClientsIdRouteRoute,
+  } as any)
+const AuthenticatedClientsIdArtifactsRoute =
+  AuthenticatedClientsIdArtifactsRouteImport.update({
+    id: '/artifacts',
+    path: '/artifacts',
     getParentRoute: () => AuthenticatedClientsIdRouteRoute,
   } as any)
 const AuthenticatedClientsIdActivityRoute =
@@ -164,8 +164,8 @@ export interface FileRoutesByFullPath {
   '/profile/': typeof AuthenticatedProfileIndexRoute
   '/login': typeof PublicLoginIndexRoute
   '/clients/$id/activity': typeof AuthenticatedClientsIdActivityRoute
+  '/clients/$id/artifacts': typeof AuthenticatedClientsIdArtifactsRoute
   '/clients/$id/deal': typeof AuthenticatedClientsIdDealRoute
-  '/clients/$id/details': typeof AuthenticatedClientsIdDetailsRoute
   '/clients/$id/forms': typeof AuthenticatedClientsIdFormsRoute
   '/clients/$id/': typeof AuthenticatedClientsIdIndexRoute
 }
@@ -182,8 +182,8 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileIndexRoute
   '/login': typeof PublicLoginIndexRoute
   '/clients/$id/activity': typeof AuthenticatedClientsIdActivityRoute
+  '/clients/$id/artifacts': typeof AuthenticatedClientsIdArtifactsRoute
   '/clients/$id/deal': typeof AuthenticatedClientsIdDealRoute
-  '/clients/$id/details': typeof AuthenticatedClientsIdDetailsRoute
   '/clients/$id/forms': typeof AuthenticatedClientsIdFormsRoute
   '/clients/$id': typeof AuthenticatedClientsIdIndexRoute
 }
@@ -206,8 +206,8 @@ export interface FileRoutesById {
   '/_authenticated/profile/': typeof AuthenticatedProfileIndexRoute
   '/_public/login/': typeof PublicLoginIndexRoute
   '/_authenticated/clients/$id/activity': typeof AuthenticatedClientsIdActivityRoute
+  '/_authenticated/clients/$id/artifacts': typeof AuthenticatedClientsIdArtifactsRoute
   '/_authenticated/clients/$id/deal': typeof AuthenticatedClientsIdDealRoute
-  '/_authenticated/clients/$id/details': typeof AuthenticatedClientsIdDetailsRoute
   '/_authenticated/clients/$id/forms': typeof AuthenticatedClientsIdFormsRoute
   '/_authenticated/clients/$id/': typeof AuthenticatedClientsIdIndexRoute
 }
@@ -229,8 +229,8 @@ export interface FileRouteTypes {
     | '/profile/'
     | '/login'
     | '/clients/$id/activity'
+    | '/clients/$id/artifacts'
     | '/clients/$id/deal'
-    | '/clients/$id/details'
     | '/clients/$id/forms'
     | '/clients/$id/'
   fileRoutesByTo: FileRoutesByTo
@@ -247,8 +247,8 @@ export interface FileRouteTypes {
     | '/profile'
     | '/login'
     | '/clients/$id/activity'
+    | '/clients/$id/artifacts'
     | '/clients/$id/deal'
-    | '/clients/$id/details'
     | '/clients/$id/forms'
     | '/clients/$id'
   id:
@@ -270,8 +270,8 @@ export interface FileRouteTypes {
     | '/_authenticated/profile/'
     | '/_public/login/'
     | '/_authenticated/clients/$id/activity'
+    | '/_authenticated/clients/$id/artifacts'
     | '/_authenticated/clients/$id/deal'
-    | '/_authenticated/clients/$id/details'
     | '/_authenticated/clients/$id/forms'
     | '/_authenticated/clients/$id/'
   fileRoutesById: FileRoutesById
@@ -410,18 +410,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClientsIdFormsRouteImport
       parentRoute: typeof AuthenticatedClientsIdRouteRoute
     }
-    '/_authenticated/clients/$id/details': {
-      id: '/_authenticated/clients/$id/details'
-      path: '/details'
-      fullPath: '/clients/$id/details'
-      preLoaderRoute: typeof AuthenticatedClientsIdDetailsRouteImport
-      parentRoute: typeof AuthenticatedClientsIdRouteRoute
-    }
     '/_authenticated/clients/$id/deal': {
       id: '/_authenticated/clients/$id/deal'
       path: '/deal'
       fullPath: '/clients/$id/deal'
       preLoaderRoute: typeof AuthenticatedClientsIdDealRouteImport
+      parentRoute: typeof AuthenticatedClientsIdRouteRoute
+    }
+    '/_authenticated/clients/$id/artifacts': {
+      id: '/_authenticated/clients/$id/artifacts'
+      path: '/artifacts'
+      fullPath: '/clients/$id/artifacts'
+      preLoaderRoute: typeof AuthenticatedClientsIdArtifactsRouteImport
       parentRoute: typeof AuthenticatedClientsIdRouteRoute
     }
     '/_authenticated/clients/$id/activity': {
@@ -436,8 +436,8 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedClientsIdRouteRouteChildren {
   AuthenticatedClientsIdActivityRoute: typeof AuthenticatedClientsIdActivityRoute
+  AuthenticatedClientsIdArtifactsRoute: typeof AuthenticatedClientsIdArtifactsRoute
   AuthenticatedClientsIdDealRoute: typeof AuthenticatedClientsIdDealRoute
-  AuthenticatedClientsIdDetailsRoute: typeof AuthenticatedClientsIdDetailsRoute
   AuthenticatedClientsIdFormsRoute: typeof AuthenticatedClientsIdFormsRoute
   AuthenticatedClientsIdIndexRoute: typeof AuthenticatedClientsIdIndexRoute
 }
@@ -445,8 +445,8 @@ interface AuthenticatedClientsIdRouteRouteChildren {
 const AuthenticatedClientsIdRouteRouteChildren: AuthenticatedClientsIdRouteRouteChildren =
   {
     AuthenticatedClientsIdActivityRoute: AuthenticatedClientsIdActivityRoute,
+    AuthenticatedClientsIdArtifactsRoute: AuthenticatedClientsIdArtifactsRoute,
     AuthenticatedClientsIdDealRoute: AuthenticatedClientsIdDealRoute,
-    AuthenticatedClientsIdDetailsRoute: AuthenticatedClientsIdDetailsRoute,
     AuthenticatedClientsIdFormsRoute: AuthenticatedClientsIdFormsRoute,
     AuthenticatedClientsIdIndexRoute: AuthenticatedClientsIdIndexRoute,
   }
