@@ -49,8 +49,8 @@ export function SessionsSection() {
           <h3 className="text-sm font-medium">Active Sessions</h3>
         </div>
         <div className="divide-y divide-border/50">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="flex items-start gap-4 px-4 py-4">
+          {(['a', 'b', 'c'] as const).map((key) => (
+            <div key={key} className="flex items-start gap-4 px-4 py-4">
               <Skeleton className="h-10 w-10 rounded-lg" />
               <div className="flex-1 space-y-2">
                 <Skeleton className="h-4 w-48" />

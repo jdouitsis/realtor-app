@@ -137,7 +137,7 @@ export function EmailChangeSection({
             <Button
               type="submit"
               size="sm"
-              disabled={initiateEmailChange.isPending || !newEmailForm.watch('newEmail')}
+              disabled={initiateEmailChange.isPending || !newEmailForm.formState.isDirty}
             >
               {initiateEmailChange.isPending ? 'Sending code...' : 'Change Email'}
             </Button>
