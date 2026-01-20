@@ -22,7 +22,7 @@ import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authent
 import { Route as PublicLoginMagicRouteImport } from './routes/_public/login/magic'
 import { Route as AuthenticatedClientsIdRouteRouteImport } from './routes/_authenticated/clients/$id/route'
 import { Route as AuthenticatedClientsIdIndexRouteImport } from './routes/_authenticated/clients/$id/index'
-import { Route as AuthenticatedClientsIdRequestsRouteImport } from './routes/_authenticated/clients/$id/requests'
+import { Route as AuthenticatedClientsIdFormsRouteImport } from './routes/_authenticated/clients/$id/forms'
 import { Route as AuthenticatedClientsIdDetailsRouteImport } from './routes/_authenticated/clients/$id/details'
 import { Route as AuthenticatedClientsIdDealRouteImport } from './routes/_authenticated/clients/$id/deal'
 import { Route as AuthenticatedClientsIdActivityRouteImport } from './routes/_authenticated/clients/$id/activity'
@@ -94,10 +94,10 @@ const AuthenticatedClientsIdIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedClientsIdRouteRoute,
   } as any)
-const AuthenticatedClientsIdRequestsRoute =
-  AuthenticatedClientsIdRequestsRouteImport.update({
-    id: '/requests',
-    path: '/requests',
+const AuthenticatedClientsIdFormsRoute =
+  AuthenticatedClientsIdFormsRouteImport.update({
+    id: '/forms',
+    path: '/forms',
     getParentRoute: () => AuthenticatedClientsIdRouteRoute,
   } as any)
 const AuthenticatedClientsIdDetailsRoute =
@@ -133,7 +133,7 @@ export interface FileRoutesByFullPath {
   '/clients/$id/activity': typeof AuthenticatedClientsIdActivityRoute
   '/clients/$id/deal': typeof AuthenticatedClientsIdDealRoute
   '/clients/$id/details': typeof AuthenticatedClientsIdDetailsRoute
-  '/clients/$id/requests': typeof AuthenticatedClientsIdRequestsRoute
+  '/clients/$id/forms': typeof AuthenticatedClientsIdFormsRoute
   '/clients/$id/': typeof AuthenticatedClientsIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -148,7 +148,7 @@ export interface FileRoutesByTo {
   '/clients/$id/activity': typeof AuthenticatedClientsIdActivityRoute
   '/clients/$id/deal': typeof AuthenticatedClientsIdDealRoute
   '/clients/$id/details': typeof AuthenticatedClientsIdDetailsRoute
-  '/clients/$id/requests': typeof AuthenticatedClientsIdRequestsRoute
+  '/clients/$id/forms': typeof AuthenticatedClientsIdFormsRoute
   '/clients/$id': typeof AuthenticatedClientsIdIndexRoute
 }
 export interface FileRoutesById {
@@ -168,7 +168,7 @@ export interface FileRoutesById {
   '/_authenticated/clients/$id/activity': typeof AuthenticatedClientsIdActivityRoute
   '/_authenticated/clients/$id/deal': typeof AuthenticatedClientsIdDealRoute
   '/_authenticated/clients/$id/details': typeof AuthenticatedClientsIdDetailsRoute
-  '/_authenticated/clients/$id/requests': typeof AuthenticatedClientsIdRequestsRoute
+  '/_authenticated/clients/$id/forms': typeof AuthenticatedClientsIdFormsRoute
   '/_authenticated/clients/$id/': typeof AuthenticatedClientsIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -187,7 +187,7 @@ export interface FileRouteTypes {
     | '/clients/$id/activity'
     | '/clients/$id/deal'
     | '/clients/$id/details'
-    | '/clients/$id/requests'
+    | '/clients/$id/forms'
     | '/clients/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -202,7 +202,7 @@ export interface FileRouteTypes {
     | '/clients/$id/activity'
     | '/clients/$id/deal'
     | '/clients/$id/details'
-    | '/clients/$id/requests'
+    | '/clients/$id/forms'
     | '/clients/$id'
   id:
     | '__root__'
@@ -221,7 +221,7 @@ export interface FileRouteTypes {
     | '/_authenticated/clients/$id/activity'
     | '/_authenticated/clients/$id/deal'
     | '/_authenticated/clients/$id/details'
-    | '/_authenticated/clients/$id/requests'
+    | '/_authenticated/clients/$id/forms'
     | '/_authenticated/clients/$id/'
   fileRoutesById: FileRoutesById
 }
@@ -324,11 +324,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClientsIdIndexRouteImport
       parentRoute: typeof AuthenticatedClientsIdRouteRoute
     }
-    '/_authenticated/clients/$id/requests': {
-      id: '/_authenticated/clients/$id/requests'
-      path: '/requests'
-      fullPath: '/clients/$id/requests'
-      preLoaderRoute: typeof AuthenticatedClientsIdRequestsRouteImport
+    '/_authenticated/clients/$id/forms': {
+      id: '/_authenticated/clients/$id/forms'
+      path: '/forms'
+      fullPath: '/clients/$id/forms'
+      preLoaderRoute: typeof AuthenticatedClientsIdFormsRouteImport
       parentRoute: typeof AuthenticatedClientsIdRouteRoute
     }
     '/_authenticated/clients/$id/details': {
@@ -359,7 +359,7 @@ interface AuthenticatedClientsIdRouteRouteChildren {
   AuthenticatedClientsIdActivityRoute: typeof AuthenticatedClientsIdActivityRoute
   AuthenticatedClientsIdDealRoute: typeof AuthenticatedClientsIdDealRoute
   AuthenticatedClientsIdDetailsRoute: typeof AuthenticatedClientsIdDetailsRoute
-  AuthenticatedClientsIdRequestsRoute: typeof AuthenticatedClientsIdRequestsRoute
+  AuthenticatedClientsIdFormsRoute: typeof AuthenticatedClientsIdFormsRoute
   AuthenticatedClientsIdIndexRoute: typeof AuthenticatedClientsIdIndexRoute
 }
 
@@ -368,7 +368,7 @@ const AuthenticatedClientsIdRouteRouteChildren: AuthenticatedClientsIdRouteRoute
     AuthenticatedClientsIdActivityRoute: AuthenticatedClientsIdActivityRoute,
     AuthenticatedClientsIdDealRoute: AuthenticatedClientsIdDealRoute,
     AuthenticatedClientsIdDetailsRoute: AuthenticatedClientsIdDetailsRoute,
-    AuthenticatedClientsIdRequestsRoute: AuthenticatedClientsIdRequestsRoute,
+    AuthenticatedClientsIdFormsRoute: AuthenticatedClientsIdFormsRoute,
     AuthenticatedClientsIdIndexRoute: AuthenticatedClientsIdIndexRoute,
   }
 
