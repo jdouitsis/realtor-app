@@ -57,7 +57,9 @@ export function createAuth(router: RouterLike): Auth {
     async verifyOtp(email, code) {
       const res = await trpcClient.auth.verifyOtp.mutate({ email, code })
       setStorage('auth_token', res.token)
-      void router.invalidate()
+      // Remove cached auth.me data so root route fetches fresh user
+      queryClient.removeQueries()
+      await router.invalidate()
     },
 
     async resendOtp(email) {
@@ -67,7 +69,8 @@ export function createAuth(router: RouterLike): Auth {
     async logout() {
       await trpcClient.auth.logout.mutate()
       clearStorage('auth_token')
-      await queryClient.invalidateQueries()
+      // Remove cached auth.me data so root route fetches fresh (null) user
+      queryClient.removeQueries()
       void router.invalidate()
     },
   }

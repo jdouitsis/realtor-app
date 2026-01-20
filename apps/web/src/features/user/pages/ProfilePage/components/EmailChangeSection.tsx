@@ -1,18 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { KeyRound, Mail } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Checkbox,
-  Input,
-  Label,
-} from '@/components/ui'
+import { Button, Checkbox, Input, Label } from '@/components/ui'
 import { parseError } from '@/lib/errors'
 import { trpc } from '@/lib/trpc'
 
@@ -109,22 +101,30 @@ export function EmailChangeSection({
 
   if (step === 'idle' && !pendingEmail) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Email Address</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <Label>Current Email</Label>
-            <p className="text-muted-foreground">{currentEmail}</p>
+      <div className="rounded-lg border border-border/50 shadow-md overflow-hidden bg-card">
+        <div className="flex items-center gap-3 px-4 py-4 border-b border-border/50">
+          <span className="p-2 rounded-lg bg-muted text-foreground">
+            <Mail className="h-4 w-4" strokeWidth={1.5} />
+          </span>
+          <h3 className="text-sm font-medium">Email Address</h3>
+        </div>
+        <div className="px-4 py-4 space-y-4">
+          <div className="flex items-center gap-3 py-2 hover:bg-muted/30 transition-colors rounded-lg px-2 -mx-2">
+            <div className="flex-1 min-w-0">
+              <span className="block text-xs text-muted-foreground">Current Email</span>
+              <p className="text-sm font-medium truncate">{currentEmail}</p>
+            </div>
           </div>
           <form onSubmit={newEmailForm.handleSubmit(handleInitiate)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="newEmail">New Email Address</Label>
+              <Label htmlFor="newEmail" className="text-xs text-muted-foreground">
+                New Email Address
+              </Label>
               <Input
                 id="newEmail"
                 type="email"
                 placeholder="Enter new email address"
+                className="bg-transparent"
                 {...newEmailForm.register('newEmail')}
               />
               {newEmailForm.formState.errors.newEmail && (
@@ -134,34 +134,45 @@ export function EmailChangeSection({
               )}
               {initiateError && <p className="text-sm text-destructive">{initiateError}</p>}
             </div>
-            <Button type="submit" disabled={initiateEmailChange.isPending}>
+            <Button
+              type="submit"
+              size="sm"
+              disabled={initiateEmailChange.isPending || !newEmailForm.formState.isDirty}
+            >
               {initiateEmailChange.isPending ? 'Sending code...' : 'Change Email'}
             </Button>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     )
   }
 
   if (step === 'verify_new' || (step === 'idle' && pendingEmail)) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Verify New Email</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-muted-foreground">
-            A verification code has been sent to <strong>{pendingEmail}</strong>. Enter the code to
-            complete the email change.
+      <div className="rounded-lg border border-border/50 shadow-md overflow-hidden bg-card">
+        <div className="flex items-center gap-3 px-4 py-4 border-b border-border/50">
+          <span className="p-2 rounded-lg bg-muted text-foreground">
+            <KeyRound className="h-4 w-4" strokeWidth={1.5} />
+          </span>
+          <h3 className="text-sm font-medium">Verify New Email</h3>
+        </div>
+        <div className="px-4 py-4 space-y-4">
+          <p className="text-sm text-muted-foreground">
+            A verification code has been sent to{' '}
+            <strong className="text-foreground">{pendingEmail}</strong>. Enter the code to complete
+            the email change.
           </p>
           <form onSubmit={otpForm.handleSubmit(handleConfirm)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="newCode">Verification Code</Label>
+              <Label htmlFor="newCode" className="text-xs text-muted-foreground">
+                Verification Code
+              </Label>
               <Input
                 id="newCode"
                 type="text"
                 placeholder="Enter 6-digit code"
                 maxLength={6}
+                className="bg-transparent"
                 {...otpForm.register('code')}
               />
               {otpForm.formState.errors.code && (
@@ -180,12 +191,13 @@ export function EmailChangeSection({
               </Label>
             </div>
             <div className="flex gap-2">
-              <Button type="submit" disabled={confirmEmailChange.isPending}>
+              <Button type="submit" size="sm" disabled={confirmEmailChange.isPending}>
                 {confirmEmailChange.isPending ? 'Confirming...' : 'Confirm Email Change'}
               </Button>
               <Button
                 type="button"
                 variant="outline"
+                size="sm"
                 onClick={handleCancel}
                 disabled={cancelEmailChange.isPending}
               >
@@ -193,8 +205,8 @@ export function EmailChangeSection({
               </Button>
             </div>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     )
   }
 

@@ -1,6 +1,6 @@
 import { Globe, Monitor, Smartphone } from 'lucide-react'
 
-import { Badge, Button, Card, CardContent } from '@/components/ui'
+import { Badge, Button } from '@/components/ui'
 
 interface SessionCardProps {
   id: string
@@ -59,46 +59,50 @@ export function SessionCard({
   const isMobile = isMobileDevice(device, os)
 
   return (
-    <Card className={isCurrent ? 'border-primary/50 bg-primary/5' : ''}>
-      <CardContent className="p-4">
-        <div className="flex items-start gap-4">
-          <div className="rounded-lg bg-muted p-2.5 shrink-0">
-            {isMobile ? (
-              <Smartphone className="h-5 w-5 text-muted-foreground" />
-            ) : (
-              <Monitor className="h-5 w-5 text-muted-foreground" />
-            )}
-          </div>
-          <div className="flex-1 min-w-0 space-y-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-medium">{deviceInfo || 'Unknown device'}</span>
-              {isCurrent && <Badge variant="success">Current session</Badge>}
-            </div>
-            {device && <p className="text-sm text-muted-foreground">{device}</p>}
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              {ipAddress && (
-                <span className="flex items-center gap-1">
-                  <Globe className="h-3.5 w-3.5" />
-                  {ipAddress}
-                </span>
-              )}
-              <span>Active {formatRelativeTime(lastActiveAt)}</span>
-            </div>
-            <p className="text-xs text-muted-foreground">Created: {formatDate(createdAt)}</p>
-          </div>
-          {!isCurrent && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onRevoke(id)}
-              disabled={isRevoking}
-              className="text-destructive hover:text-destructive shrink-0"
-            >
-              {isRevoking ? 'Revoking...' : 'Revoke'}
-            </Button>
+    <div
+      className={`flex items-start gap-4 px-4 py-4 transition-colors ${
+        isCurrent ? 'bg-primary/5 border-l-2 border-l-primary' : ''
+      }`}
+    >
+      <span className="p-2 rounded-lg shrink-0 bg-muted text-foreground">
+        {isMobile ? (
+          <Smartphone className="h-4 w-4" strokeWidth={1.5} />
+        ) : (
+          <Monitor className="h-4 w-4" strokeWidth={1.5} />
+        )}
+      </span>
+      <div className="flex-1 min-w-0 space-y-1">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-sm font-medium">{deviceInfo || 'Unknown device'}</span>
+          {isCurrent && (
+            <Badge className="ml-auto" status="active">
+              Current session
+            </Badge>
           )}
         </div>
-      </CardContent>
-    </Card>
+        {device && <p className="text-xs text-muted-foreground">{device}</p>}
+        <div className="flex items-center gap-4 text-xs text-muted-foreground">
+          {ipAddress && (
+            <span className="flex items-center gap-1">
+              <Globe className="h-3.5 w-3.5" strokeWidth={1.5} />
+              {ipAddress}
+            </span>
+          )}
+          <span>Active {formatRelativeTime(lastActiveAt)}</span>
+        </div>
+        <p className="text-xs text-muted-foreground">Created: {formatDate(createdAt)}</p>
+      </div>
+      {!isCurrent && (
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onRevoke(id)}
+          disabled={isRevoking}
+          className="text-destructive hover:text-destructive border-destructive/30 shrink-0"
+        >
+          {isRevoking ? 'Revoking...' : 'Revoke'}
+        </Button>
+      )}
+    </div>
   )
 }

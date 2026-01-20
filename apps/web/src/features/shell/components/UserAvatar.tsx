@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui'
+import { cn } from '@/lib/utils'
 
 interface UserAvatarProps {
   user: {
@@ -19,6 +20,8 @@ interface UserAvatarProps {
     email: string
   }
   onLogout: () => void
+  /** Use "light" variant for dark/colored backgrounds */
+  variant?: 'default' | 'light'
 }
 
 /**
@@ -36,15 +39,26 @@ function getInitials(name: string): string {
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase()
 }
 
-export function UserAvatar({ user, onLogout }: UserAvatarProps) {
+export function UserAvatar({ user, onLogout, variant = 'default' }: UserAvatarProps) {
   const initials = getInitials(user.name)
+  const isLight = variant === 'light'
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-          <Avatar className="h-9 w-9">
-            <AvatarFallback>{initials}</AvatarFallback>
+        <Button
+          variant="ghost"
+          className={cn('relative h-9 w-9 rounded-full', isLight && 'hover:bg-white/10')}
+        >
+          <Avatar className={cn('h-9 w-9', isLight && 'ring-2 ring-white/30')}>
+            <AvatarFallback
+              className={cn(
+                'bg-blue-100 text-blue-700 font-medium',
+                isLight && 'bg-white/20 text-white'
+              )}
+            >
+              {initials}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>

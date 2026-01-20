@@ -1,9 +1,8 @@
 import { type ClientStatus } from '@app/shared/clients'
-import { Calendar, Loader2, Mail, Send, UserRound } from 'lucide-react'
+import { Calendar, CircleDot, Loader2, Mail, Send, User, UserRound } from 'lucide-react'
 
-import { Avatar, AvatarFallback, Button, Card, CardContent } from '@/components/ui'
+import { Avatar, AvatarFallback, Badge, Button } from '@/components/ui'
 
-import { StatusBadge } from '../../ClientsListPage/components/StatusBadge'
 import { NicknameEditor } from './NicknameEditor'
 import { StatusChangeButton } from './StatusChangeButton'
 
@@ -28,8 +27,7 @@ interface ClientProfileCardProps {
 function formatMemberSince(dateString: string): string {
   const date = new Date(dateString)
   return date.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
+    month: 'short',
     year: 'numeric',
   })
 }
@@ -47,6 +45,12 @@ function getNextStatus(current: ClientStatus): 'active' | 'inactive' {
   return current === 'active' ? 'inactive' : 'active'
 }
 
+const STATUS_LABELS: Record<ClientStatus, string> = {
+  active: 'Active',
+  invited: 'Invited',
+  inactive: 'Inactive',
+}
+
 export function ClientProfileCard({
   client,
   onStatusChange,
@@ -61,58 +65,77 @@ export function ClientProfileCard({
   }
 
   return (
-    <Card className="h-full">
-      <CardContent className="p-6">
-        {/* Avatar and Name Section */}
-        <div className="flex flex-col items-center text-center pb-6 border-b">
-          <Avatar className="h-24 w-24 text-2xl ring-4 ring-background shadow-lg">
-            <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+    <div className="space-y-6">
+      {/* Profile card - hidden on mobile (shown in Details tab) */}
+      <div className="hidden md:block rounded-lg border border-border/50 bg-card shadow-md overflow-hidden">
+        {/* Avatar header */}
+        <div className="flex justify-center py-6 bg-avatar-header">
+          <Avatar className="h-16 w-16 text-xl">
+            <AvatarFallback className="bg-avatar-bg text-avatar-text font-semibold">
               {getInitials(client.name)}
             </AvatarFallback>
           </Avatar>
-          <h2 className="mt-4 text-xl font-semibold">{client.name}</h2>
-          <div className="mt-2">
-            <StatusBadge status={client.status} />
-          </div>
         </div>
 
-        {/* Details Section */}
-        <div className="py-6 space-y-4">
-          <DetailRow icon={<Mail className="h-4 w-4" />} label="Email" value={client.email} />
+        {/* Details */}
+        <div className="divide-y divide-border/50">
           <DetailRow
-            icon={<Calendar className="h-4 w-4" />}
-            label="Member since"
-            value={formatMemberSince(client.createdAt)}
+            icon={<User className="h-4 w-4 text-foreground" strokeWidth={2} />}
+            label="Name"
+            value={client.name}
           />
           <NicknameRow clientId={client.id} nickname={client.nickname} />
-        </div>
-
-        {/* Actions Section */}
-        <div className="space-y-3 pt-2">
-          {client.status === 'invited' && (
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={onResendInvite}
-              disabled={isResending}
-            >
-              {isResending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Send className="h-4 w-4" />
-              )}
-              Resend Invite
-            </Button>
-          )}
-
-          <StatusChangeButton
-            currentStatus={client.status}
-            onToggle={handleToggle}
-            isLoading={isUpdating}
+          <DetailRow
+            icon={<Mail className="h-4 w-4 text-foreground" strokeWidth={2} />}
+            label="Email"
+            value={client.email}
           />
+          <DetailRow
+            icon={<Calendar className="h-4 w-4 text-foreground" strokeWidth={2} />}
+            label="Joined"
+            value={formatMemberSince(client.createdAt)}
+          />
+          {/* Status row */}
+          <div className="flex items-center gap-3 px-4 py-3">
+            <span className="p-2 rounded-lg">
+              <CircleDot className="h-4 w-4 text-foreground" strokeWidth={2} />
+            </span>
+            <div className="flex-1 min-w-0">
+              <span className="text-xs text-muted-foreground">Status</span>
+              <div className="mt-0.5">
+                <Badge status={client.status}>{STATUS_LABELS[client.status]}</Badge>
+              </div>
+            </div>
+          </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+
+      {/* Actions - hidden on mobile (shown in Details tab) */}
+      <div className="hidden md:block space-y-2">
+        {client.status === 'invited' && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-full h-9 text-sm font-medium border-semantic-info/30 text-semantic-info hover:bg-semantic-info/10 shadow-md"
+            onClick={onResendInvite}
+            disabled={isResending}
+          >
+            {isResending ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Send className="h-3.5 w-3.5" strokeWidth={1.5} />
+            )}
+            Resend invitation
+          </Button>
+        )}
+
+        <StatusChangeButton
+          currentStatus={client.status}
+          onToggle={handleToggle}
+          isLoading={isUpdating}
+        />
+      </div>
+    </div>
   )
 }
 
@@ -126,10 +149,10 @@ function DetailRow({
   value: string
 }) {
   return (
-    <div className="flex items-start gap-3">
-      <div className="rounded-md bg-muted p-2 text-muted-foreground">{icon}</div>
-      <div className="min-w-0 flex-1">
-        <p className="text-xs text-muted-foreground">{label}</p>
+    <div className="flex items-center gap-3 px-4 py-3 transition-colors">
+      <span className="p-2 rounded-lg">{icon}</span>
+      <div className="flex-1 min-w-0">
+        <span className="text-xs text-muted-foreground">{label}</span>
         <p className="text-sm font-medium truncate" title={value}>
           {value}
         </p>
@@ -140,12 +163,12 @@ function DetailRow({
 
 function NicknameRow({ clientId, nickname }: { clientId: string; nickname: string | null }) {
   return (
-    <div className="flex items-start gap-3">
-      <div className="rounded-md bg-muted p-2 text-muted-foreground">
-        <UserRound className="h-4 w-4" />
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className="text-xs text-muted-foreground">Nickname</p>
+    <div className="flex items-center gap-3 px-4 py-3 transition-colors">
+      <span className="p-2 rounded-lg">
+        <UserRound className="h-4 w-4 text-foreground" strokeWidth={2} />
+      </span>
+      <div className="flex-1 min-w-0">
+        <span className="block text-xs text-muted-foreground">Nickname</span>
         <NicknameEditor clientId={clientId} nickname={nickname} />
       </div>
     </div>

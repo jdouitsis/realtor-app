@@ -42,7 +42,9 @@ export function LoginPage() {
     setError(undefined)
     await auth
       .verifyOtp(otpEmail, code)
-      .then(() => navigate({ to: redirect ?? '/dashboard' }))
+      .then(async () => {
+        await navigate({ to: redirect ?? '/dashboard' })
+      })
       .catch((error) => {
         const parsed = parseError(error)
         setError(parsed.userMessage)

@@ -79,9 +79,9 @@ export function OtpVerificationForm({
   }
 
   return (
-    <Card className={cn('w-full max-w-md', className)}>
+    <Card className={cn('w-full max-w-md border-border/50 shadow-md', className)}>
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Check your email</CardTitle>
+        <CardTitle className="text-2xl tracking-tighter">Check your email</CardTitle>
         <CardDescription>
           We sent a 6-digit code to <span className="font-medium">{email}</span>
         </CardDescription>

@@ -12,6 +12,7 @@ Core utilities and configurations for the web application.
 | `errors.ts`         | Error parsing and user-friendly message mapping   |
 | `storage.ts`        | Type-safe localStorage hook with cross-tab sync   |
 | `router-context.ts` | TanStack Router context type definitions          |
+| `step-up-modal.ts`  | Zustand store for step-up OTP modal visibility    |
 | `utils.ts`          | General utilities (`cn` for Tailwind class merge) |
 
 ## Authentication
@@ -145,7 +146,7 @@ The `QueryClient` in `query.ts` provides global error handling via `QueryCache` 
 ```typescript
 // query.ts handles these globally:
 // - UNAUTHORIZED → clears auth token, invalidates router (triggers redirect via route guards)
-// - REQUEST_NEW_OTP → redirects to /otp for step-up verification
+// - REQUEST_NEW_OTP → opens step-up OTP modal for in-place verification
 // - All errors → logged with request ID for debugging
 ```
 
@@ -155,10 +156,11 @@ Sensitive operations (email change, account deletion) require recent OTP verific
 
 1. Server returns `REQUEST_NEW_OTP` error code
 2. `QueryClient.mutationCache.onError` catches it globally
-3. User is redirected to `/otp?redirect=/current-path`
-4. After OTP verification, user returns to complete the action
+3. Step-up OTP modal opens in-place (no navigation)
+4. User enters OTP code, modal auto-requests a new code on open
+5. After successful verification, modal closes and user can retry the action
 
-This is handled automatically - components don't need to check for this error.
+The modal cannot be dismissed via Escape key or backdrop click - only via the Cancel button or successful verification. This is handled automatically - components don't need to check for this error.
 
 ### Using parseError()
 

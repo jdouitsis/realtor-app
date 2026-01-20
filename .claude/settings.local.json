@@ -10,7 +10,6 @@
       "Bash(cat:*)",
       "Bash(pnpm --filter web typecheck:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)",
       "Bash(pnpm lint:*)",
       "Bash(pnpm format:check:*)",
       "Bash(pnpm --filter @app/server typecheck:*)",
@@ -40,7 +39,14 @@
       "Bash(pnpm --filter @app/server test:*)",
       "Bash(pnpm format:*)",
       "WebFetch(domain:tanstack.com)",
-      "Skill(commit)"
+      "Bash(ls:*)",
+      "Bash(xargs:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(pnpm eslint:*)",
+      "Bash(pnpm tsr:*)",
+      "Bash(pnpm exec tsr:*)",
+      "Bash(npx eslint . --fix)",
+      "Bash(pnpm build:*)"
     ]
   }
 }

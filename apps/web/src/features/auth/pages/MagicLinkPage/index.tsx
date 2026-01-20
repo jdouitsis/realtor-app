@@ -1,8 +1,10 @@
 import { getRouteApi, useNavigate } from '@tanstack/react-router'
+import { getQueryKey } from '@trpc/react-query'
 import { useEffect } from 'react'
 import { match } from 'ts-pattern'
 
 import { parseError } from '@/lib/errors'
+import { queryClient } from '@/lib/query'
 import { setStorage } from '@/lib/storage'
 import { trpc } from '@/lib/trpc'
 
@@ -17,6 +19,8 @@ export function MagicLinkPage() {
   const verifyMutation = trpc.auth.verifyMagicLink.useMutation({
     onSuccess: (result) => {
       setStorage('auth_token', result.token)
+      // Clear cached auth.me so root route fetches fresh user
+      queryClient.removeQueries({ queryKey: getQueryKey(trpc.auth.me) })
 
       // Redirect after brief success state
       setTimeout(() => {

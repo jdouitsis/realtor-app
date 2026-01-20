@@ -1,4 +1,3 @@
-import { env } from '@server/env'
 import { RateLimiterMemory } from 'rate-limiter-flexible'
 
 export type RateLimiter = RateLimiterMemory
