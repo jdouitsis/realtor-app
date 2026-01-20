@@ -101,12 +101,12 @@ export function ClientProfileCard({
       {/* Details with colored icons - hidden on mobile (shown in Details tab) */}
       <div className="hidden md:block rounded-lg border border-border/50 bg-card shadow-md divide-y divide-border/50">
         <DetailRow
-          icon={<Mail className="h-4 w-4 text-blue-700" strokeWidth={2} />}
+          icon={<Mail className="h-4 w-4 text-foreground" strokeWidth={2} />}
           label="Email"
           value={client.email}
         />
         <DetailRow
-          icon={<Calendar className="h-4 w-4 text-blue-700" strokeWidth={2} />}
+          icon={<Calendar className="h-4 w-4 text-foreground" strokeWidth={2} />}
           label="Joined"
           value={formatMemberSince(client.createdAt)}
         />
@@ -168,7 +168,7 @@ function NicknameRow({ clientId, nickname }: { clientId: string; nickname: strin
   return (
     <div className="flex items-center gap-3 px-4 py-3 transition-colors">
       <span className="p-2 rounded-lg">
-        <UserRound className="h-4 w-4 text-blue-700" strokeWidth={2} />
+        <UserRound className="h-4 w-4 text-foreground" strokeWidth={2} />
       </span>
       <div className="flex-1 min-w-0">
         <span className="block text-xs text-muted-foreground">Nickname</span>

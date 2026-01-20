@@ -27,19 +27,19 @@ function ActivityTimeline({ createdAt }: { createdAt: string }) {
   const activities = [
     {
       icon: <CheckCircle2 className="h-3.5 w-3.5" strokeWidth={2} />,
-      iconColor: 'text-blue-700',
+      iconColor: 'text-foreground',
       description: 'Account activated',
       timestamp: new Date(),
     },
     {
       icon: <Mail className="h-3.5 w-3.5" strokeWidth={2} />,
-      iconColor: 'text-blue-700',
+      iconColor: 'text-foreground',
       description: 'Invitation sent',
       timestamp: new Date(createdAt),
     },
     {
       icon: <UserPlus className="h-3.5 w-3.5" strokeWidth={2} />,
-      iconColor: 'text-blue-700',
+      iconColor: 'text-foreground',
       description: 'Client created',
       timestamp: new Date(createdAt),
     },
