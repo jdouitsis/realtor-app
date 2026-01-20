@@ -2,7 +2,6 @@ import { type ClientStatus } from '@app/shared/clients'
 import { Calendar, CircleDot, Loader2, Mail, Send, User, UserRound } from 'lucide-react'
 
 import { Avatar, AvatarFallback, Badge, Button } from '@/components/ui'
-import { cn } from '@/lib/utils'
 
 import { NicknameEditor } from './NicknameEditor'
 import { StatusChangeButton } from './StatusChangeButton'
@@ -46,19 +45,10 @@ function getNextStatus(current: ClientStatus): 'active' | 'inactive' {
   return current === 'active' ? 'inactive' : 'active'
 }
 
-const statusConfig: Record<ClientStatus, { label: string; className: string }> = {
-  active: {
-    label: 'Active',
-    className: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
-  },
-  invited: {
-    label: 'Invited',
-    className: 'bg-amber-500/10 text-amber-500 border-amber-500/20',
-  },
-  inactive: {
-    label: 'Inactive',
-    className: 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20',
-  },
+const STATUS_LABELS: Record<ClientStatus, string> = {
+  active: 'Active',
+  invited: 'Invited',
+  inactive: 'Inactive',
 }
 
 export function ClientProfileCard({
@@ -74,16 +64,14 @@ export function ClientProfileCard({
     }
   }
 
-  const status = statusConfig[client.status]
-
   return (
     <div className="space-y-6">
       {/* Profile card - hidden on mobile (shown in Details tab) */}
       <div className="hidden md:block rounded-lg border border-border/50 bg-card shadow-md overflow-hidden">
         {/* Avatar header */}
-        <div className="flex justify-center py-6 bg-blue-100">
+        <div className="flex justify-center py-6 bg-avatar-header">
           <Avatar className="h-16 w-16 text-xl">
-            <AvatarFallback className="bg-blue-200 text-blue-700 font-semibold">
+            <AvatarFallback className="bg-avatar-bg text-avatar-text font-semibold">
               {getInitials(client.name)}
             </AvatarFallback>
           </Avatar>
@@ -97,23 +85,6 @@ export function ClientProfileCard({
             value={client.name}
           />
           <NicknameRow clientId={client.id} nickname={client.nickname} />
-          {/* Status row */}
-          <div className="flex items-center gap-3 px-4 py-3">
-            <span className="p-2 rounded-lg">
-              <CircleDot className="h-4 w-4 text-foreground" strokeWidth={2} />
-            </span>
-            <div className="flex-1 min-w-0">
-              <span className="text-xs text-muted-foreground">Status</span>
-              <div className="mt-0.5">
-                <Badge
-                  variant="outline"
-                  className={cn('text-xs font-medium border', status.className)}
-                >
-                  {status.label}
-                </Badge>
-              </div>
-            </div>
-          </div>
           <DetailRow
             icon={<Mail className="h-4 w-4 text-foreground" strokeWidth={2} />}
             label="Email"
@@ -124,6 +95,18 @@ export function ClientProfileCard({
             label="Joined"
             value={formatMemberSince(client.createdAt)}
           />
+          {/* Status row */}
+          <div className="flex items-center gap-3 px-4 py-3">
+            <span className="p-2 rounded-lg">
+              <CircleDot className="h-4 w-4 text-foreground" strokeWidth={2} />
+            </span>
+            <div className="flex-1 min-w-0">
+              <span className="text-xs text-muted-foreground">Status</span>
+              <div className="mt-0.5">
+                <Badge status={client.status}>{STATUS_LABELS[client.status]}</Badge>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -133,7 +116,7 @@ export function ClientProfileCard({
           <Button
             variant="outline"
             size="sm"
-            className="w-full h-9 text-sm font-medium border-blue-500/30 text-blue-500 hover:bg-blue-500/10 hover:text-blue-400 shadow-md"
+            className="w-full h-9 text-sm font-medium border-semantic-info/30 text-semantic-info hover:bg-semantic-info/10 shadow-md"
             onClick={onResendInvite}
             disabled={isResending}
           >

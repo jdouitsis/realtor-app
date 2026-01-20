@@ -80,6 +80,37 @@ export default {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
+        // Status colors (support opacity: bg-status-active/10)
+        status: {
+          active: 'hsl(var(--status-active) / <alpha-value>)',
+          invited: 'hsl(var(--status-invited) / <alpha-value>)',
+          inactive: 'hsl(var(--status-inactive) / <alpha-value>)',
+          'active-text': 'hsl(var(--status-active-text))',
+          'invited-text': 'hsl(var(--status-invited-text))',
+          'inactive-text': 'hsl(var(--status-inactive-text))',
+        },
+        // Semantic colors (general-purpose, support opacity: bg-semantic-info/10)
+        semantic: {
+          info: 'hsl(var(--semantic-info) / <alpha-value>)',
+          success: 'hsl(var(--semantic-success) / <alpha-value>)',
+          warning: 'hsl(var(--semantic-warning) / <alpha-value>)',
+          neutral: 'hsl(var(--semantic-neutral) / <alpha-value>)',
+          accent: 'hsl(var(--semantic-accent) / <alpha-value>)',
+          highlight: 'hsl(var(--semantic-highlight) / <alpha-value>)',
+        },
+        // Alert colors
+        alert: {
+          'warning-bg': 'hsl(var(--alert-warning-bg))',
+          'warning-border': 'hsl(var(--alert-warning-border))',
+          'warning-text': 'hsl(var(--alert-warning-text))',
+          'warning-heading': 'hsl(var(--alert-warning-heading))',
+        },
+        // Avatar colors
+        avatar: {
+          header: 'hsl(var(--avatar-header))',
+          bg: 'hsl(var(--avatar-bg))',
+          text: 'hsl(var(--avatar-text))',
+        },
       },
       backgroundImage: {
         'gradient-primary': 'linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)))',

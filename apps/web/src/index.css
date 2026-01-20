@@ -49,6 +49,35 @@
 
     /* Tighter 6px radius (Linear style) */
     --radius: 0.375rem;
+
+    /* Status colors */
+    --status-active: 160 84% 39%;
+    --status-invited: 38 92% 50%;
+    --status-inactive: 240 5% 64%;
+
+    /* Status text (light mode - slightly darker for contrast) */
+    --status-active-text: 158 64% 40%;
+    --status-invited-text: 32 95% 44%;
+    --status-inactive-text: 240 5% 46%;
+
+    /* Semantic colors (general-purpose, reusable across app) */
+    --semantic-info: 217 91% 60%;
+    --semantic-success: 160 84% 39%;
+    --semantic-warning: 38 92% 50%;
+    --semantic-neutral: 240 4% 46%;
+    --semantic-accent: 263 70% 50%;
+    --semantic-highlight: 330 81% 60%;
+
+    /* Alert colors (duplicate warning) */
+    --alert-warning-bg: 48 96% 89%;
+    --alert-warning-border: 48 96% 76%;
+    --alert-warning-text: 37 92% 50%;
+    --alert-warning-heading: 32 81% 29%;
+
+    /* Avatar colors */
+    --avatar-header: 214 94% 93%;
+    --avatar-bg: 213 97% 87%;
+    --avatar-text: 221 83% 53%;
   }
 
   .dark {
@@ -94,6 +123,22 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    /* Status text (dark mode - lighter for visibility) */
+    --status-active-text: 159 75% 63%;
+    --status-invited-text: 43 96% 60%;
+    --status-inactive-text: 240 5% 65%;
+
+    /* Alert colors (dark mode) */
+    --alert-warning-bg: 32 81% 12%;
+    --alert-warning-border: 32 81% 25%;
+    --alert-warning-text: 43 96% 60%;
+    --alert-warning-heading: 43 96% 75%;
+
+    /* Avatar colors (dark mode) */
+    --avatar-header: 217 91% 20%;
+    --avatar-bg: 217 91% 30%;
+    --avatar-text: 213 94% 68%;
   }
 }
 

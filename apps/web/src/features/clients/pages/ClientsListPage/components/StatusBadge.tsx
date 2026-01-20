@@ -6,16 +6,12 @@ interface StatusBadgeProps {
   status: ClientStatus
 }
 
-const statusConfig: Record<
-  ClientStatus,
-  { label: string; variant: 'warning' | 'success' | 'muted' }
-> = {
-  invited: { label: 'Invited', variant: 'warning' },
-  active: { label: 'Active', variant: 'success' },
-  inactive: { label: 'Inactive', variant: 'muted' },
+const STATUS_LABELS: Record<ClientStatus, string> = {
+  active: 'Active',
+  invited: 'Invited',
+  inactive: 'Inactive',
 }
 
 export function StatusBadge({ status }: StatusBadgeProps) {
-  const config = statusConfig[status]
-  return <Badge variant={config.variant}>{config.label}</Badge>
+  return <Badge status={status}>{STATUS_LABELS[status]}</Badge>
 }

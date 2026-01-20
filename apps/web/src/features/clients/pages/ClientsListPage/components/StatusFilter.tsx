@@ -10,8 +10,7 @@ interface StatusFilterProps {
 
 /**
  * Status configuration mapping each status to its visual styling.
- * Colors match the established design system: emerald for active,
- * amber for invited/pending, zinc for inactive/muted states.
+ * Uses semantic tokens: status-active, status-invited, status-inactive.
  */
 const STATUS_CONFIG: Record<
   ClientStatus,
@@ -25,24 +24,24 @@ const STATUS_CONFIG: Record<
 > = {
   active: {
     label: 'Active',
-    selectedBg: 'bg-emerald-500/15',
-    selectedText: 'text-emerald-600 dark:text-emerald-400',
-    selectedBorder: 'border-emerald-500/30',
-    hoverBg: 'hover:bg-emerald-500/10',
+    selectedBg: 'bg-status-active/15',
+    selectedText: 'text-status-active-text',
+    selectedBorder: 'border-status-active/30',
+    hoverBg: 'hover:bg-status-active/10',
   },
   invited: {
     label: 'Invited',
-    selectedBg: 'bg-amber-500/15',
-    selectedText: 'text-amber-600 dark:text-amber-400',
-    selectedBorder: 'border-amber-500/30',
-    hoverBg: 'hover:bg-amber-500/10',
+    selectedBg: 'bg-status-invited/15',
+    selectedText: 'text-status-invited-text',
+    selectedBorder: 'border-status-invited/30',
+    hoverBg: 'hover:bg-status-invited/10',
   },
   inactive: {
     label: 'Inactive',
-    selectedBg: 'bg-zinc-500/15',
-    selectedText: 'text-zinc-600 dark:text-zinc-400',
-    selectedBorder: 'border-zinc-500/30',
-    hoverBg: 'hover:bg-zinc-500/10',
+    selectedBg: 'bg-status-inactive/15',
+    selectedText: 'text-status-inactive-text',
+    selectedBorder: 'border-status-inactive/30',
+    hoverBg: 'hover:bg-status-inactive/10',
   },
 }
 
