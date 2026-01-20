@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -8,7 +7,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
   Input,
@@ -44,8 +42,8 @@ export function RegisterForm({ onSubmit, isLoading = false, error }: RegisterFor
   return (
     <Card className="w-full max-w-md border-border/50 shadow-md">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl tracking-tighter">Create Account</CardTitle>
-        <CardDescription>Enter your details to create a new account</CardDescription>
+        <CardTitle className="text-2xl tracking-tighter">Join the Waitlist</CardTitle>
+        <CardDescription>Enter your details to join the waitlist</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
@@ -73,18 +71,10 @@ export function RegisterForm({ onSubmit, isLoading = false, error }: RegisterFor
             {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? 'Creating account...' : 'Continue'}
+            {isLoading ? 'Joining...' : 'Join Waitlist'}
           </Button>
         </form>
       </CardContent>
-      <CardFooter className="justify-center">
-        <p className="text-sm text-muted-foreground">
-          Already have an account?{' '}
-          <Link to="/login" className="text-primary underline">
-            Login
-          </Link>
-        </p>
-      </CardFooter>
     </Card>
   )
 }

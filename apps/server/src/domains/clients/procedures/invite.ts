@@ -4,7 +4,10 @@ import { z } from 'zod'
 import { clientInviteService } from '../services/invite'
 
 const inviteInput = z.object({
-  email: z.string().email(),
+  email: z
+    .string()
+    .email()
+    .transform((e) => e.toLowerCase()),
   name: z.string().min(1),
   nickname: z.string().max(100).optional(),
   redirectUrl: z.string(),

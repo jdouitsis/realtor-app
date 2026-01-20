@@ -69,9 +69,6 @@ function HeroSection() {
                 <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link to="/login">Sign In</Link>
-            </Button>
           </div>
           <p className="mt-4 text-sm text-muted-foreground">
             Early access opening soon · No credit card required

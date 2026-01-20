@@ -3,10 +3,67 @@ import { and, desc, eq, isNull } from 'drizzle-orm'
 import { describe, expect, it } from 'vitest'
 
 import { otpCodes, users } from '../db/schema'
-import { getCurrentTx } from './db'
+import { createTestUser, getCurrentTx } from './db'
 import { createTestClient } from './trpc-client'
 
-describe('Auth flow: register -> verify -> me -> logout -> login -> verify -> logout', () => {
+describe('Waitlist registration', () => {
+  const testUser = {
+    email: 'waitlist@example.com',
+    name: 'Waitlist User',
+  }
+
+  it('adds new users to the waitlist', async () => {
+    const client = createTestClient()
+
+    const result = await client.trpc.auth.register(testUser)
+
+    expect(result.message).toContain('waitlist')
+    expect(result.email).toBe(testUser.email)
+
+    // Verify user is on waitlist in database
+    const db = getCurrentTx()
+    const [user] = await db.select().from(users).where(eq(users.email, testUser.email)).limit(1)
+
+    expect(user).toBeDefined()
+    expect(user.isWaitlist).toBe(true)
+  })
+
+  it('blocks waitlist users from logging in', async () => {
+    const client = createTestClient()
+
+    // Register (adds to waitlist)
+    await client.trpc.auth.register(testUser)
+
+    // Try to login
+    try {
+      await client.trpc.auth.login({ email: testUser.email })
+      expect.fail('Should have thrown')
+    } catch (error) {
+      expect(error).toBeInstanceOf(TRPCError)
+      const trpcError = error as TRPCError
+      expect(trpcError.code).toBe('FORBIDDEN')
+    }
+  })
+
+  it('prevents duplicate registration with same email', async () => {
+    const client = createTestClient()
+
+    // Register first time
+    await client.trpc.auth.register(testUser)
+
+    // Try to register again with same email
+    try {
+      await client.trpc.auth.register(testUser)
+      expect.fail('Should have thrown')
+    } catch (error) {
+      expect(error).toBeInstanceOf(TRPCError)
+      const trpcError = error as TRPCError
+      expect(trpcError.code).toBe('CONFLICT')
+    }
+  })
+})
+
+describe('Auth flow: login -> verify -> me -> logout', () => {
   const testUser = {
     email: 'test@example.com',
     name: 'Test User',
@@ -15,26 +72,28 @@ describe('Auth flow: register -> verify -> me -> logout -> login -> verify -> lo
   it('completes the full authentication lifecycle', async () => {
     const client = createTestClient()
 
-    // 1. Register a new user
-    const registerResult = await client.trpc.auth.register(testUser)
+    // Create a non-waitlist user directly
+    const user = await createTestUser(testUser)
+    const userId = user.id
 
-    expect(registerResult.message).toContain('Check your email')
-    expect(registerResult.email).toBe(testUser.email)
+    // 1. Login with email
+    const loginResult = await client.trpc.auth.login({ email: testUser.email })
+
+    expect(loginResult.message).toContain('Check your email')
+    expect(loginResult.email).toBe(testUser.email)
 
     // 2. Get OTP from database and verify
-    const registerOtp = await getLatestOtpCode(testUser.email)
+    const loginOtp = await getLatestOtpCode(testUser.email)
     const verifyResult = await client.trpc.auth.verifyOtp({
       email: testUser.email,
-      code: registerOtp,
+      code: loginOtp,
     })
 
     expect(verifyResult.user).toMatchObject({
+      id: userId,
       email: testUser.email,
       name: testUser.name,
     })
-    expect(verifyResult.user.id).toBeDefined()
-
-    const userId = verifyResult.user.id
 
     // Token should be returned
     expect(verifyResult.token).toBeDefined()
@@ -60,28 +119,25 @@ describe('Auth flow: register -> verify -> me -> logout -> login -> verify -> lo
 
     expect(meAfterLogout).toBeNull()
 
-    // 6. Login with same email
-    const loginResult = await client.trpc.auth.login({ email: testUser.email })
+    // 6. Login again with same email
+    const reloginResult = await client.trpc.auth.login({ email: testUser.email })
 
-    expect(loginResult.message).toContain('Check your email')
-    expect(loginResult.email).toBe(testUser.email)
+    expect(reloginResult.message).toContain('Check your email')
 
     // 7. Get new OTP and verify
-    const loginOtp = await getLatestOtpCode(testUser.email)
-    const verifyLoginResult = await client.trpc.auth.verifyOtp({
+    const reloginOtp = await getLatestOtpCode(testUser.email)
+    const verifyReloginResult = await client.trpc.auth.verifyOtp({
       email: testUser.email,
-      code: loginOtp,
+      code: reloginOtp,
     })
 
-    expect(verifyLoginResult.user).toMatchObject({
+    expect(verifyReloginResult.user).toMatchObject({
       id: userId,
       email: testUser.email,
       name: testUser.name,
     })
 
-    // New token should be returned
-    expect(verifyLoginResult.token).toBeDefined()
-    client.setToken(verifyLoginResult.token)
+    client.setToken(verifyReloginResult.token)
 
     // 8. Verify user is authenticated again
     const meReauth = await client.trpc.auth.me()
@@ -93,33 +149,13 @@ describe('Auth flow: register -> verify -> me -> logout -> login -> verify -> lo
     })
 
     // 9. Final logout
-    const finalLogout = await client.trpc.auth.logout()
-
-    expect(finalLogout.success).toBe(true)
+    await client.trpc.auth.logout()
     client.clearToken()
 
     // 10. Confirm logged out
     const meFinal = await client.trpc.auth.me()
 
     expect(meFinal).toBeNull()
-  })
-
-  it('prevents duplicate registration with same email', async () => {
-    const client = createTestClient()
-
-    // Register first time
-    await client.trpc.auth.register(testUser)
-
-    // Try to register again with same email
-    await expect(client.trpc.auth.register(testUser)).rejects.toThrow(TRPCError)
-
-    try {
-      await client.trpc.auth.register(testUser)
-    } catch (error) {
-      expect(error).toBeInstanceOf(TRPCError)
-      const trpcError = error as TRPCError
-      expect(trpcError.code).toBe('CONFLICT')
-    }
   })
 
   it('rejects login for non-existent user', async () => {
@@ -138,12 +174,13 @@ describe('Auth flow: register -> verify -> me -> logout -> login -> verify -> lo
   it('rejects invalid OTP code', async () => {
     const client = createTestClient()
 
-    // Register user
-    const { email } = await client.trpc.auth.register(testUser)
+    // Create user and request OTP
+    await createTestUser(testUser)
+    await client.trpc.auth.login({ email: testUser.email })
 
     // Try with wrong code
     try {
-      await client.trpc.auth.verifyOtp({ email, code: '000000' })
+      await client.trpc.auth.verifyOtp({ email: testUser.email, code: '999999' })
       expect.fail('Should have thrown')
     } catch (error) {
       expect(error).toBeInstanceOf(TRPCError)

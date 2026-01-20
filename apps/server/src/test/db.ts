@@ -5,6 +5,7 @@ import postgres from 'postgres'
 import { createApp } from '../app'
 import type { Database } from '../db'
 import * as schema from '../db/schema'
+import { users } from '../db/schema'
 import { env } from '../env'
 
 const databaseUrl = env.DATABASE_URL
@@ -80,4 +81,39 @@ export async function rollbackTestTransaction() {
  */
 export async function closeTestDb() {
   await testClient.end()
+}
+
+interface CreateTestUserOptions {
+  email: string
+  name: string
+  isRealtor?: boolean
+  isWaitlist?: boolean
+}
+
+interface TestUser {
+  id: string
+  email: string
+  name: string
+}
+
+/**
+ * Creates a user directly in the database for testing.
+ * By default, creates a non-waitlist user that can log in.
+ *
+ * @example
+ * const user = await createTestUser({ email: 'test@example.com', name: 'Test User' })
+ */
+export async function createTestUser(options: CreateTestUserOptions): Promise<TestUser> {
+  const db = getCurrentTx()
+  const [user] = await db
+    .insert(users)
+    .values({
+      email: options.email,
+      name: options.name,
+      isRealtor: options.isRealtor ?? true,
+      isWaitlist: options.isWaitlist ?? false,
+    })
+    .returning({ id: users.id, email: users.email, name: users.name })
+
+  return user
 }

@@ -5,7 +5,10 @@ import { z } from 'zod'
 import { createOtpCode, getUserIdByEmail, invalidateUserOtps, sendOtpEmail } from '../services/otp'
 
 const resendOtpInput = z.object({
-  email: z.string().email(),
+  email: z
+    .string()
+    .email()
+    .transform((e) => e.toLowerCase()),
 })
 
 const resendOtpOutput = z.object({

@@ -101,14 +101,9 @@ function AuthenticatedNav({ user }: { user: User }) {
 
 function UnauthenticatedNav() {
   return (
-    <>
-      <Button variant="ghost" asChild>
-        <Link to="/login">Login</Link>
-      </Button>
-      <Button asChild>
-        <Link to="/register">Get Started</Link>
-      </Button>
-    </>
+    <Button asChild>
+      <Link to="/register">Join the Waitlist</Link>
+    </Button>
   )
 }
 
@@ -135,17 +130,10 @@ function MobileAuthenticatedNav({ user, onNavigate }: { user: User; onNavigate: 
 
 function MobileUnauthenticatedNav({ onNavigate }: { onNavigate: () => void }) {
   return (
-    <div className="flex flex-row gap-3">
-      <Button variant="outline" asChild className="w-full">
-        <Link to="/login" onClick={onNavigate}>
-          Login
-        </Link>
-      </Button>
-      <Button asChild className="w-full">
-        <Link to="/register" onClick={onNavigate}>
-          Sign Up
-        </Link>
-      </Button>
-    </div>
+    <Button asChild className="w-full">
+      <Link to="/register" onClick={onNavigate}>
+        Join the Waitlist
+      </Link>
+    </Button>
   )
 }

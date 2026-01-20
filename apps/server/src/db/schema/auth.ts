@@ -5,6 +5,7 @@ export const users = pgTable('users', {
   email: text('email').notNull().unique(),
   name: text('name').notNull(),
   isRealtor: boolean('is_realtor').notNull().default(false),
+  isWaitlist: boolean('is_waitlist').notNull().default(false),
   pendingEmail: text('pending_email'),
   pendingEmailExpiresAt: timestamp('pending_email_expires_at', { withTimezone: true }),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),

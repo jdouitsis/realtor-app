@@ -9,7 +9,10 @@ import { getUserIdByEmail, verifyOtpCode } from '../services/otp'
 import { sessionService } from '../services/session'
 
 const verifyOtpInput = z.object({
-  email: z.string().email(),
+  email: z
+    .string()
+    .email()
+    .transform((e) => e.toLowerCase()),
   code: z.string().length(6),
 })
 

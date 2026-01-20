@@ -9,7 +9,10 @@ import { magicLinkService, sendMagicLinkEmail } from '../services/magicLink'
 import { createOtpCode, sendOtpEmail } from '../services/otp'
 
 const loginInput = z.object({
-  email: z.string().email(),
+  email: z
+    .string()
+    .email()
+    .transform((e) => e.toLowerCase()),
   type: z.enum(['otp', 'magic']).default('otp'),
   redirectUrl: z.string().optional(),
 })
@@ -28,6 +31,13 @@ export const login = publicProcedure
 
     if (!user) {
       throw authError('USER_NOT_FOUND', 'No account found with this email.')
+    }
+
+    if (user.isWaitlist) {
+      throw authError(
+        'WAITLIST_USER',
+        "You're on the waitlist! We'll notify you when access opens."
+      )
     }
 
     const { message } = await match(input.type)

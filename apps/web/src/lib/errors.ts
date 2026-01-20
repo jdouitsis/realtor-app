@@ -18,11 +18,12 @@ interface TRPCErrorData {
  */
 const APP_ERROR_MESSAGES: Record<AppErrorCode, string> = {
   INVALID_CREDENTIALS: 'Invalid email or password.',
-  EMAIL_ALREADY_EXISTS: 'An account with this email already exists.',
+  EMAIL_ALREADY_EXISTS: "You're already registered!",
   SESSION_EXPIRED: 'Your session has expired. Please log in again.',
   NOT_FOUND: 'The requested resource was not found.',
   ALREADY_EXISTS: 'This resource already exists.',
   USER_NOT_FOUND: 'No account found with this email. Please register first.',
+  WAITLIST_USER: "You're on the waitlist! We'll notify you when access opens.",
   OTP_EXPIRED: 'This code has expired. Please request a new one.',
   OTP_INVALID: 'Invalid code. Please try again.',
   OTP_MAX_ATTEMPTS: 'Too many attempts. Please request a new code.',

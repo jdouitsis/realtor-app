@@ -5,6 +5,10 @@ import type { MapToUnionWithTypeFieldAdded } from '@app/shared/types'
 
 import { MagicLinkEmail, type MagicLinkEmailProps } from './templates/MagicLinkEmail'
 import { OtpEmail, type OtpEmailProps } from './templates/OtpEmail'
+import {
+  WaitlistConfirmationEmail,
+  type WaitlistConfirmationEmailProps,
+} from './templates/WaitlistConfirmationEmail'
 
 /**
  * Map of template types to their props.
@@ -12,6 +16,7 @@ import { OtpEmail, type OtpEmailProps } from './templates/OtpEmail'
 type EmailTemplatePropsMap = {
   otp: OtpEmailProps
   magicLink: MagicLinkEmailProps
+  waitlistConfirmation: WaitlistConfirmationEmailProps
 }
 
 export type EmailTemplateType = keyof EmailTemplatePropsMap
@@ -52,6 +57,9 @@ export async function renderEmail(input: EmailTemplateInput): Promise<RenderResu
     ))
     .with({ type: 'magicLink' }, (data) => (
       <MagicLinkEmail url={data.url} expiresAt={data.expiresAt} />
+    ))
+    .with({ type: 'waitlistConfirmation' }, (data) => (
+      <WaitlistConfirmationEmail name={data.name} />
     ))
     .exhaustive()
 

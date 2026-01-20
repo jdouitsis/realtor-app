@@ -10,7 +10,7 @@ export interface AuthOptions {
 export interface Auth {
   readonly isAuthenticated: boolean
   login: (email: string, options?: AuthOptions) => Promise<void>
-  register: (email: string, name: string, options?: AuthOptions) => Promise<void>
+  register: (email: string, name: string) => Promise<void>
   verifyOtp: (email: string, code: string) => Promise<void>
   resendOtp: (email: string) => Promise<void>
   logout: () => Promise<void>
@@ -41,17 +41,8 @@ export function createAuth(router: RouterLike): Auth {
       })
     },
 
-    async register(email, name, options) {
-      try {
-        await trpcClient.auth.register.mutate({
-          email,
-          name,
-          type: options?.type,
-          redirectUrl: options?.redirectUrl,
-        })
-      } catch (error) {
-        console.error(error)
-      }
+    async register(email, name) {
+      await trpcClient.auth.register.mutate({ email, name })
     },
 
     async verifyOtp(email, code) {
