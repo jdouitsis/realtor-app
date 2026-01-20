@@ -21,12 +21,10 @@ import {
   Users,
   Zap,
 } from 'lucide-react'
-import { useState } from 'react'
 
 import { NavBar } from '@/components/common/NavBar'
 import { Button } from '@/components/ui'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 
 export function LandingPage() {
   const { user } = useRouteContext({ from: '__root__' })
@@ -418,16 +416,6 @@ function ScenarioCard({
 }
 
 function CtaSection() {
-  const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (email) {
-      setSubmitted(true)
-    }
-  }
-
   return (
     <section className="border-t bg-gradient-to-br from-primary/10 via-primary/5 to-background py-16 md:py-20">
       <div className="container mx-auto px-4">
@@ -437,32 +425,14 @@ function CtaSection() {
             Join the waitlist for early access. Be among the first Canadian realtors to experience
             effortless client management.
           </p>
-          {submitted ? (
-            <div className="mt-8 rounded-lg border border-primary/30 bg-primary/10 p-6">
-              <CheckCircle2 className="mx-auto mb-3 h-8 w-8 text-primary" strokeWidth={1.5} />
-              <p className="font-medium">You're on the list.</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                We'll reach out when early access opens.
-              </p>
-            </div>
-          ) : (
-            <form
-              onSubmit={handleSubmit}
-              className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
-            >
-              <Input
-                type="email"
-                placeholder="you@realestate.ca"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="flex-1"
-              />
-              <Button type="submit" size="lg">
-                Join Waitlist
-              </Button>
-            </form>
-          )}
+          <div className="mt-8">
+            <Button size="lg" asChild>
+              <Link to="/register">
+                Join the Waitlist
+                <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+              </Link>
+            </Button>
+          </div>
           <p className="mt-4 text-xs text-muted-foreground">
             No spam. We'll only email when there's something worth sharing.
           </p>
